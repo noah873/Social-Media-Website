@@ -30,6 +30,6 @@ const q = query(collectionRef, orderBy("timestamp", "desc"), limit(1));
 onSnapshot(q, (snapshot) => {
     const display = document.getElementById("display");
     snapshot.forEach(doc => {
-        display.innerText = doc.data().message;
+        display.innerText = doc.data().text;
     });
 });
