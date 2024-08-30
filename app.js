@@ -2,14 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 
 const firebaseConfig = {
-        apiKey: "AIzaSyBdddWqIoMKQlVc6ljxGHL7w4BRSrhHSHA",
-        authDomain: "social-media-website-f8cd9.firebaseapp.com",
-        projectId: "social-media-website-f8cd9",
-        storageBucket: "social-media-website-f8cd9.appspot.com",
-        messagingSenderId: "533945883416",
-        appId: "1:533945883416:web:5561d99d84a3943e9d5c6d",
-        measurementId: "G-MR502NE9B0"
+  apiKey: "AIzaSyCaCCK38R9btLtT5SLCwRB97vv9qbj8RFM",
+  authDomain: "social-media-website-db1fe.firebaseapp.com",
+  projectId: "social-media-website-db1fe",
+  storageBucket: "social-media-website-db1fe.appspot.com",
+  messagingSenderId: "989794613612",
+  appId: "1:989794613612:web:477dea72841398bb87db49"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
