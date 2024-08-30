@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const collectionRef = collection(db, "inputs");
+const collectionRef = collection(db, "messages");
 
 document.getElementById("submitButton").addEventListener("click", async () => {
     const inputBox = document.getElementById("inputBox");
