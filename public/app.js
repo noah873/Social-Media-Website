@@ -32,3 +32,4 @@ onSnapshot(q, (snapshot) => {
         display.innerText = doc.data().text;
     });
 });
+
