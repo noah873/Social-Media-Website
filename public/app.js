@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: "social-media-website-db1fe",
   storageBucket: "social-media-website-db1fe.appspot.com",
   messagingSenderId: "989794613612",
-  appId: "1:989794613612:web:477dea72841398bb87db49"
+  appId: "1:989794613612:web:b757ace6b828d44087db49"
 };
 
 const app = initializeApp(firebaseConfig);
