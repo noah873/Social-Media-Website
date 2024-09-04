@@ -2,12 +2,12 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/fireba
 import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: window.env.FIREBASE_API_KEY,
-  authDomain: window.env.FIREBASE_AUTH_DOMAIN,
-  projectId: window.env.FIREBASE_PROJECT_ID,
-  storageBucket: window.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: window.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: window.env.FIREBASE_APP_ID
+  apiKey: "AIzaSyCaCCK38R9btLtT5SLCwRB97vv9qbj8RFM",
+  authDomain: "social-media-website-db1fe.firebaseapp.com",
+  projectId: "social-media-website-db1fe",
+  storageBucket: "social-media-website-db1fe.appspot.com",
+  messagingSenderId: "989794613612",
+  appId: "1:989794613612:web:477dea72841398bb87db49"
 };
 
 const app = initializeApp(firebaseConfig);
