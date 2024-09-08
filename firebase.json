@@ -4,7 +4,7 @@
     "site": "nexus-trapezoid",
     "ignore": [
       "firebase.json",
-      "**/.*",
+      "**/.*"
     ],
     "rewrites": [
       {
