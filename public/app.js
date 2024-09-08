@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginDiv = document.getElementById('login');
     const homepageDiv = document.getElementById('homepage');
     const messageDiv = document.getElementById('message');
-    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const signInButton = document.getElementById('sign-in');
     const createAccountButton = document.getElementById('create-account');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     signInButton.addEventListener('click', () => {
-        const email = usernameInput.value;
+        const email = emailInput.value;
         const password = passwordInput.value;
 
         signInWithEmailAndPassword(auth, email, password)
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateUI(auth.currentUser);
             })
             .catch(() => {
-                messageDiv.textContent = 'Invalid Username or Password';
+                messageDiv.textContent = 'Invalid Email or Password';
             });
     });
 
     createAccountButton.addEventListener('click', () => {
-        const email = usernameInput.value;
+        const email = emailInput.value;
         const password = passwordInput.value;
 
         createUserWithEmailAndPassword(auth, email, password)
