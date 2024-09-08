@@ -1,5 +1,8 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+//import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+//import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCaCCK38R9btLtT5SLCwRB97vv9qbj8RFM",
@@ -10,26 +13,67 @@ const firebaseConfig = {
   appId: "1:989794613612:web:477dea72841398bb87db49"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const collectionRef = collection(db, "messages");
+initializeApp(firebaseConfig);
+const auth = getAuth();
 
-document.getElementById("submitButton").addEventListener("click", async () => {
-    const inputBox = document.getElementById("inputBox");
-    const text = inputBox.value;
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
 
-    await addDoc(collectionRef, {
-        text: text,
-        timestamp: new Date()
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            if (path === '/login.html' || path === '/') {
+                window.location.href = '/';
+            }
+        } else {
+            if (path !== '/login.html') {
+                window.location.href = '/login.html';
+            }
+        }
     });
-    inputBox.value = '';
+
+    if (path === '/login.html') {
+        const messageDiv = document.getElementById('message');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const signInButton = document.getElementById('sign-in');
+        const createAccountButton = document.getElementById('create-account');
+
+        signInButton.addEventListener('click', () => {
+            const email = usernameInput.value;
+            const password = passwordInput.value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = '/';
+                })
+                .catch(() => {
+                    messageDiv.textContent = 'Invalid Username or Password';
+                });
+        });
+
+        createAccountButton.addEventListener('click', () => {
+            const email = usernameInput.value;
+            const password = passwordInput.value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = '/';
+                })
+                .catch(() => {
+                    messageDiv.textContent = 'Account already Exists';
+                });
+        });
+    }
+
+    if (path === '/') {
+        const signOutButton = document.getElementById('sign-out');
+
+        signOutButton.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = '/login.html';
+            });
+        });
+    }
 });
 
-const q = query(collectionRef, orderBy("timestamp", "desc"), limit(1));
-onSnapshot(q, (snapshot) => {
-    const display = document.getElementById("display");
-    snapshot.forEach(doc => {
-        display.innerText = doc.data().text;
-    });
-});
 
