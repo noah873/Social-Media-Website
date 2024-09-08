@@ -7,7 +7,7 @@ body {
 
 #app {
     text-align: center;
-    margin: 0 33.33%; /*(Top and Bottom) (Left and Right)*/
+    margin: 20% 33.33% 0% 33.33%; /* top right bottom left */
 }
 
 input {
