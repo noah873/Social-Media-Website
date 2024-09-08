@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateUI(auth.currentUser);
             })
             .catch(() => {
-                messageDiv.textContent = 'Account already Exists';
+                messageDiv.textContent = 'Error Creating Account';
             });
     });
 
