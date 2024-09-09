@@ -1,6 +1,6 @@
 /* Hides elements to manage what page the user is on */
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 #login {
