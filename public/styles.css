@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Hides elements to manage what page the user is on */
+.hidden {
+    display: none !important;
+}
+
+/* Login Page */
+#login {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#login #message {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#login input[type="text"],
+#login input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#login button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#login #sign-in {
+    background-color: #007bff;
+}
+
+#login #create-account {
+    background-color: #28a745;
+}
+
+/* Homepage */
+#homepage {
+}
+
+#homepage h1 {
+}
+
+#homepage button {
+}
+
+#homepage #sign-out {
+}
