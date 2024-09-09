@@ -20,7 +20,6 @@ const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const signInButton = document.getElementById('sign-in');
 const createAccountButton = document.getElementById('create-account');
-const signOutButton = document.getElementById('sign-out');
 
 function updateUI(user) {
     if (user) {
@@ -60,13 +59,4 @@ createAccountButton.addEventListener('click', () => {
         .catch(() => {
             messageDiv.textContent = 'Error Creating Account';
         });
-});
-
-signOutButton.addEventListener('click', () => {
-    signOut(auth).then(() => {
-        updateUI(null);
-        emailInput.value = '';
-        passwordInput.value = '';
-        messageDiv.textContent = '';
-    });
 });
