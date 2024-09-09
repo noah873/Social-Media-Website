@@ -19,7 +19,7 @@ const messageDiv = document.getElementById('message');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
-function updateUI(user) {
+function updatePage(user) {
     if (user) {
         loginDiv.classList.add('hidden');
         homepageDiv.classList.remove('hidden');
@@ -32,7 +32,7 @@ function updateUI(user) {
 }
 
 onAuthStateChanged(auth, user => {
-    updateUI(user);
+    updatePage(user);
 });
 
 // Login Only Code
@@ -46,7 +46,7 @@ signInButton.addEventListener('click', () => {
 
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            updateUI(auth.currentUser);
+            updatePage(auth.currentUser);
         })
         .catch(() => {
             messageDiv.textContent = 'Invalid Email or Password';
@@ -59,7 +59,7 @@ createAccountButton.addEventListener('click', () => {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
-            updateUI(auth.currentUser);
+            updatePage(auth.currentUser);
         })
         .catch(() => {
             messageDiv.textContent = 'Error Creating Account';
@@ -72,7 +72,7 @@ const signOutButton = document.getElementById('signOut');
 
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
-        updateUI(null);
+        updatePage(null);
         emailInput.value = '';
         passwordInput.value = '';
         messageDiv.textContent = 'Log into Nexus';
