@@ -75,6 +75,6 @@ signOutButton.addEventListener('click', () => {
         updateUI(null);
         emailInput.value = '';
         passwordInput.value = '';
-        messageDiv.textContent = 'Login';
+        messageDiv.textContent = 'Log into Nexus';
     });
 });
