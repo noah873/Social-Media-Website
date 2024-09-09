@@ -13,7 +13,6 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
-// Get references to HTML elements
 const loginDiv = document.getElementById('login');
 const homepageDiv = document.getElementById('homepage');
 const messageDiv = document.getElementById('message');
