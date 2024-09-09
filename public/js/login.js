@@ -25,9 +25,11 @@ function updateUI(user) {
     if (user) {
         loginDiv.classList.add('hidden');
         homepageDiv.classList.remove('hidden');
+        history.pushState({}, '', '/'); // redirect to / (no path)
     } else {
         loginDiv.classList.remove('hidden');
         homepageDiv.classList.add('hidden');
+        history.pushState({}, '', '/login');  // redirect to /login
     }
 }
 
