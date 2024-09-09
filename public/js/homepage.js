@@ -37,7 +37,7 @@ onAuthStateChanged(auth, user => {
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
         updateUI(null);
-        emailInput.value = '';
+        emailInput.value = 'Login';
         passwordInput.value = '';
         messageDiv.textContent = '';
     });
