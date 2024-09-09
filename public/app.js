@@ -65,5 +65,8 @@ createAccountButton.addEventListener('click', () => {
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
         updateUI(null);
+        emailInput.value = '';
+        passwordInput.value = '';
+        messageDiv.textContent = '';
     });
 });
