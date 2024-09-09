@@ -3,6 +3,7 @@
     display: none !important;
 }
 
+/* Login Page */
 #login {
     display: flex;
     flex-direction: column;
@@ -47,28 +48,19 @@
     background-color: #28a745;
 }
 
+/* Homepage */
 #homepage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+
 }
 
 #homepage h1 {
-    margin-bottom: 20px;
+
 }
 
 #homepage button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
+
 }
 
 #homepage #sign-out {
-    background-color: #dc3545;
+
 }
