@@ -13,6 +13,8 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
+const loginDiv = document.getElementById('login');
+const homepageDiv = document.getElementById('homepage');
 const signOutButton = document.getElementById('sign-out');
 
 function updateUI(user) {
