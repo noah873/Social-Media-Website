@@ -5,6 +5,10 @@
 
 /* Login Page */
 #login {
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for exact center */
     display: flex;
     flex-direction: column;
     align-items: center;
