@@ -1,3 +1,7 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
 /* Hides elements to manage what page the user is on */
 .hidden {
     display: none !important;
