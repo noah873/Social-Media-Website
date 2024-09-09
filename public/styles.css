@@ -47,10 +47,6 @@ body {
     color: #fff;
     cursor: pointer;
     font-size: 16px;
-}
-
-#login #sign-in,
-#login #create-account {
     background-color: #007bff;
 }
 
