@@ -73,8 +73,8 @@ const signOutButton = document.getElementById('sign-out');
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
         updateUI(null);
-        emailInput.value = 'Login';
+        emailInput.value = '';
         passwordInput.value = '';
-        messageDiv.textContent = '';
+        messageDiv.textContent = 'Login';
     });
 });
