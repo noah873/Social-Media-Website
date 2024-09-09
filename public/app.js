@@ -37,8 +37,8 @@ onAuthStateChanged(auth, user => {
 
 // Login Only Code
 
-const signInButton = document.getElementById('sign-in');
-const createAccountButton = document.getElementById('create-account');
+const signInButton = document.getElementById('signIn');
+const createAccountButton = document.getElementById('createAccount');
 
 signInButton.addEventListener('click', () => {
     const email = emailInput.value;
@@ -68,7 +68,7 @@ createAccountButton.addEventListener('click', () => {
 
 // Homepage Only Code
 
-const signOutButton = document.getElementById('sign-out');
+const signOutButton = document.getElementById('signOut');
 
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
