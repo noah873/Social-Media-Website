@@ -50,17 +50,17 @@
 
 /* Homepage */
 #homepage {
-
+    display: flex;
 }
 
 #homepage h1 {
-
+    margin-bottom: 20px;
 }
 
 #homepage button {
-
+    padding: 10px 20px;
 }
 
 #homepage #sign-out {
-
+    background-color: #dc3545;
 }
