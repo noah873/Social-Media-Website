@@ -13,61 +13,58 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginDiv = document.getElementById('login');
-    const homepageDiv = document.getElementById('homepage');
-    const messageDiv = document.getElementById('message');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const signInButton = document.getElementById('sign-in');
-    const createAccountButton = document.getElementById('create-account');
-    const signOutButton = document.getElementById('sign-out');
+// Get references to HTML elements
+const loginDiv = document.getElementById('login');
+const homepageDiv = document.getElementById('homepage');
+const messageDiv = document.getElementById('message');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const signInButton = document.getElementById('sign-in');
+const createAccountButton = document.getElementById('create-account');
+const signOutButton = document.getElementById('sign-out');
 
-    function updateUI(user) {
-        if (user) {
-            loginDiv.classList.add('hidden');
-            homepageDiv.classList.remove('hidden');
-        } else {
-            loginDiv.classList.remove('hidden');
-            homepageDiv.classList.add('hidden');
-        }
+function updateUI(user) {
+    if (user) {
+        loginDiv.classList.add('hidden');
+        homepageDiv.classList.remove('hidden');
+    } else {
+        loginDiv.classList.remove('hidden');
+        homepageDiv.classList.add('hidden');
     }
+}
 
-    onAuthStateChanged(auth, user => {
-        updateUI(user);
-    });
+onAuthStateChanged(auth, user => {
+    updateUI(user);
+});
 
-    signInButton.addEventListener('click', () => {
-        const email = emailInput.value;
-        const password = passwordInput.value;
+signInButton.addEventListener('click', () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                updateUI(auth.currentUser);
-            })
-            .catch(() => {
-                messageDiv.textContent = 'Invalid Email or Password';
-            });
-    });
-
-    createAccountButton.addEventListener('click', () => {
-        const email = emailInput.value;
-        const password = passwordInput.value;
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                updateUI(auth.currentUser);
-            })
-            .catch(() => {
-                messageDiv.textContent = 'Error Creating Account';
-            });
-    });
-
-    if (signOutButton) {
-        signOutButton.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                updateUI(null);
-            });
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            updateUI(auth.currentUser);
+        })
+        .catch(() => {
+            messageDiv.textContent = 'Invalid Email or Password';
         });
-    }
+});
+
+createAccountButton.addEventListener('click', () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            updateUI(auth.currentUser);
+        })
+        .catch(() => {
+            messageDiv.textContent = 'Error Creating Account';
+        });
+});
+
+signOutButton.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        updateUI(null);
+    });
 });
