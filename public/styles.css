@@ -1,21 +1,74 @@
-body {
-}
-
-#app {
-}
-
-input {
-}
-
-button {
-}
-
-button:hover {
-}
-
+/* Hides elements to manage what page the user is on */
 .hidden {
     display: none;
 }
 
-#message {
+#login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#login #message {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#login input[type="text"],
+#login input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#login button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#login #sign-in {
+    background-color: #007bff;
+}
+
+#login #create-account {
+    background-color: #28a745;
+}
+
+#homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#homepage h1 {
+    margin-bottom: 20px;
+}
+
+#homepage button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#homepage #sign-out {
+    background-color: #dc3545;
 }
