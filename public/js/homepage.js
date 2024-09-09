@@ -15,6 +15,9 @@ const auth = getAuth();
 
 const loginDiv = document.getElementById('login');
 const homepageDiv = document.getElementById('homepage');
+const messageDiv = document.getElementById('message');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 const signOutButton = document.getElementById('sign-out');
 
 function updateUI(user) {
