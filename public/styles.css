@@ -5,14 +5,15 @@
 
 /* Login Page */
 #login {
-    position: absolute; /* Use absolute positioning */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 20%;
+    width: 300px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
