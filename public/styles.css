@@ -48,12 +48,9 @@ body {
     cursor: pointer;
 }
 
-#login #sign-in {
-    background-color: #007bff;
-}
-
+#login #sign-in,
 #login #create-account {
-    background-color: #28a745;
+    background-color: #007bff;
 }
 
 /* Homepage */
