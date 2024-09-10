@@ -4,23 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .hidden {
+            display: none !important;
+        }
+        iframe {
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
-        <div id="login" class="hidden">
-          <div id="message">Log into Nexus</div>
-          <input type="text" id="email" placeholder="email">
-          <input type="password" id="password" placeholder="password">
-          <button id="signIn">Sign In</button>
-          <button id="createAccount">Create Account</button>
-        </div>
-        
-        <div id="homepage" class="hidden">
-          <h1>Homepage</h1>
-          <button id="signOut">Sign Out</button>
-        </div>
-    </div>
+    <iframe id = "file1" src="file1.html" class="hidden"></iframe>
+    
+    <iframe id="myFrame" src="file1.html" title="File 1"></iframe>
+
+    <script>
+            const iframe = document.getElementById('myFrame');
+            iframe.onload = function() {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                
+                const button = iframeDocument.getElementById('myButton');
+
+                if (button) {
+                    button.addEventListener('click', function() {
+                        alert('Button inside the iframe clicked!');
+                    });
+                }
+            };
+    </script>
     
     <script type="module" src="app.js" defer></script>
 </body>
