@@ -7,7 +7,6 @@ body {
     display: none !important;
 }
 
-/* Login Page */
 #login {
     position: absolute;
     top: 25%;
@@ -48,17 +47,4 @@ body {
     cursor: pointer;
     font-size: 16px;
     background-color: #007bff;
-}
-
-/* Homepage */
-#homepage {
-}
-
-#homepage h1 {
-}
-
-#homepage button {
-}
-
-#homepage #sign-out {
 }
