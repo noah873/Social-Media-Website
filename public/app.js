@@ -14,7 +14,7 @@ initializeApp(firebaseConfig);
 const auth = getAuth();
 
 async function loadHTML(html) {
-  const response = await fetch(html);
+  const response = await fetch("html/${html}");
   return await response.text();
 }
 
