@@ -69,7 +69,7 @@ function setupElements() {
         passwordInput.value = '';
         messageDiv.textContent = 'Log into Nexus';
       });
-      .catch(() => {
+      .catch((error) => {
         console.error("Sign Out Error: ", error);
       });
   });
