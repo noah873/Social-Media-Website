@@ -63,15 +63,12 @@ function setupElements() {
   });
 
   signOutButton.addEventListener('click', () => {
-    signOut(auth)
-      .then(() => {
+    signOut(auth).then(() => {
+        updatePage(null);
         emailInput.value = '';
         passwordInput.value = '';
         messageDiv.textContent = 'Log into Nexus';
-      })
-      .catch((error) => {
-        console.error("Sign Out Error: ", error);
-      });
+    });
   });
 }
 
