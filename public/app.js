@@ -50,7 +50,6 @@ function setupElements() {
         .catch(() => {
             messageDiv.textContent = 'Invalid Email or Password';
         });
-    }
   });
 
   createAccountButton.addEventListener('click', () => {
