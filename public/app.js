@@ -1,5 +1,5 @@
-import {setupLoginElements} from 'js/login.js';
-import {setupHomeElements} from 'js/home.js';
+import {setupLoginElements} from './js/login.js';
+import {setupHomeElements} from './js/home.js';
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
