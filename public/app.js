@@ -64,7 +64,6 @@ function setupElements() {
 
   signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
-        updatePage(null);
         emailInput.value = '';
         passwordInput.value = '';
         messageDiv.textContent = 'Log into Nexus';
