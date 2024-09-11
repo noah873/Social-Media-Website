@@ -68,7 +68,7 @@ function setupElements() {
         emailInput.value = '';
         passwordInput.value = '';
         messageDiv.textContent = 'Log into Nexus';
-      });
+      })
       .catch((error) => {
         console.error("Sign Out Error: ", error);
       });
