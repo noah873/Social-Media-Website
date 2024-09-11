@@ -19,6 +19,11 @@ const messageDiv = document.getElementById('message');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
+const signInButton = document.getElementById('signIn');
+const createAccountButton = document.getElementById('createAccount');
+
+const signOutButton = document.getElementById('signOut');
+
 function updatePage(user) {
     if (user) {
         loginDiv.classList.add('hidden');
@@ -36,9 +41,6 @@ onAuthStateChanged(auth, user => {
 });
 
 // Login Only Code
-
-const signInButton = document.getElementById('signIn');
-const createAccountButton = document.getElementById('createAccount');
 
 signInButton.addEventListener('click', () => {
     const email = emailInput.value;
@@ -67,8 +69,6 @@ createAccountButton.addEventListener('click', () => {
 });
 
 // Homepage Only Code
-
-const signOutButton = document.getElementById('signOut');
 
 signOutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
