@@ -24,23 +24,21 @@ async function renderHTML(html) {
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/login');  // redirect to /login
-    setupElements();
+    setupLoginElements();
   } else if (html == "home.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/'); // redirect to / (no path)
-    setupElements();
+    setupHomeElements();
   }
 }
 
-function setupElements() {
+function setupLoginElements() {
   const messageDiv = document.getElementById('message');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   
   const signInButton = document.getElementById('signIn');
   const createAccountButton = document.getElementById('createAccount');
-  
-  const signOutButton = document.getElementById('signOut');
 
   signInButton.addEventListener('click', () => {
     const email = emailInput.value;
@@ -61,7 +59,11 @@ function setupElements() {
             messageDiv.textContent = 'Error Creating Account';
         });
   });
+}
 
+function setupHomeElements() {
+  const signOutButton = document.getElementById('signOut');
+  
   signOutButton.addEventListener('click', () => {
     signOut(auth)
   });
