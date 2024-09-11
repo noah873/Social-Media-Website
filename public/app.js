@@ -46,10 +46,10 @@ function setupElements() {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    try {
-      signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      messageDiv.textContent = 'Invalid Email or Password';
+    signInWithEmailAndPassword(auth, email, password)
+        .catch(() => {
+            messageDiv.textContent = 'Invalid Email or Password';
+        });
     }
   });
 
@@ -57,22 +57,18 @@ function setupElements() {
       const email = emailInput.value;
       const password = passwordInput.value;
 
-      try {
-        createUserWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        messageDiv.textContent = 'Error Creating Account';
-      }
+      createUserWithEmailAndPassword(auth, email, password)
+        .catch(() => {
+            messageDiv.textContent = 'Error Creating Account';
+        });
   });
 
   signOutButton.addEventListener('click', () => {
-    try {
-      signOut(auth);
-      emailInput.value = '';
-      passwordInput.value = '';
-      messageDiv.textContent = 'Log into Nexus';
-    } catch (error) {
-      console.error('Error Signing Out:', error);
-    }
+    signOut(auth).then(() => {
+        emailInput.value = '';
+        passwordInput.value = '';
+        messageDiv.textContent = 'Log into Nexus';
+    });
   });
 }
 
