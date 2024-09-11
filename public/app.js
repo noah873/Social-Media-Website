@@ -48,7 +48,7 @@ function setupElements() {
 
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            updatePage(auth.currentUser);
+            renderHTML("home.html");
         })
         .catch(() => {
             messageDiv.textContent = 'Invalid Email or Password';
@@ -61,7 +61,7 @@ function setupElements() {
   
       createUserWithEmailAndPassword(auth, email, password)
           .then(() => {
-              updatePage(auth.currentUser);
+              renderHTML("home.html");
           })
           .catch(() => {
               messageDiv.textContent = 'Error Creating Account';
@@ -79,5 +79,9 @@ function setupElements() {
 }
 
 onAuthStateChanged(auth, user => {
+  if (user) {
     renderHTML("home.html");
+  } else {
+    renderHTML("login.html");
+  }
 });
