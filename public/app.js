@@ -13,36 +13,36 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
-const loginDiv = document.getElementById('login');
-const homepageDiv = document.getElementById('homepage');
-const messageDiv = document.getElementById('message');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-
-const signInButton = document.getElementById('signIn');
-const createAccountButton = document.getElementById('createAccount');
-
-const signOutButton = document.getElementById('signOut');
-
-function updatePage(user) {
-    if (user) {
-        loginDiv.classList.add('hidden');
-        homepageDiv.classList.remove('hidden');
-        history.pushState({}, '', '/'); // redirect to / (no path)
-    } else {
-        loginDiv.classList.remove('hidden');
-        homepageDiv.classList.add('hidden');
-        history.pushState({}, '', '/login');  // redirect to /login
-    }
+async function loadHTML(html) {
+  const response = await fetch(html);
+  return await response.text();
 }
 
-onAuthStateChanged(auth, user => {
-    updatePage(user);
-});
+async function renderHTML(html) {
+  const app = document.getElementById('app');
+  
+  if (html == "login.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/login');  // redirect to /login
+    setupElements();
+  } else if (html == "home.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/'); // redirect to / (no path)
+    setupElements();
+  }
+}
 
-// Login Only Code
+function setupElements() {
+  const messageDiv = document.getElementById('message');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  
+  const signInButton = document.getElementById('signIn');
+  const createAccountButton = document.getElementById('createAccount');
+  
+  const signOutButton = document.getElementById('signOut');
 
-signInButton.addEventListener('click', () => {
+  signInButton.addEventListener('click', () => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
@@ -53,28 +53,31 @@ signInButton.addEventListener('click', () => {
         .catch(() => {
             messageDiv.textContent = 'Invalid Email or Password';
         });
-});
+  });
 
-createAccountButton.addEventListener('click', () => {
-    const email = emailInput.value;
-    const password = passwordInput.value;
+  createAccountButton.addEventListener('click', () => {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+  
+      createUserWithEmailAndPassword(auth, email, password)
+          .then(() => {
+              updatePage(auth.currentUser);
+          })
+          .catch(() => {
+              messageDiv.textContent = 'Error Creating Account';
+          });
+  });
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            updatePage(auth.currentUser);
-        })
-        .catch(() => {
-            messageDiv.textContent = 'Error Creating Account';
-        });
-});
+  signOutButton.addEventListener('click', () => {
+      signOut(auth).then(() => {
+          emailInput.value = '';
+          passwordInput.value = '';
+          messageDiv.textContent = 'Log into Nexus';
+          renderHTML("login.html");
+      });
+  });
+}
 
-// Homepage Only Code
-
-signOutButton.addEventListener('click', () => {
-    signOut(auth).then(() => {
-        updatePage(null);
-        emailInput.value = '';
-        passwordInput.value = '';
-        messageDiv.textContent = 'Log into Nexus';
-    });
+onAuthStateChanged(auth, user => {
+    renderHTML("home.html");
 });
