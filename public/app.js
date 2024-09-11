@@ -1,4 +1,4 @@
-import { app, auth } from '.js/firebase.js'
+import { app, auth } from './js/firebase.js'
 
 import {setupLoginElements} from './js/login.js';
 import {setupHomeElements} from './js/home.js';
