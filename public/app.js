@@ -1,8 +1,8 @@
 import { auth, onAuthStateChanged } from './js/firebase.js'
 
-import {setupLoginElements} from './js/login.js';
-import {setupHomeElements} from './js/home.js';
-import {setupCreateAccountElements } from './js/createAccount.js';
+import { setupLoginElements } from './js/login.js';
+import { setupHomeElements } from './js/home.js';
+import { setupCreateAccountElements } from './js/createAccount.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
@@ -35,4 +35,4 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-export {renderHTML};
+export { renderHTML };
