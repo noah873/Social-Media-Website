@@ -20,7 +20,9 @@ function setupCreateAccountElements() {
       const password = passwordInput.value;
 
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then((userCredential) => {
+          const user = userCredential.user;
+          
           return db.collection('users').doc(user.uid).set({
             email: email,
             fullName: fullName,
