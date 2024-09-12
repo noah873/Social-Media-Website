@@ -1,6 +1,5 @@
-import { app, auth } from './firebase.js';
+import { auth, signInWithEmailAndPassword } from './firebase.js';
 import { renderHTML } from '../app.js';
-import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 function setupLoginElements() {
   const messageDiv = document.getElementById('message');
