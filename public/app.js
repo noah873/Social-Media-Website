@@ -15,11 +15,15 @@ async function renderHTML(html) {
   
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/login');  // redirect to /login
+    history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
   } else if (html == "home.html") {
     app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/'); // redirect to / (no path)
+    history.pushState({}, '', '/'); // redirect URL to / (no path)
+    setupHomeElements();
+  } else if (html == "createAccount.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/signup'); // redirect URL
     setupHomeElements();
   }
 }
