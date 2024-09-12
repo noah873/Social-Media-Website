@@ -14,28 +14,29 @@ function setupCreateAccountElements() {
   const loginButton = document.getElementById('login');
   
   createAccountButton.addEventListener('click', () => {
-      const fullName = fullNameInput.value;
-      const username = usernameInput.value;
-      const email = emailInput.value;
-      const password = passwordInput.value;
+    const fullName = fullNameInput.value;
+    const username = usernameInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
           
-          return db.collection('users').doc(user.uid).set({
-            email: email,
-            fullName: fullName,
-            username: username
-          });
-        })
-        .catch(() => {
-            messageDiv.textContent = 'Error Creating Account';
+        return db.collection('users').doc(user.uid).set({
+          email: email,
+          fullName: fullName,
+          username: username
         });
-  });
-  loginButton.addEventListener('click', () => {
-    renderHTML("login.html");
-  });
+      })
+      .catch(() => {
+        messageDiv.textContent = 'Error Creating Account';
+      });
+    });
+    
+    loginButton.addEventListener('click', () => {
+      renderHTML("login.html");
+    });
 }
 
 export { setupCreateAccountElements };
