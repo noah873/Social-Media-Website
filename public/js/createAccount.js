@@ -30,7 +30,7 @@ function setupCreateAccountElements() {
         });
       })
       .catch((error) => {
-        console.error('Error creating account or saving data: ', error);
+        console.error('Error Creating Account and/or Writing Data: ', error);
         messageDiv.textContent = 'Error Creating Account';
       });
     });
