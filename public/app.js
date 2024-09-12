@@ -2,6 +2,7 @@ import { app, auth } from './js/firebase.js'
 
 import {setupLoginElements} from './js/login.js';
 import {setupHomeElements} from './js/home.js';
+import {setupCreateAccountElements } from './js/createAccount.js';
 
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
@@ -24,6 +25,7 @@ async function renderHTML(html) {
   } else if (html == "createAccount.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/signup'); // redirect URL
+    setupCreateAccountElements();
   }
 }
 
