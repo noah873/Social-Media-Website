@@ -25,4 +25,4 @@ function setupLoginElements() {
   });
 }
 
-export {setupLoginElements};
+export { setupLoginElements };
