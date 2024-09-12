@@ -8,4 +8,4 @@ function setupHomeElements() {
   });
 }
 
-export {setupHomeElements};
+export { setupHomeElements };
