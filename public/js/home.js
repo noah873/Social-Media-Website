@@ -1,5 +1,4 @@
-import { app, auth } from './firebase.js';
-import { signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { auth, signOut } from './firebase.js';
 
 function setupHomeElements() {
   const signOutButton = document.getElementById('signOut');
