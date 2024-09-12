@@ -1,4 +1,5 @@
 import { app, auth } from './firebase.js';
+import { renderHTML } from '../app.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 function setupLoginElements() {
@@ -20,13 +21,7 @@ function setupLoginElements() {
   });
 
   createAccountButton.addEventListener('click', () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .catch(() => {
-            messageDiv.textContent = 'Error Creating Account';
-        });
+      renderHTML("createAccount.html");
   });
 }
 
