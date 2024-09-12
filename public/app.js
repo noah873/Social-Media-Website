@@ -1,10 +1,8 @@
-import { app, auth } from './js/firebase.js'
+import { auth, onAuthStateChanged } from './js/firebase.js'
 
 import {setupLoginElements} from './js/login.js';
 import {setupHomeElements} from './js/home.js';
 import {setupCreateAccountElements } from './js/createAccount.js';
-
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
