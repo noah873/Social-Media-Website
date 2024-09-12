@@ -1,4 +1,6 @@
 import { app, auth } from './js/firebase.js'
+import { renderHTML } from '../app.js';
+  
 import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 function setupCreateAccountElements() {
@@ -26,3 +28,5 @@ function setupCreateAccountElements() {
     renderHTML("login.html");
   });
 }
+
+export { setupCreateAccountElements };
