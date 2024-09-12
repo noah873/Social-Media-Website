@@ -1,13 +1,17 @@
+import { app, auth } from './js/firebase.js'
+import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+
 function setupCreateAccountElements() {
   const messageDiv = document.getElementById('message');
 
-  const  = document.getElementById('');
-  const  = document.getElementById('');
+  const fullNameInput = document.getElementById('fullName');
+  const usernameInput = document.getElementById('username');
   
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   
-  const createAccountButton = document.getElementById('createAccount');
+  const createAccountButton = document.getElementById('createAccountButton');
+  const loginButton = document.getElementById('login');
   
   createAccountButton.addEventListener('click', () => {
       const email = emailInput.value;
@@ -17,5 +21,8 @@ function setupCreateAccountElements() {
         .catch(() => {
             messageDiv.textContent = 'Error Creating Account';
         });
+  });
+  loginButton.addEventListener('click', () => {
+    renderHTML("login.html");
   });
 }
