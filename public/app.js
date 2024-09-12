@@ -24,7 +24,6 @@ async function renderHTML(html) {
   } else if (html == "createAccount.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/signup'); // redirect URL
-    setupHomeElements();
   }
 }
 
