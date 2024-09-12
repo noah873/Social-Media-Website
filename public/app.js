@@ -31,3 +31,5 @@ onAuthStateChanged(auth, user => {
     renderHTML("login.html");
   }
 });
+
+export {renderHTML};
