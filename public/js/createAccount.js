@@ -1,7 +1,5 @@
-import { app, auth, db, doc, setDoc } from './firebase.js'
+import { app, auth, createUserWithEmailAndPassword, db, doc, setDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
-  
-import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 function setupCreateAccountElements() {
   const messageDiv = document.getElementById('message');
