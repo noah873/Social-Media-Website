@@ -23,13 +23,14 @@ function setupCreateAccountElements() {
       .then((userCredential) => {
         const user = userCredential.user;
           
-        return db.collection('users').doc(user.uid).set({
+        return setDoc(doc(db, 'users', user.uid)){
           email: email,
           fullName: fullName,
           username: username
         });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error creating account or saving data: ', error);
         messageDiv.textContent = 'Error Creating Account';
       });
     });
