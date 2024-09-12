@@ -14,7 +14,8 @@ function setupLoginElements() {
     const password = passwordInput.value;
 
     signInWithEmailAndPassword(auth, email, password)
-        .catch(() => {
+        .catch((error) => {
+            console.error('Error Signing In: ', error);
             messageDiv.textContent = 'Invalid Email or Password';
         });
   });
