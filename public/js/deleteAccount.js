@@ -8,7 +8,7 @@ function setupDeleteAccountElements() {
   const deleteAccountButton = document.getElementById('deleteAccountButton');
   const settingsButton = document.getElementById('settings');
 
-  deleteAccountButton.addEventListener('click', () => {
+  deleteAccountButton.addEventListener('click', async () => {
     console.log("Delete Account Button Clicked");
     
     const user = auth.currentUser;
@@ -26,7 +26,6 @@ function setupDeleteAccountElements() {
           message2Div.textContent = '';
         });
     }, 5000);
-    
   });
   
   settingsButton.addEventListener('click', () => {
