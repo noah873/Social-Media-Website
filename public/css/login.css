@@ -48,7 +48,8 @@ p {
     background-color: #007bff;
 }
 
-#login #createAccount {
+#login #createAccount,
+#login #forgotPassword {
     width: auto;
     padding: 0;
     margin: 10px 0;
@@ -64,7 +65,8 @@ p {
     background-color: #0056b3;
 }
 
-#login #createAccount:hover {
+#login #createAccount:hover,
+#login #forgotPassword:hover{
     color: #0056b3;
 }
 
