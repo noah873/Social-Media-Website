@@ -12,7 +12,7 @@ function setupDeleteAccountElements() {
     console.log("Delete Account Button Clicked");
     
     const user = auth.currentUser;
-    return deleteDoc(doc(db, 'users', user.uid));
+    await deleteDoc(doc(db, 'users', user.uid));
 
     messageDiv.textContent = 'Data Deletion Successful';
     message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
