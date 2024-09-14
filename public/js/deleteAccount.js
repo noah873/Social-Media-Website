@@ -9,7 +9,7 @@ function setupDeleteAccountElements() {
   const settingsButton = document.getElementById('settings');
 
   deleteAccountButton.addEventListener('click', () => {
-    const user = userCredential.user;
+    const user = auth.currentUser;
     return deleteDoc(doc(db, 'users', user.uid));
 
     messageDiv.textContent = 'Data Deletion Successful';
