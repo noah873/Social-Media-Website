@@ -4,6 +4,7 @@ import { setupLoginElements } from './js/login.js';
 import { setupHomeElements } from './js/home.js';
 import { setupCreateAccountElements } from './js/createAccount.js';
 import { setupSettingsElements } from './js/settings.js';
+import { setupResetPasswordElements } from './js/resetPassword.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
@@ -29,6 +30,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
+  } else if (html == "resetPassword.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/reset-password'); // redirect URL
+    setupResetPasswordElements();
   }
 }
 
