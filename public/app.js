@@ -3,6 +3,7 @@ import { auth, onAuthStateChanged } from './js/firebase.js'
 import { setupLoginElements } from './js/login.js';
 import { setupHomeElements } from './js/home.js';
 import { setupCreateAccountElements } from './js/createAccount.js';
+import { setupSettingsElements } from './js/settings.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
@@ -24,6 +25,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
+  } else if (html == "settings.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/settings'); // redirect URL
+    setupSettingsElements();
   }
 }
 
