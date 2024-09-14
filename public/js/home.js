@@ -1,10 +1,10 @@
-import { auth, signOut } from './firebase.js';
+import { renderHTML } from '../app.js';
 
 function setupHomeElements() {
-  const signOutButton = document.getElementById('signOut');
+  const settingsButton = document.getElementById('settings');
   
   signOutButton.addEventListener('click', () => {
-    signOut(auth)
+    renderHTML("settings.html");
   });
 }
 
