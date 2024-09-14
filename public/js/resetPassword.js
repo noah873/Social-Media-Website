@@ -23,6 +23,12 @@ function setupResetPasswordElements() {
       });
   });
 
+  emailInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      resetPasswordButton.click();
+    }
+  });
+
   loginButton.addEventListener('click', () => {
     renderHTML("login.html");
   });
