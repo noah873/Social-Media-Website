@@ -5,6 +5,7 @@ import { setupHomeElements } from './js/home.js';
 import { setupCreateAccountElements } from './js/createAccount.js';
 import { setupSettingsElements } from './js/settings.js';
 import { setupResetPasswordElements } from './js/resetPassword.js';
+import { setupDeleteAccountElements } from './js/deleteAccount.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
@@ -34,6 +35,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/reset-password'); // redirect URL
     setupResetPasswordElements();
+  } else if (html == "deleteAccount.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/delete-account'); // redirect URL
+    setupDeleteAccountElements();
   }
 }
 
