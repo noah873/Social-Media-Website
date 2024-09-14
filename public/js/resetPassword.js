@@ -1,7 +1,9 @@
+import { auth, sendPasswordResetEmail } from './firebase.js';
 import { renderHTML } from '../app.js';
 
 function setupResetPasswordElements() {
   const messageDiv = document.getElementById('message');
+  const message2Div = document.getElementById('message2');
   const emailInput = document.getElementById('email');
   
   const resetPasswordButton = document.getElementById('resetPasswordButton');
@@ -9,6 +11,16 @@ function setupResetPasswordElements() {
 
   resetPasswordButton.addEventListener('click', () => {
     const email = emailInput.value;
+    
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        messageDiv.textContent = 'Reset Email Successfully Sent';
+        message2Div.textContent = '';
+      })
+      .catch((error) => {
+        console.error('Error sending password reset email: ', error);
+        messageDiv.textContent = 'Error Sending Reset Email';
+      });
   });
 
   loginButton.addEventListener('click', () => {
