@@ -3,7 +3,7 @@ import { renderHTML } from '../app.js';
 function setupHomeElements() {
   const settingsButton = document.getElementById('settings');
   
-  signOutButton.addEventListener('click', () => {
+  settingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
   });
 }
