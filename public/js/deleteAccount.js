@@ -9,6 +9,8 @@ function setupDeleteAccountElements() {
   const settingsButton = document.getElementById('settings');
 
   deleteAccountButton.addEventListener('click', () => {
+    console.log("Delete Account Button Clicked");
+    
     const user = auth.currentUser;
     return deleteDoc(doc(db, 'users', user.uid));
 
