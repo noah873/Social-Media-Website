@@ -10,7 +10,7 @@ function setupDeleteAccountElements() {
 
   deleteAccountButton.addEventListener('click', () => {
     const user = userCredential.user;
-    await deleteDoc(doc(db, 'users', user.uid);
+    return deleteDoc(doc(db, 'users', user.uid);
 
     messageDiv.textContent = 'Data Deletion Successful';
     message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
