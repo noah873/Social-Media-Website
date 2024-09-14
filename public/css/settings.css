@@ -44,5 +44,5 @@
 }
 
 #rowContainer {
-    display: inline-block;
+    display: flex;
 }
