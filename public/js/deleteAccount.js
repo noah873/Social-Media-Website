@@ -23,7 +23,7 @@ function setupDeleteAccountElements() {
           messageDiv.textContent = 'Error Deleting Account';
           message2Div.textContent = '';
         });
-    }, 5000);
+    }, 10000);
   });
   
   settingsButton.addEventListener('click', () => {
