@@ -34,6 +34,30 @@ function setupCreateAccountElements() {
         messageDiv.textContent = 'Error Creating Account';
       });
     });
+
+    fullNameInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        createAccountButton.click();
+      }
+    });
+
+    usernameInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        createAccountButton.click();
+      }
+    });
+
+    emailInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        createAccountButton.click();
+      }
+    });
+
+    passwordInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        createAccountButton.click();
+      }
+    });
     
     loginButton.addEventListener('click', () => {
       renderHTML("login.html");
