@@ -1,3 +1,11 @@
+.inline {
+    display: inline-block;
+}
+
+p {
+    font-size: 14px;
+}
+
 #login {
     position: absolute;
     top: 25%;
@@ -38,4 +46,28 @@
     cursor: pointer;
     font-size: 16px;
     background-color: #007bff;
+}
+
+#login #createAccount {
+    width: auto;
+    padding: 0;
+    margin: 10px 0;
+    color: #007bff;
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#login button:hover {
+    background-color: #0056b3;
+}
+
+#login #createAccount:hover {
+    color: #0056b3;
+}
+
+#signUpContainer {
+    display: inline-block;
 }
