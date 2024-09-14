@@ -1,7 +1,3 @@
-.inline {
-    display: inline-block;
-}
-
 #settings {
     position: absolute;
     top: 10%;
@@ -45,4 +41,8 @@
 
 #settings button:hover {
     background-color: #0056b3;
+}
+
+#rowContainer {
+    display: inline-block;
 }
