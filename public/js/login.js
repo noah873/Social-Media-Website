@@ -7,6 +7,7 @@ function setupLoginElements() {
   const passwordInput = document.getElementById('password');
   
   const signInButton = document.getElementById('signIn');
+  const forgotPasswordButton = document.getElementById('forgotPassword');
   const createAccountButton = document.getElementById('createAccount');
 
   signInButton.addEventListener('click', () => {
@@ -18,6 +19,10 @@ function setupLoginElements() {
             console.error('Error Signing In: ', error);
             messageDiv.textContent = 'Invalid Email or Password';
         });
+  });
+
+  forgotPasswordButton.addEventListener('click', () => {
+      renderHTML("resetPassword.html");
   });
 
   createAccountButton.addEventListener('click', () => {
