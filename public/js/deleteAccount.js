@@ -1,4 +1,4 @@
-import { auth, deleteUser, doc, deleteDoc } from './firebase.js'
+import { auth, deleteUser, db, doc, deleteDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupDeleteAccountElements() {
