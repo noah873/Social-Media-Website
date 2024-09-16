@@ -14,11 +14,6 @@ function setupChangePasswordElements() {
     const password = passwordInput.value;
     const newPassword = newPasswordInput.value;
     const confirmNewPassword = confirmNewPasswordInput.value;
-
-    if (newPassword === '' || confirmNewPassword === '') {
-        messageDiv.textContent = 'Please Fill Out all Forms';
-        return;
-    }
     
     if (newPassword !== confirmNewPassword) {
         messageDiv.textContent = 'New Passwords do not Match';
@@ -30,6 +25,11 @@ function setupChangePasswordElements() {
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
+          if (newPassword === '') {
+            messageDiv.textContent = 'Please Fill Out all Forms';
+            return;
+          }
+          
           updatePassword(user, newPassword)
             .then(() => {
               messageDiv.textContent = 'Password Updated Successfully';
