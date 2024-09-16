@@ -6,7 +6,7 @@ import { setupCreateAccountElements } from './js/createAccount.js';
 import { setupSettingsElements } from './js/settings.js';
 import { setupResetPasswordElements } from './js/resetPassword.js';
 import { setupDeleteAccountElements } from './js/deleteAccount.js';
-import { setupChangePasswordElements } from './js/deleteAccount.js';
+import { setupChangePasswordElements } from './js/changePassword.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
