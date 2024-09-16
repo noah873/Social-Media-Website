@@ -21,19 +21,27 @@ function setupChangePasswordElements() {
     }
 
     const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, password);
 
-    try {
-        const credential = EmailAuthProvider.credential(user.email, password);
-        await reauthenticateWithCredential(user, credential);
-        await updatePassword(user, newPassword);
-        messageDiv.textContent = 'Password Updated Successfully';
-        passwordInput.value = '';
-        newPasswordInput.value = '';
-        confirmNewPasswordInput.value = '';
-    } catch (error) {
-        console.error(error);
-        messageDiv.textContent = 'Error Changing Password';
-    }
+    reauthenticateWithCredential(user, credential)
+        .then(() => {
+          updatePassword(user, newPassword)
+            .then(() => {
+              messageDiv.textContent = 'Password Updated Successfully';
+              
+              passwordInput.value = '';
+              newPasswordInput.value = '';
+              confirmNewPasswordInput.value = '';
+            })
+            .catch((error) => {
+              console.error('Error Changing Password:', error);
+              messageDiv.textContent = 'Error Changing Password';
+            });
+        })
+        .catch((error) => {
+            console.error('Error during Reauthentication:', error);
+            messageDiv.textContent = 'Error during Reauthentication';
+        });
   });
 
   passwordInput.addEventListener('keydown', function(event) {
