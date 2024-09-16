@@ -10,7 +10,7 @@ function setupChangePasswordElements() {
   
   const settingsButton = document.getElementById('settings');
   
-  changePasswordButton.addEventListener('click', async () => {
+  changePasswordButton.addEventListener('click', () => {
     const password = passwordInput.value;
     const newPassword = newPasswordInput.value;
     const confirmNewPassword = confirmNewPasswordInput.value;
@@ -33,6 +33,24 @@ function setupChangePasswordElements() {
     } catch (error) {
         console.error(error);
         messageDiv.textContent = 'Error Changing Password';
+    }
+  });
+
+  passwordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
+    }
+  });
+
+  newPasswordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
+    }
+  });
+
+  confirmNewPasswordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
     }
   });
 
