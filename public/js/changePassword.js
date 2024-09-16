@@ -27,9 +27,9 @@ function setupChangePasswordElements() {
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, newPassword);
         messageDiv.textContent = 'Password Updated Successfully';
-        password = '';
-        newPassword = '';
-        confirmNewPassword = '';
+        passwordInput.value = '';
+        newPasswordInput.value = '';
+        confirmNewPasswordInput.value = '';
     } catch (error) {
         console.error(error);
         messageDiv.textContent = 'Error Changing Password';
