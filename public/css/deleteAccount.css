@@ -55,3 +55,7 @@ p {
 #deleteAccount #settings:hover {
     color: #0056b3;
 }
+
+html {
+  display: block;
+}
