@@ -24,6 +24,14 @@ p {
     margin-bottom: 0px;
 }
 
+#deleteAccount input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 #deleteAccount button {
     width: 100%;
     padding: 10px;
