@@ -35,24 +35,6 @@ function setupChangePasswordElements() {
         messageDiv.textContent = 'Error Changing Password';
     }
   });
-  
-  passwordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
-
-  newPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
-
-  confirmNewPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
 
   settingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
