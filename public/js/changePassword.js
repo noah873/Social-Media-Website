@@ -15,8 +15,8 @@ function setupChangePasswordElements() {
     const newPassword = newPasswordInput.value;
     const confirmNewPassword = confirmNewPasswordInput.value;
 
-    if (!newPassword || !confirmNewPassword) {
-        messageDiv.textContent = 'Please Enter a New Password';
+    if (newPassword === '' || confirmNewPassword === '') {
+        messageDiv.textContent = 'Please Fill Out all Forms';
         return;
     }
     
