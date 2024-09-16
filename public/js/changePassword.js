@@ -38,19 +38,19 @@ function setupChangePasswordElements() {
   
   passwordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      settingsButton.click();
+      changePasswordButton.click();
     }
   });
 
   newPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      settingsButton.click();
+      changePasswordButton.click();
     }
   });
 
   confirmNewPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      settingsButton.click();
+      changePasswordButton.click();
     }
   });
 
