@@ -44,17 +44,6 @@ function setupChangePasswordElements() {
         });
   });
 
-  const handleEnterKey = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      changePasswordButton.click();
-    }
-  };
-
-  passwordInput.addEventListener('keydown', handleEnterKey);
-  newPasswordInput.addEventListener('keydown', handleEnterKey);
-  confirmNewPasswordInput.addEventListener('keydown', handleEnterKey);
-
   settingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
   });
