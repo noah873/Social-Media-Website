@@ -44,23 +44,16 @@ function setupChangePasswordElements() {
         });
   });
 
-  passwordInput.addEventListener('keydown', function(event) {
+  const handleEnterKey = (event) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       changePasswordButton.click();
     }
-  });
+  };
 
-  newPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
-
-  confirmNewPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
+  passwordInput.addEventListener('keydown', handleEnterKey);
+  newPasswordInput.addEventListener('keydown', handleEnterKey);
+  confirmNewPasswordInput.addEventListener('keydown', handleEnterKey);
 
   settingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
