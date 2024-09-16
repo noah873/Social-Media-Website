@@ -15,6 +15,11 @@ function setupChangePasswordElements() {
     const newPassword = newPasswordInput.value;
     const confirmNewPassword = confirmNewPasswordInput.value;
 
+    if (!newPassword || !confirmNewPassword) {
+        messageDiv.textContent = 'Please Enter a New Password';
+        return;
+    }
+    
     if (newPassword !== confirmNewPassword) {
         messageDiv.textContent = 'New Passwords do not Match';
         return;
