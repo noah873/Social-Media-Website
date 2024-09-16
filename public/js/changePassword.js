@@ -6,7 +6,7 @@ function setupChangePasswordElements() {
   const passwordInput = document.getElementById('password');
   const newPasswordInput = document.getElementById('newPassword');
   const confirmNewPasswordInput = document.getElementById('confirmNewPassword');
-  const changePasswordButton = document.getElementById('changePassword');
+  const changePasswordButton = document.getElementById('changePasswordButton');
   
   const settingsButton = document.getElementById('settings');
   
@@ -42,6 +42,24 @@ function setupChangePasswordElements() {
             console.error('Error during Reauthentication:', error);
             messageDiv.textContent = 'Error during Reauthentication';
         });
+  });
+
+  passwordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
+    }
+  });
+
+  newPasswordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
+    }
+  });
+
+  confirmNewPasswordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changePasswordButton.click();
+    }
   });
 
   settingsButton.addEventListener('click', () => {
