@@ -9,7 +9,8 @@ function setupDeleteAccountElements() {
   const deleteAccountButton = document.getElementById('deleteAccountButton');
   const settingsButton = document.getElementById('settings');
 
-  deleteAccountButton.addEventListener('click', async () => {  
+  deleteAccountButton.addEventListener('click', async () => {
+    const password = passwordInput.value;
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
 
