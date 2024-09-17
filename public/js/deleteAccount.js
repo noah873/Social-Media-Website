@@ -15,8 +15,9 @@ function setupDeleteAccountElements() {
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
-          await deleteDoc(doc(db, 'users', user.uid));
-
+          return deleteDoc(doc(db, 'users', user.uid));
+        })
+        .then(() => {
           messageDiv.textContent = 'Data Deletion Successful';
           message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
       
