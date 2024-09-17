@@ -1,29 +1,45 @@
-import { auth, deleteUser, db, doc, deleteDoc } from './firebase.js'
+import { auth, deleteUser, reauthenticateWithCredential, EmailAuthProvider, db, doc, deleteDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupDeleteAccountElements() {
   const messageDiv = document.getElementById('message');
   const message2Div = document.getElementById('message2');
-  
+
+  const passwordInput = document.getElementById('password');
   const deleteAccountButton = document.getElementById('deleteAccountButton');
   const settingsButton = document.getElementById('settings');
 
   deleteAccountButton.addEventListener('click', async () => {  
     const user = auth.currentUser;
-    await deleteDoc(doc(db, 'users', user.uid));
+    const credential = EmailAuthProvider.credential(user.email, password);
 
-    messageDiv.textContent = 'Data Deletion Successful';
-    message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
+    reauthenticateWithCredential(user, credential)
+        .then(() => {
+          await deleteDoc(doc(db, 'users', user.uid));
 
-    setTimeout(function() {
-      const currentUser = auth.currentUser;
-      deleteUser(currentUser)
+          messageDiv.textContent = 'Data Deletion Successful';
+          message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
+      
+          setTimeout(function() {
+            const currentUser = auth.currentUser;
+            deleteUser(currentUser)
+              .catch((error) => {
+                console.error('Error Deleting Account', error);
+                messageDiv.textContent = 'Error Deleting Account';
+                message2Div.textContent = '';
+              });
+          }, 10000);
+        })
         .catch((error) => {
-          console.error('Error Deleting Account', error);
-          messageDiv.textContent = 'Error Deleting Account';
-          message2Div.textContent = '';
+            console.error('Error during Reauthentication:', error);
+            messageDiv.textContent = 'Error during Reauthentication';
         });
-    }, 10000);
+  });
+
+  passwordInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      deleteAccountButton.click();
+    }
   });
   
   settingsButton.addEventListener('click', () => {
