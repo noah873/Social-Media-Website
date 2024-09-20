@@ -57,9 +57,11 @@ function updateUserStatus(user, isOnline) {
 onAuthStateChanged(auth, user => {
   if (user) {
     renderHTML("home.html");
-    
+
+    // set user as online after they login, create and account, or visit a page while logged in
     updateUserStatus(user, true);
-    
+
+    // update user status when they switch tabs or minimize window
     document.addEventListener('visibilitychange', async () => {
       if (document.hidden) {
         updateUserStatus(user, false);
@@ -67,11 +69,13 @@ onAuthStateChanged(auth, user => {
         updateUserStatus(user, true);
       }
     });
-    
+
+    // set user to not online if they close the tab (while still logged in)
     window.addEventListener('beforeunload', async () => {
       updateUserStatus(user, false);
     });
-    
+
+    // set user to not online if they sign out
     auth.onAuthStateChanged((currentUser) => {
       if (!currentUser) {
         updateUserStatus(user, false);
