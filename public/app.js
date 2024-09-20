@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged } from './js/firebase.js'
+import { auth, onAuthStateChanged, db, doc, updateDoc } from './js/firebase.js'
 
 import { setupLoginElements } from './js/login.js';
 import { setupHomeElements } from './js/home.js';
@@ -50,6 +50,18 @@ async function renderHTML(html) {
 onAuthStateChanged(auth, user => {
   if (user) {
     renderHTML("home.html");
+
+    const userRef = doc(db, 'users', user.uid);
+    return updateDoc(userRef, {
+      online_status: true
+    });
+
+    window.addEventListener('beforeunload', async () => {
+      return updateDoc(userRef, {
+        online_status: false
+      });
+    });
+    
   } else {
     renderHTML("login.html");
   }
