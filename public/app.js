@@ -52,6 +52,8 @@ function updateUserStatus(user, isOnline) {
   const userRef = doc(db, 'users', user.uid);
   return updateDoc(userRef, {
       online_status: isOnline
+  }).catch(error => {
+    console.error(error);
   });
 }
 
