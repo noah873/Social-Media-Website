@@ -54,6 +54,7 @@ function updateUserStatus(user, isOnline) {
   });
 }
 
+// triggered when a user signs in or out
 onAuthStateChanged(auth, user => {
   if (user) {
     renderHTML("home.html");
