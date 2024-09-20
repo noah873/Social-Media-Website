@@ -55,6 +55,24 @@ function updateUserStatus(user, isOnline) {
   });
 }
 
+function handleVisibilityChange() {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    if (document.hidden) {
+      updateUserStatus(currentUser, false);
+    } else {
+      updateUserStatus(currentUser, true);
+    }
+  }
+}
+
+function handleBeforeUnload() {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    updateUserStatus(currentUser, false);
+  }
+}
+
 // triggered when a user signs in or out
 onAuthStateChanged(auth, user => {
   if (user) {
@@ -64,23 +82,18 @@ onAuthStateChanged(auth, user => {
     updateUserStatus(user, true);
 
     // update user status when they switch tabs or minimize window
-    document.addEventListener('visibilitychange', async () => {
-      if (document.hidden) {
-        updateUserStatus(user, false);
-      } else {
-        updateUserStatus(user, true);
-      }
-    });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // set user to not online if they close the tab (while still logged in)
-    window.addEventListener('beforeunload', async () => {
-      updateUserStatus(user, false);
-    });
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     // set user to not online if they sign out
     auth.onAuthStateChanged((currentUser) => {
       if (!currentUser) {
         updateUserStatus(user, false);
+        // remove event listeners after logout
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        window.removeEventListener('beforeunload', handleBeforeUnload);
       }
     });
   } else {
