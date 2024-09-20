@@ -47,21 +47,36 @@ async function renderHTML(html) {
   }
 }
 
+function updateUserStatus(user, isOnline) {
+  const userRef = doc(db, 'users', user.uid);
+  return updateDoc(userRef, {
+      online_status: isOnline
+  });
+}
+
 onAuthStateChanged(auth, user => {
   if (user) {
     renderHTML("home.html");
-
-    const userRef = doc(db, 'users', user.uid);
-    return updateDoc(userRef, {
-      online_status: true
-    });
-
-    window.addEventListener('beforeunload', async () => {
-      return updateDoc(userRef, {
-        online_status: false
-      });
+    
+    updateUserStatus(user, true);
+    
+    document.addEventListener('visibilitychange', async () => {
+      if (document.hidden) {
+        updateUserStatus(user, false);
+      } else {
+        updateUserStatus(user, true);
+      }
     });
     
+    window.addEventListener('beforeunload', async () => {
+      updateUserStatus(user, false);
+    });
+    
+    auth.onAuthStateChanged((currentUser) => {
+      if (!currentUser) {
+        updateUserStatus(user, false);
+      }
+    });
   } else {
     renderHTML("login.html");
   }
