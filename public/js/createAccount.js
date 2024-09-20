@@ -27,7 +27,8 @@ function setupCreateAccountElements() {
         return setDoc(userRef, {
           email: email,
           fullName: fullName,
-          username: username
+          username: username,
+          online_status: true
         });
       })
       .catch((error) => {
