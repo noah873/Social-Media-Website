@@ -47,6 +47,7 @@ async function renderHTML(html) {
   }
 }
 
+// updates online_status field
 function updateUserStatus(user, isOnline) {
   const userRef = doc(db, 'users', user.uid);
   return updateDoc(userRef, {
