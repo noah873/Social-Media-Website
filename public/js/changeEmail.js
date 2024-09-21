@@ -22,7 +22,7 @@ function setupChangeEmailElements() {
             .then(() => {
               messageDiv.textContent = 'Email Change Successful';
               message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
-            });
+            })
             .catch((error) => {
               console.error('Error Changing Email:', error);
               messageDiv.textContent = 'Error Changing Email';
