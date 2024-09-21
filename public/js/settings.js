@@ -51,6 +51,12 @@ function setupSettingsElements() {
       messageDiv.textContent = 'Error Changing Full Name';
     });
   });
+
+  fullNameInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changeFullNameButton.click();
+    }
+  });
   
   changeUsernameButton.addEventListener('click', () => {
     const username = usernameInput.value;
@@ -68,6 +74,12 @@ function setupSettingsElements() {
       console.error(error);
       message2Div.textContent = 'Error Changing Username';
     });
+  });
+
+  usernameInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      changeUsernameButton.click();
+    }
   });
 
   changeEmailButton.addEventListener('click', () => {
