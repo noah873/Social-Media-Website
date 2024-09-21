@@ -18,23 +18,14 @@ function setupChangeEmailElements() {
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
-          verifyBeforeUpdateEmail(user, newEmail)
+          updateEmail(user, newEmail)
             .then(() => {
-              messageDiv.textContent = 'Please Verify your New Email';
-              message2Div.textContent = 'An email has been sent to your new email to ensure you have access to its inbox.';
-              passwordInput.value = '';
-              newEmailInput.value = '';
-              
-              updateEmail(user, newEmail)
-                .then(() => {
-                  messageDiv.textContent = 'Email Change Successful';
-                  message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
-                  
-                })
-                .catch((error) => {
-                    console.error('Error Changing Email:', error);
-                    messageDiv.textContent = 'Error Changing Email';
-                });
+              messageDiv.textContent = 'Email Change Successful';
+              message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
+            });
+            .catch((error) => {
+              console.error('Error Changing Email:', error);
+              messageDiv.textContent = 'Error Changing Email';
             });
         })
         .catch((error) => {
