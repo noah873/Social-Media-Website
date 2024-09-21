@@ -16,6 +16,7 @@ function setupResetPasswordElements() {
       .then(() => {
         messageDiv.textContent = 'Reset Email Successfully Sent';
         message2Div.textContent = '';
+        emailInput.value = '';
       })
       .catch((error) => {
         console.error('Error sending password reset email: ', error);
