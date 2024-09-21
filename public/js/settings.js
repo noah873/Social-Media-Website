@@ -1,4 +1,4 @@
-import { auth, signOut, db, doc, onSnapshot } from './firebase.js';
+import { auth, signOut, db, doc, onSnapshot, updateDoc } from './firebase.js';
 import { renderHTML } from '../app.js';
 
 function setupSettingsElements() {
