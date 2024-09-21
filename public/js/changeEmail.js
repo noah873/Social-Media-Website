@@ -20,10 +20,13 @@ function setupChangeEmailElements() {
         .then(() => {
           updateEmail(user, newEmail)
             .then(() => {
-              messageDiv.textContent = 'Email Change Successful';
-              message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
-              passwordInput.value = '';
-              newEmailInput.value = '';
+              sendEmailVerification(user)
+                .then(() => {
+                  messageDiv.textContent = 'Email Change Successful';
+                  message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
+                  passwordInput.value = '';
+                  newEmailInput.value = '';
+                })
             })
             .catch((error) => {
                 console.error('Error Changing Email:', error);
