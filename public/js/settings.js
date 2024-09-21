@@ -70,6 +70,10 @@ function setupSettingsElements() {
     });
   });
 
+  changeEmailButton.addEventListener('click', () => {
+    renderHTML("changeEmail.html");
+  });
+
   changePasswordButton.addEventListener('click', () => {
     renderHTML("changePassword.html");
   });
