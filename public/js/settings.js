@@ -33,7 +33,29 @@ function setupSettingsElements() {
     const data = doc.data();
     message2Div.textContent = 'Username: ' + data.username;
   });
+
+  changeFullNameButton.addEventListener('click', () => {
+    const fullName = fullNameInput.value;
+    
+    return updateDoc(userRef, {
+      fullName: fullName
+    }).catch(error => {
+      console.error(error);
+      message2Div.textContent = 'Error Changing Full Name';
+    });
+  });
   
+  changeUsernameButton.addEventListener('click', () => {
+    const username = usernameInput.value;
+    
+    return updateDoc(userRef, {
+      username: username
+    }).catch(error => {
+      console.error(error);
+      message2Div.textContent = 'Error Changing Username';
+    });
+  });
+
   changePasswordButton.addEventListener('click', () => {
     renderHTML("changePassword.html");
   });
