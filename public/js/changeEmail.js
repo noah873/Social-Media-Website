@@ -12,6 +12,11 @@ function setupChangeEmailElements() {
   changeEmailButton.addEventListener('click', () => {
     const password = passwordInput.value;
     const newEmail = newEmailInput.value;
+
+    if (newEmail === '') {
+      messageDiv.textContent = 'Please Enter a New Email';
+      return;
+    }
     
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
