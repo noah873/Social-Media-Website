@@ -36,20 +36,34 @@ function setupSettingsElements() {
 
   changeFullNameButton.addEventListener('click', () => {
     const fullName = fullNameInput.value;
+
+    if (fullName === '') {
+      messageDiv.textContent = 'Full Name cannot be Empty';
+      return;
+    }
     
     return updateDoc(userRef, {
       fullName: fullName
+    }).then(() => {
+      fullNameInput.value = '';
     }).catch(error => {
       console.error(error);
-      message2Div.textContent = 'Error Changing Full Name';
+      messageDiv.textContent = 'Error Changing Full Name';
     });
   });
   
   changeUsernameButton.addEventListener('click', () => {
     const username = usernameInput.value;
+
+    if (username === '') {
+      message2Div.textContent = 'Username cannot be Empty';
+      return;
+    }
     
     return updateDoc(userRef, {
       username: username
+    }).then(() => {
+      usernameInput.value = '';
     }).catch(error => {
       console.error(error);
       message2Div.textContent = 'Error Changing Username';
