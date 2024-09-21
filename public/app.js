@@ -7,6 +7,7 @@ import { setupSettingsElements } from './js/settings.js';
 import { setupResetPasswordElements } from './js/resetPassword.js';
 import { setupDeleteAccountElements } from './js/deleteAccount.js';
 import { setupChangePasswordElements } from './js/changePassword.js';
+import { setupChangeEmailElements } from './js/changeEmail.js';
 
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
@@ -44,6 +45,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/change-password'); // redirect URL
     setupChangePasswordElements();
+  } else if (html == "changeEmail.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/change-email'); // redirect URL
+    setupChangeEmailElements();
   }
 }
 
