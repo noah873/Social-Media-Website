@@ -1,4 +1,4 @@
-import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail, sendEmailVerification } from './firebase.js'
+import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail, verifyBeforeUpdateEmail, sendEmailVerification } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupChangeEmailElements() {
@@ -18,14 +18,18 @@ function setupChangeEmailElements() {
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
-          sendEmailVerification(user)
+          verifyBeforeUpdateEmail(user, newEmail)
             .then(() => {
+              messageDiv.textContent = 'Please Verify your New Email';
+              message2Div.textContent = 'An email has been sent to your new email to ensure you have access to its inbox.';
+              passwordInput.value = '';
+              newEmailInput.value = '';
+              
               updateEmail(user, newEmail)
                 .then(() => {
                   messageDiv.textContent = 'Email Change Successful';
                   message2Div.textContent = 'An email will be sent to your old email in case this was a mistake.';
-                  passwordInput.value = '';
-                  newEmailInput.value = '';
+                  
                 })
                 .catch((error) => {
                     console.error('Error Changing Email:', error);
