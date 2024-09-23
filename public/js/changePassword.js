@@ -34,9 +34,10 @@ function setupChangePasswordElements() {
             .then(() => {
               messageDiv.textContent = 'Password Updated Successfully';
               
-              passwordInput.value = '';
-              newPasswordInput.value = '';
-              confirmNewPasswordInput.value = '';
+              passwordInput..classList.add('hidden');
+              newPasswordInput..classList.add('hidden');
+              confirmNewPasswordInput..classList.add('hidden');
+              changePasswordButton.classList.add('hidden');
             })
             .catch((error) => {
               console.error('Error Changing Password:', error);
