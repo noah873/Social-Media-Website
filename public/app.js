@@ -84,7 +84,7 @@ function handleBeforeUnload() {
 onAuthStateChanged(auth, user => {
   const deletingAccount = sessionStorage.getItem('deletingAccount');
 
-  if (deletingAccount) {
+  if (deletingAccount === 'true') {
     return;
   }
   
