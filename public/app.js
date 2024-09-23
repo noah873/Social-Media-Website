@@ -85,7 +85,7 @@ onAuthStateChanged(auth, user => {
   const accountDeleted = sessionStorage.getItem('accountDeleted');
   
   if (accountDeleted) {
-        return;
+    return;
   }
   
   if (user) {
