@@ -20,11 +20,11 @@ function setupDeleteAccountElements() {
         })
         .then(() => {
           const currentUser = auth.currentUser;
+          // set a flag in session storage so page does not redirect to login after deleting account
+          sessionStorage.setItem('accountDeleted', 'true');
+          
           deleteUser(currentUser)
             .then(() => {
-              // set a flag in session storage so page does not redirect to login after deleting account
-              sessionStorage.setItem('accountDeleted', 'true');
-
               messageDiv.textContent = 'Account and Data Deletion Successful';
               message2Div.classList.add('hidden');
               passwordInput.classList.add('hidden');
