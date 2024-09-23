@@ -15,8 +15,9 @@ function setupResetPasswordElements() {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         messageDiv.textContent = 'Reset Email Successfully Sent';
-        message2Div.textContent = '';
-        emailInput.value = '';
+        message2Div.classList.add("hidden");
+        emailInput.classList.add("hidden");
+        resetPasswordButton.classList.add("hidden");
       })
       .catch((error) => {
         console.error('Error sending password reset email: ', error);
