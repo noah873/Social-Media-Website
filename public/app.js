@@ -82,6 +82,12 @@ function handleBeforeUnload() {
 
 // triggered when a user signs in or out
 onAuthStateChanged(auth, user => {
+  const deletingAccount = sessionStorage.getItem('deletingAccount');
+
+  if (deletingAccount) {
+    return;
+  }
+  
   if (user) {
     renderHTML("home.html");
 
