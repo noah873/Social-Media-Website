@@ -2,9 +2,6 @@ import { auth, signInWithEmailAndPassword } from './firebase.js';
 import { renderHTML } from '../app.js';
 
 function setupLoginElements() {
-  // allows user to sign in after deleting account in same session
-  sessionStorage.setItem('accountDeleted', 'false');
-  
   const messageDiv = document.getElementById('message');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
