@@ -27,7 +27,7 @@ function setupDeleteAccountElements() {
             .then(() => {
               deleteAccountDiv.style.width = '25%';
               messageDiv.textContent = 'Account and Data Deletion Successful';
-              message2Div.textContent = 'Refresh the page to return to login screen';
+              message2Div.textContent = 'Refresh the page to return to login screen.';
               passwordInput.classList.add('hidden');
               deleteAccountButton.classList.add('hidden');
               settingsButton.classList.add('hidden');
