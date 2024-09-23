@@ -27,8 +27,9 @@ function setupChangeEmailElements() {
             .then(() => {
               messageDiv.textContent = 'Email Change Successful';
               message2Div.textContent = 'An email will be sent to your old email address in case this was a mistake.';
-              passwordInput.value = '';
-              newEmailInput.value = '';
+              passwordInput.classList.add('hidden');
+              newEmailInput.classList.add('hidden');
+              changeEmailButton.classList.add('hidden');
             })
             .catch((error) => {
               console.error('Error Changing Email:', error);
