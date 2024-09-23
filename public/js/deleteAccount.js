@@ -22,6 +22,7 @@ function setupDeleteAccountElements() {
         })
         .then(() => {
           const currentUser = auth.currentUser;
+          // serves as a flag to prevent redirection to login page
           sessionStorage.setItem('deletingAccount', 'true');
           deleteUser(currentUser)
             .then(() => {
@@ -31,7 +32,8 @@ function setupDeleteAccountElements() {
               passwordInput.classList.add('hidden');
               deleteAccountButton.classList.add('hidden');
               settingsButton.classList.add('hidden');
-              
+
+              // removes item from session storage to allow the user to refresh page and redirect to login page
               sessionStorage.removeItem('deletingAccount');
             })
             .catch((error) => {
