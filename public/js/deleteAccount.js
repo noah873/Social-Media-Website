@@ -21,6 +21,9 @@ function setupDeleteAccountElements() {
         .then(() => {
           messageDiv.textContent = 'Data Deletion Successful';
           message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
+          passwordInput.classList.add('hidden');
+          deleteAccountButton.classList.add('hidden');
+          settingsButton.classList.add('hidden');
       
           setTimeout(function() {
             const currentUser = auth.currentUser;
@@ -28,7 +31,7 @@ function setupDeleteAccountElements() {
               .catch((error) => {
                 console.error('Error Deleting Account', error);
                 messageDiv.textContent = 'Error Deleting Account';
-                message2Div.textContent = '';
+                message2Div.classList.add('hidden');
               });
           }, 10000);
         })
