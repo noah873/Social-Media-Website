@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged, db, doc, updateDoc } from './js/firebase.js'
+import { auth, onAuthStateChanged, db, doc, updateDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 // updates online_status field
