@@ -23,7 +23,7 @@ function setupDeleteAccountElements() {
           sessionStorage.setItem('deletingAccount', 'true');
           deleteUser(currentUser)
             .then(() => {
-              sessionStorage.setItem('deletingAccount', 'false');
+              sessionStorage.removeItem('deletingAccount');
               
               messageDiv.textContent = 'Account and Data Deletion Successful';
               message2Div.classList.add('hidden');
