@@ -2,6 +2,8 @@ import { auth, deleteUser, reauthenticateWithCredential, EmailAuthProvider, db, 
 import { renderHTML } from '../app.js';
 
 function setupDeleteAccountElements() {
+  const deleteAccountDiv = document.getElementById('deleteAccount');
+  
   const messageDiv = document.getElementById('message');
   const message2Div = document.getElementById('message2');
 
@@ -23,13 +25,14 @@ function setupDeleteAccountElements() {
           sessionStorage.setItem('deletingAccount', 'true');
           deleteUser(currentUser)
             .then(() => {
-              sessionStorage.removeItem('deletingAccount');
-              
+              deleteAccountDiv.style.width = '25%';
               messageDiv.textContent = 'Account and Data Deletion Successful';
-              message2Div.classList.add('hidden');
+              message2Div.textContent = 'Refresh the page to return to login screen';
               passwordInput.classList.add('hidden');
               deleteAccountButton.classList.add('hidden');
               settingsButton.classList.add('hidden');
+              
+              sessionStorage.removeItem('deletingAccount');
             })
             .catch((error) => {
               console.error('Error Deleting Account', error);
