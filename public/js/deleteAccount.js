@@ -19,23 +19,21 @@ function setupDeleteAccountElements() {
           return deleteDoc(doc(db, 'users', user.uid));
         })
         .then(() => {
-          const currentUser = auth.currentUser;
-          // set a flag in session storage so page does not redirect to login after deleting account
-          sessionStorage.setItem('accountDeleted', 'true');
-          
-          deleteUser(currentUser)
-            .then(() => {
-              messageDiv.textContent = 'Account and Data Deletion Successful';
-              message2Div.classList.add('hidden');
-              passwordInput.classList.add('hidden');
-              deleteAccountButton.classList.add('hidden');
-              settingsButton.classList.add('hidden');
-            })
-            .catch((error) => {
-              console.error('Error Deleting Account', error);
-              messageDiv.textContent = 'Error Deleting Account';
-              message2Div.classList.add('hidden');
-            });
+          messageDiv.textContent = 'Data Deletion Successful';
+          message2Div.textContent = 'Attempting to Delete Account now, you will automatically be redirectly to the login page if successful.';
+          passwordInput.classList.add('hidden');
+          deleteAccountButton.classList.add('hidden');
+          settingsButton.classList.add('hidden');
+      
+          setTimeout(function() {
+            const currentUser = auth.currentUser;
+            deleteUser(currentUser)
+              .catch((error) => {
+                console.error('Error Deleting Account', error);
+                messageDiv.textContent = 'Error Deleting Account';
+                message2Div.textContent = '';
+              });
+          }, 10000);
         })
         .catch((error) => {
             console.error('Error during Reauthentication:', error);
