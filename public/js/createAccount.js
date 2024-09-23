@@ -2,9 +2,6 @@ import { app, auth, createUserWithEmailAndPassword, db, doc, setDoc } from './fi
 import { renderHTML } from '../app.js';
 
 function setupCreateAccountElements() {
-  // allows user to sign in after deleting account in same session
-  sessionStorage.setItem('accountDeleted', 'false');
-  
   const messageDiv = document.getElementById('message');
 
   const fullNameInput = document.getElementById('fullName');
