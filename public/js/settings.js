@@ -26,7 +26,7 @@ function setupSettingsElements() {
 
   onSnapshot(userRef, (doc) => {
     const data = doc.data();
-    messageDiv.textContent = 'Full Name: ' + data.fullName;
+    messageDiv.textContent = 'Full Name: ' + data.full_name;
   });
 
   onSnapshot(userRef, (doc) => {
@@ -43,7 +43,7 @@ function setupSettingsElements() {
     }
     
     return updateDoc(userRef, {
-      fullName: fullName
+      full_name: fullName
     }).then(() => {
       fullNameInput.value = '';
     }).catch(error => {
