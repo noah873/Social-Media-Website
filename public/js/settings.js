@@ -65,15 +65,27 @@ function setupSettingsElements() {
       message2Div.textContent = 'Username cannot be Empty';
       return;
     }
-    
-    return updateDoc(userRef, {
-      username: username
-    }).then(() => {
-      usernameInput.value = '';
-    }).catch(error => {
-      console.error(error);
-      message2Div.textContent = 'Error Changing Username';
-    });
+
+    getDocs(collection(db, 'users'))
+      .then(currentUsers => {
+        const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
+  
+        if (takenUsernames.includes(username)) {
+          messageDiv.textContent = 'Username Already Taken';
+          return;
+        }
+  
+        return updateDoc(userRef, {
+          username: username
+        })
+          .then(() => {
+            usernameInput.value = '';
+          })
+          .catch(error => {
+            console.error(error);
+            message2Div.textContent = 'Error Changing Username';
+          });
+      });
   });
 
   usernameInput.addEventListener('keydown', function(event) {
