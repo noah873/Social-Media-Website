@@ -1,4 +1,4 @@
-import { app, auth, createUserWithEmailAndPassword, db, doc, setDoc } from './firebase.js'
+import { app, auth, createUserWithEmailAndPassword, db, doc, setDoc, collection, getDocs } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupCreateAccountElements() {
@@ -18,6 +18,14 @@ function setupCreateAccountElements() {
     const username = usernameInput.value;
     const email = emailInput.value;
     const password = passwordInput.value;
+
+    const currentUsers = await getDocs(collection(db, 'users'));
+    const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
+
+    if (takenUsernames.includes(username)) {
+      messageDiv.textContent = 'Username Already Taken';
+      return;
+    }
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
