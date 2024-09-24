@@ -1,4 +1,4 @@
-import { auth, signOut, db, doc, onSnapshot, updateDoc } from './firebase.js';
+import { auth, signOut, db, doc, onSnapshot, updateDoc, collection, getDocs } from './firebase.js';
 import { renderHTML } from '../app.js';
 
 function setupSettingsElements() {
@@ -71,7 +71,7 @@ function setupSettingsElements() {
         const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
   
         if (takenUsernames.includes(username)) {
-          messageDiv.textContent = 'Username Already Taken';
+          message2Div.textContent = 'Username Already Taken';
           return;
         }
   
