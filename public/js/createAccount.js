@@ -19,7 +19,7 @@ function setupCreateAccountElements() {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    const currentUsers = await getDocs(collection(db, 'users'));
+    const currentUsers = return getDocs(collection(db, 'users'));
     const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
 
     if (takenUsernames.includes(username)) {
