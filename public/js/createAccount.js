@@ -35,7 +35,7 @@ function setupCreateAccountElements() {
         const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
   
         if (takenUsernames.includes(username)) {
-          messageDiv.textContent = 'Username Already Taken';
+          message2Div.textContent = 'Username already taken. Please try again.';
           return;
         }
   
