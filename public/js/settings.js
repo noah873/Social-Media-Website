@@ -50,7 +50,7 @@ function setupSettingsElements() {
     const fullName = fullNameInput.value;
 
     if (fullName === '') {
-      messageDiv.textContent = 'Full Name cannot be Empty';
+      messageDiv.textContent = 'Full Name: cannot be Empty';
       return;
     }
     
@@ -74,7 +74,7 @@ function setupSettingsElements() {
     const username = usernameInput.value;
 
     if (username === '') {
-      message2Div.textContent = 'Username cannot be Empty';
+      message2Div.textContent = 'Username: cannot be Empty';
       return;
     }
 
