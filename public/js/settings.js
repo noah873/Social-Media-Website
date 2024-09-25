@@ -24,15 +24,27 @@ function setupSettingsElements() {
     renderHTML("home.html");
   });
 
-  onSnapshot(userRef, (doc) => {
-    const data = doc.data();
-    messageDiv.textContent = 'Full Name: ' + data.full_name;
-  });
+  onSnapshot(userRef,
+    (doc) => {
+      const data = doc.data();
+      messageDiv.textContent = 'Full Name: ' + data.full_name;
+    },
+    (error) => {
+      console.error("Error Fetching Document:", error);
+      messageDiv.textContent = 'Error Displaying Full Name';
+    }
+  );
 
-  onSnapshot(userRef, (doc) => {
-    const data = doc.data();
-    message2Div.textContent = 'Username: ' + data.username;
-  });
+  onSnapshot(userRef,
+    (doc) => {
+      const data = doc.data();
+      message2Div.textContent = 'Username: ' + data.username;
+    },
+    (error) => {
+      console.error("Error Fetching Document:", error);
+      messageDiv.textContent = 'Error Displaying Username';
+    }
+  );
 
   changeFullNameButton.addEventListener('click', () => {
     const fullName = fullNameInput.value;
