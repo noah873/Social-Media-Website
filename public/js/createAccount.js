@@ -53,7 +53,7 @@ function setupCreateAccountElements() {
               email: email,
               full_name: fullName,
               username: username,
-              online_status: true
+              online_status: "online"
             });
           })
           .catch((error) => {
