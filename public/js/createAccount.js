@@ -64,7 +64,7 @@ function setupCreateAccountElements() {
       })
       .catch((error) => {
         console.error('Error Querying Database: ', error);
-        message2Div.textContent = 'Error Querying Database. Please try again.';
+        message2Div.textContent = 'Error querying database to validate username. Please try again.';
       });
   });
 
