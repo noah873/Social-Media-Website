@@ -55,10 +55,11 @@ function setupCreateAccountElements() {
             console.error('Error Creating Account: ', error);
             messageDiv.textContent = 'Error Creating Account';
 
-            let errorMessage = error.message;
-            errorMessage = errorMessage.trim().split(" ");
-            errorMessage = errorMessage.slice(1, errorMessage.length - 1);
-            errorMessage = errorMessage.join(" ") + ". Please try again.";
+            let errorMessage = error.message; // sample input: " Firebase: Password should be at least 6 characters (auth/weak-password)."
+            errorMessage = errorMessage.trim().split(" "); // removes excess spaces and splits into array
+            errorMessage[errorMessage.length - 1] = errorMessage[errorMessage.length - 1].replace("auth/", ""); // changes last element "(auth/weak-password)." to "(weak-password)."
+            errorMessage = errorMessage.slice(1, errorMessage.length); // slices off first element in array
+            errorMessage = errorMessage.join(" ") + ". Please try again."; // rejoins array into string
             message2Div.textContent = errorMessage;
           });
       })
