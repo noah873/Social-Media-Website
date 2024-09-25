@@ -85,6 +85,10 @@ function setupSettingsElements() {
             console.error(error);
             message2Div.textContent = 'Error Changing Username';
           });
+      })
+      .catch((error) => {
+        console.error('Error Querying Database: ', error);
+        message2Div.textContent = 'Error Validating Username';
       });
   });
 
