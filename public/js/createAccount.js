@@ -29,6 +29,11 @@ function setupCreateAccountElements() {
       message2Div.textContent = 'Please enter a username.';
       return;
     }
+
+    if (email === '') {
+      message2Div.textContent = 'Please enter an email.';
+      return;
+    }
   
     getDocs(collection(db, 'users'))
       .then(currentUsers => {
@@ -59,7 +64,7 @@ function setupCreateAccountElements() {
             errorMessage = errorMessage.trim().split(" "); // removes excess spaces and splits into array
             errorMessage[errorMessage.length - 1] = errorMessage[errorMessage.length - 1].replace("auth/", ""); // changes last element "(auth/weak-password)." to "(weak-password)."
             errorMessage = errorMessage.slice(1, errorMessage.length); // slices off first element in array
-            errorMessage = errorMessage.join(" ") + ". Please try again."; // rejoins array into string
+            errorMessage = errorMessage.join(" ") + " Please try again."; // rejoins array into string
             message2Div.textContent = errorMessage;
           });
       })
