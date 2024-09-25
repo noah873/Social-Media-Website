@@ -3,6 +3,7 @@ import { renderHTML } from '../app.js';
 
 function setupCreateAccountElements() {
   const messageDiv = document.getElementById('message');
+  const message2Div = document.getElementById('message2');
 
   const fullNameInput = document.getElementById('fullName');
   const usernameInput = document.getElementById('username');
@@ -18,6 +19,16 @@ function setupCreateAccountElements() {
     const username = usernameInput.value;
     const email = emailInput.value;
     const password = passwordInput.value;
+
+    if (fullName === '') {
+      message2Div.textContent = 'Please enter a full name.';
+      return;
+    }
+
+    if (username === '') {
+      message2Div.textContent = 'Please enter a username.';
+      return;
+    }
   
     getDocs(collection(db, 'users'))
       .then(currentUsers => {
@@ -39,13 +50,21 @@ function setupCreateAccountElements() {
               username: username,
               online_status: true
             });
+          })
+          .catch((error) => {
+            console.error('Error Creating Account: ', error);
+            messageDiv.textContent = 'Error Creating Account';
+
+            let errorMessage = error.message;
+            errorMessage = errorMessage.trim().split(" ");
+            errorMessage = errorMessage.slice(1, errorMessage.length - 1);
+            errorMessage = errorMessage.join(" ") + ". Please try again.";
+            messageDiv2.textContent = errorMessage;
           });
       })
       .catch((error) => {
-        console.error('Error Creating Account: ', error);
-        console.error('Error Code: ', error.code);
-        console.error('Error Message: ', error.message);
-        messageDiv.textContent = 'Error Creating Account';
+        console.error('Error Querying Database: ', error);
+        message2Div.textContent = 'Error Querying Database. Please try again.';
       });
   });
 
