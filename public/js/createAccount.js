@@ -43,6 +43,8 @@ function setupCreateAccountElements() {
       })
       .catch((error) => {
         console.error('Error Creating Account: ', error);
+        console.error('Error Code: ', error.code);
+        console.error('Error Message: ', error.message);
         messageDiv.textContent = 'Error Creating Account';
       });
   });
