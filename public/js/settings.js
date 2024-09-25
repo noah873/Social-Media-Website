@@ -42,7 +42,7 @@ function setupSettingsElements() {
     },
     (error) => {
       console.error("Error Fetching Document:", error);
-      messageDiv.textContent = 'Error Displaying Username';
+      message2Div.textContent = 'Error Displaying Username';
     }
   );
 
