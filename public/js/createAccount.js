@@ -59,7 +59,7 @@ function setupCreateAccountElements() {
             errorMessage = errorMessage.trim().split(" ");
             errorMessage = errorMessage.slice(1, errorMessage.length - 1);
             errorMessage = errorMessage.join(" ") + ". Please try again.";
-            messageDiv2.textContent = errorMessage;
+            message2Div.textContent = errorMessage;
           });
       })
       .catch((error) => {
