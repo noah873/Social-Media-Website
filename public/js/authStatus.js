@@ -51,16 +51,14 @@ function handleAuthStatus() {
   
       // set user to offline if they close the tab (while still logged in)
       window.addEventListener('beforeunload', handleBeforeUnload);
-      window.addEventListener('unload', handleBeforeUnload);
   
-      // set user to not online if they sign out
+      // set user to offline if they sign out
       auth.onAuthStateChanged((currentUser) => {
         if (!currentUser) {
           updateUserStatus(user, "offline");
           // remove event listeners after logout
           document.removeEventListener('visibilitychange', handleVisibilityChange);
           window.removeEventListener('beforeunload', handleBeforeUnload);
-          window.removeEventListener('unload', handleBeforeUnload);
         }
       });
     } else {
