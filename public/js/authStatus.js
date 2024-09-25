@@ -15,9 +15,9 @@ function handleVisibilityChange() {
   const currentUser = auth.currentUser;
   if (currentUser) {
     if (document.hidden) {
-      updateUserStatus(currentUser, false);
+      updateUserStatus(currentUser, "idle");
     } else {
-      updateUserStatus(currentUser, true);
+      updateUserStatus(currentUser, "online");
     }
   }
 }
@@ -25,7 +25,7 @@ function handleVisibilityChange() {
 function handleBeforeUnload() {
   const currentUser = auth.currentUser;
   if (currentUser) {
-    updateUserStatus(currentUser, false);
+    updateUserStatus(currentUser, "offline");
   }
 }
 
@@ -34,7 +34,9 @@ function handleAuthStatus() {
   onAuthStateChanged(auth, user => {
     const deletingAccount = sessionStorage.getItem('deletingAccount');
   
-    if (deletingAccount === 'true') {
+    if (deletingAccount) { // if key exists in session storage (confined to the tab)
+      // removes item from session storage to allow the user to refresh page and redirect to login page
+      sessionStorage.removeItem('deletingAccount');
       return;
     }
     
@@ -42,7 +44,7 @@ function handleAuthStatus() {
       renderHTML("home.html");
   
       // set user as online after they login, create and account, or visit a page while logged in
-      updateUserStatus(user, true);
+      updateUserStatus(user, "online");
   
       // update user status when they switch tabs or minimize window
       document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -53,7 +55,7 @@ function handleAuthStatus() {
       // set user to not online if they sign out
       auth.onAuthStateChanged((currentUser) => {
         if (!currentUser) {
-          updateUserStatus(user, false);
+          updateUserStatus(user, "offline");
           // remove event listeners after logout
           document.removeEventListener('visibilitychange', handleVisibilityChange);
           window.removeEventListener('beforeunload', handleBeforeUnload);
