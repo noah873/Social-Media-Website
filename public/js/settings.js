@@ -24,27 +24,33 @@ function setupSettingsElements() {
     renderHTML("home.html");
   });
 
-  onSnapshot(userRef,
-    (doc) => {
-      const data = doc.data();
-      messageDiv.textContent = 'Full Name: ' + data.full_name;
-    },
-    (error) => {
-      console.error("Error Fetching Document:", error);
-      messageDiv.textContent = 'Error Displaying Full Name';
-    }
-  );
+  function fetchFullName() {
+    onSnapshot(userRef,
+      (doc) => {
+        const data = doc.data();
+        messageDiv.textContent = 'Full Name: ' + data.full_name;
+      },
+      (error) => {
+        console.error("Error Fetching Document:", error);
+        messageDiv.textContent = 'Error Displaying Full Name';
+      }
+    );
+  }
+  fetchFullName();
 
-  onSnapshot(userRef,
-    (doc) => {
-      const data = doc.data();
-      message2Div.textContent = 'Username: ' + data.username;
-    },
-    (error) => {
-      console.error("Error Fetching Document:", error);
-      message2Div.textContent = 'Error Displaying Username';
-    }
-  );
+  function fetchUsername() {
+    onSnapshot(userRef,
+      (doc) => {
+        const data = doc.data();
+        message2Div.textContent = 'Username: ' + data.username;
+      },
+      (error) => {
+        console.error("Error Fetching Document:", error);
+        message2Div.textContent = 'Error Displaying Username';
+      }
+    );
+  }
+  fetchUsername();
 
   changeFullNameButton.addEventListener('click', () => {
     const fullName = fullNameInput.value;
@@ -124,6 +130,15 @@ function setupSettingsElements() {
 
   deleteAccountButton.addEventListener('click', () => {
     renderHTML("deleteAccount.html");
+  });
+
+  document.addEventListener('click', (event) => { // listens for clicks not in an input or a button, refreshing the full name and username displays
+    const inputs = document.querySelectorAll('#home, #settings input, #settings button');
+    
+    if (!Array.from(inputs).includes(event.target)) {
+      fetchFullName();
+      fetchUsername();
+    }
   });
 }
 
