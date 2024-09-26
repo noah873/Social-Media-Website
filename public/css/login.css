@@ -24,7 +24,11 @@ p {
 
 #login #message {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+}
+
+#login #message2 {
+    margin: 10px;
 }
 
 #login input[type="text"],
