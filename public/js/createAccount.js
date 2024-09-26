@@ -34,6 +34,11 @@ function setupCreateAccountElements() {
       message2Div.textContent = 'Please enter an email.';
       return;
     }
+
+    if (password === '') {
+      message2Div.textContent = 'Please enter a password.';
+      return;
+    }
   
     getDocs(collection(db, 'users'))
       .then(currentUsers => {
