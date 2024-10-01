@@ -54,18 +54,22 @@ function handleAuthStatus() {
 
       const firebaseEmail = user.email;
       const userRef = doc(db, 'users', user.uid);
-      const doc = return getDoc(userRef);
-      const firestoreEmail = doc.data().email;
-
-      if (firestoreEmail !== firebaseEmail) {
-        return updateDoc(userRef, {
-          email: firebaseEmail
+      return getDoc(userRef)
+        .then((doc) => {
+          const firestoreEmail = doc.data().email;
+          if (firestoreEmail !== firebaseEmail) {
+            return updateDoc(userRef, {
+              email: firebaseEmail
+            })
+              .catch(error => {
+                console.error(error);
+              });
+          }
         })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-  
+        .catch(error => {
+          console.error(error);
+        });
+    
       // set user to offline if they sign out
       auth.onAuthStateChanged((currentUser) => {
         if (!currentUser) {
