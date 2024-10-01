@@ -11,6 +11,7 @@ import { setupChangeEmailElements } from './js/changeEmail.js';
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
+// ensures firestore stores the user's correct email in the event of an email revert
 handleAuthStatus();
 
 async function loadHTML(html) {
