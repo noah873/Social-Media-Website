@@ -1,11 +1,7 @@
 import { renderHTML } from '../app.js';
 
-function setupHomeElements() {
-  const settingsButton = document.getElementById('settings');
-  
-  settingsButton.addEventListener('click', () => {
-    renderHTML("settings.html");
-  });
-}
+const settingsButton = document.getElementById('settings');
 
-export { setupHomeElements };
+settingsButton.addEventListener('click', () => {
+  renderHTML("settings.html");
+});
