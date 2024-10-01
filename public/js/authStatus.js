@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged, db, doc, updateDoc } from './firebase.js'
+import { auth, onAuthStateChanged, db, doc, getDoc, updateDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 // updates online_status field
@@ -54,7 +54,7 @@ function handleAuthStatus() {
 
       const firebaseEmail = user.email;
       const userRef = doc(db, 'users', user.uid);
-      const doc = await getDoc(userRef);
+      const doc = return getDoc(userRef);
       const firestoreEmail = doc.data().email;
 
       if (firestoreEmail !== firebaseEmail) {
