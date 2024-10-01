@@ -51,6 +51,20 @@ function handleAuthStatus() {
   
       // set user to offline if they close the tab (while still logged in)
       window.addEventListener('beforeunload', handleBeforeUnload);
+
+      const firebaseEmail = user.email;
+      const userRef = doc(db, 'users', user.uid);
+      const doc = await getDoc(userRef);
+      const firestoreEmail = doc.data().email;
+
+      if (firestoreEmail !== firebaseEmail) {
+        return updateDoc(userRef, {
+          email: firebaseEmail
+        })
+          .catch(error => {
+            console.error(error);
+          });
+      }
   
       // set user to offline if they sign out
       auth.onAuthStateChanged((currentUser) => {
