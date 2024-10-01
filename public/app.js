@@ -1,6 +1,6 @@
 import { handleAuthStatus } from './js/authStatus.js';
 
-import { setupLoginElements } from './js/login.js';
+//import { setupLoginElements } from './js/login.js';
 import { setupHomeElements } from './js/home.js';
 import { setupCreateAccountElements } from './js/createAccount.js';
 import { setupSettingsElements } from './js/settings.js';
@@ -22,7 +22,7 @@ async function renderHTML(html) {
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/login');  // redirect URL
-    setupLoginElements();
+    //setupLoginElements();
   } else if (html == "home.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/'); // redirect URL to / (no path)
