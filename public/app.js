@@ -9,6 +9,8 @@ import { setupDeleteAccountElements } from './js/deleteAccount.js';
 import { setupChangePasswordElements } from './js/changePassword.js';
 import { setupChangeEmailElements } from './js/changeEmail.js';
 
+// redirects viewer to login page if not logged in and home page if they are
+// handles online, idle, and offline statuses
 handleAuthStatus();
 
 async function loadHTML(html) {
