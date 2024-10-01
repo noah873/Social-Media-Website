@@ -35,8 +35,6 @@ function setupChangeEmailElements() {
               return updateDoc(userRef, {
                 email: newEmail
               })
-                .then(() => {
-                })
                 .catch(error => {
                   console.error(error);
                 });
