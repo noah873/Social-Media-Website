@@ -1,4 +1,4 @@
-import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail } from './firebase.js'
+import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail, db, doc, updateDoc } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupChangeEmailElements() {
@@ -15,6 +15,7 @@ function setupChangeEmailElements() {
     
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
+    const userRef = doc(db, 'users', user.uid);
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
@@ -30,6 +31,15 @@ function setupChangeEmailElements() {
               passwordInput.classList.add('hidden');
               newEmailInput.classList.add('hidden');
               changeEmailButton.classList.add('hidden');
+
+              return updateDoc(userRef, {
+                email: newEmail
+              })
+                .then(() => {
+                })
+                .catch(error => {
+                  console.error(error);
+                });
             })
             .catch((error) => {
               console.error('Error Changing Email:', error);
