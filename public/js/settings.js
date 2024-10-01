@@ -55,10 +55,12 @@ function setupSettingsElements() {
     }
     
     return updateDoc(userRef, {
-        full_name: fullName
-      }).then(() => {
+      full_name: fullName
+    })
+      .then(() => {
         fullNameInput.value = '';
-      }).catch(error => {
+      })
+      .catch(error => {
         console.error(error);
         messageDiv.textContent = 'Error Changing Full Name';
       });
