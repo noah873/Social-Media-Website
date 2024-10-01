@@ -1,4 +1,4 @@
-import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail, verifyBeforeUpdateEmail, sendEmailVerification } from './firebase.js'
+import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail } from './firebase.js'
 import { renderHTML } from '../app.js';
 
 function setupChangeEmailElements() {
