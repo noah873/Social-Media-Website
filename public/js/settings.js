@@ -55,13 +55,13 @@ function setupSettingsElements() {
     }
     
     return updateDoc(userRef, {
-      full_name: fullName
-    }).then(() => {
-      fullNameInput.value = '';
-    }).catch(error => {
-      console.error(error);
-      messageDiv.textContent = 'Error Changing Full Name';
-    });
+        full_name: fullName
+      }).then(() => {
+        fullNameInput.value = '';
+      }).catch(error => {
+        console.error(error);
+        messageDiv.textContent = 'Error Changing Full Name';
+      });
   });
 
   fullNameInput.addEventListener('keydown', function(event) {
