@@ -2,15 +2,16 @@ import { auth, onAuthStateChanged, db, doc, getDoc, updateDoc } from './firebase
 import { renderHTML } from '../app.js';
 
 // updates online_status field
-function updateUserStatus(user, isOnline) {
+function updateUserStatus(user, status) {
   const userRef = doc(db, 'users', user.uid);
   return updateDoc(userRef, {
-      online_status: isOnline
+      online_status: status
   }).catch(error => {
     console.error(error);
   });
 }
 
+// update user status when they switch tabs or minimize window
 function handleVisibilityChange() {
   const currentUser = auth.currentUser;
   if (currentUser) {
@@ -22,6 +23,7 @@ function handleVisibilityChange() {
   }
 }
 
+// set user to offline if they close the tab (while still logged in)
 function handleBeforeUnload() {
   const currentUser = auth.currentUser;
   if (currentUser) {
