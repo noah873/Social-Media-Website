@@ -31,6 +31,8 @@ function handleBeforeUnload() {
   }
 }
 
+let lastUser = null; // keep track of the last user to update their status when they log out
+
 function handleAuthStatus() {
   // triggered when a user signs in or out
   onAuthStateChanged(auth, user => {
@@ -42,7 +44,9 @@ function handleAuthStatus() {
       return;
     }
     
-    if (user) {
+    if (user) { // visitor is logged in
+      lastUser = user;
+      
       renderHTML("home.html");
   
       // set user as online after they login, create and account, or visit a page while logged in
@@ -71,18 +75,16 @@ function handleAuthStatus() {
         .catch(error => {
           console.error(error);
         });
-    
-      // set user to offline if they sign out
-      auth.onAuthStateChanged((currentUser) => {
-        if (!currentUser) {
-          updateUserStatus(user, "offline");
-          // remove event listeners after logout
-          document.removeEventListener('visibilitychange', handleVisibilityChange);
-          window.removeEventListener('beforeunload', handleBeforeUnload);
-        }
-      });
-    } else {
+    } else { // visitor is not logged in
       renderHTML("login.html");
+      
+      // set last user to offline if they signed out
+      if (lastUser) {
+        updateUserStatus(lastUser, "offline");
+      }
+      
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     }
   });
 }
