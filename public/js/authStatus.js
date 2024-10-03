@@ -82,7 +82,8 @@ function handleAuthStatus() {
       if (lastUser) {
         updateUserStatus(lastUser, "offline");
       }
-      
+
+      // remove event listeners after logout to prevent updateUserStatus calls
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     }
