@@ -2,15 +2,16 @@ import { auth, onAuthStateChanged, db, doc, getDoc, updateDoc } from './firebase
 import { renderHTML } from '../app.js';
 
 // updates online_status field
-function updateUserStatus(user, isOnline) {
+function updateUserStatus(user, status) {
   const userRef = doc(db, 'users', user.uid);
   return updateDoc(userRef, {
-      online_status: isOnline
+      online_status: status
   }).catch(error => {
     console.error(error);
   });
 }
 
+// update user status when they switch tabs or minimize window
 function handleVisibilityChange() {
   const currentUser = auth.currentUser;
   if (currentUser) {
@@ -22,12 +23,15 @@ function handleVisibilityChange() {
   }
 }
 
+// set user to offline if they close the tab (while still logged in)
 function handleBeforeUnload() {
   const currentUser = auth.currentUser;
   if (currentUser) {
     updateUserStatus(currentUser, "offline");
   }
 }
+
+let lastUser = null; // keep track of the last user to update their status when they log out
 
 function handleAuthStatus() {
   // triggered when a user signs in or out
@@ -40,7 +44,9 @@ function handleAuthStatus() {
       return;
     }
     
-    if (user) {
+    if (user) { // visitor is logged in
+      lastUser = user;
+      
       renderHTML("home.html");
   
       // set user as online after they login, create and account, or visit a page while logged in
@@ -69,18 +75,17 @@ function handleAuthStatus() {
         .catch(error => {
           console.error(error);
         });
-    
-      // set user to offline if they sign out
-      auth.onAuthStateChanged((currentUser) => {
-        if (!currentUser) {
-          updateUserStatus(user, "offline");
-          // remove event listeners after logout
-          document.removeEventListener('visibilitychange', handleVisibilityChange);
-          window.removeEventListener('beforeunload', handleBeforeUnload);
-        }
-      });
-    } else {
+    } else { // visitor is not logged in
       renderHTML("login.html");
+      
+      // set last user to offline if they signed out
+      if (lastUser) {
+        updateUserStatus(lastUser, "offline");
+      }
+
+      // remove event listeners after logout to prevent updateUserStatus calls
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     }
   });
 }
