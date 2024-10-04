@@ -5,8 +5,21 @@
 </head>
 <body>
   <div id="home">
-    <button id="settings">Settings</button>
-    <h1>Home</h1>
+    <!-- Left Side Panel for Buttons -->
+    <div id="sidePanel">
+      <button id="settings">Settings</button>
+      <button id="createPostButton">Create Post</button>
+    </div>
+    
+    <!-- Center Section for Post Wall -->
+    <div id="postWall">
+      <h2>Post Wall</h2>
+      <div id="postsContainer">
+        <!-- Posts will be dynamically loaded here -->
+      </div>
+    </div>
   </div>
+
+  <script type="module" src="js/home.js"></script>
 </body>
 </html>

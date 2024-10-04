@@ -8,6 +8,8 @@ import { setupResetPasswordElements } from './js/resetPassword.js';
 import { setupDeleteAccountElements } from './js/deleteAccount.js';
 import { setupChangePasswordElements } from './js/changePassword.js';
 import { setupChangeEmailElements } from './js/changeEmail.js';
+import { setupCreatePostElements } from './js/createPost.js';
+import { renderPosts } from './js/post.js';
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
@@ -38,6 +40,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
+  } else if (html === "createPost.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/create-post');
+    setupCreatePostElements(); // Call the function from post.js
   } else if (html == "resetPassword.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/reset-password'); // redirect URL
