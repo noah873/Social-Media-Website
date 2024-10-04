@@ -1,4 +1,3 @@
-// postWall.js
 import { fetchPosts } from './firebase.js';
 
 function initializePostWall() {
@@ -17,6 +16,7 @@ function initializePostWall() {
       postElement.className = 'post';
       postElement.innerHTML = `
         <p>${post.content}</p>
+        <small>Posted by User ID: ${post.userID}</small>
         <small>${post.datetime}</small>
         <small>Upvotes: ${post.upvotes} | Downvotes: ${post.downvotes}</small>
       `;

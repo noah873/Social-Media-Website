@@ -47,12 +47,14 @@ async function addPostToFirestore(postContent) {
 // Function to fetch posts from Firestore in descending order by datetime
 async function fetchPosts(callback) {
   const postsQuery = query(collection(db, "posts"), orderBy("datetime", "desc"));
+  
   onSnapshot(postsQuery, (snapshot) => {
     const posts = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
       datetime: doc.data().datetime.toDate().toLocaleString(), // Convert Firestore timestamp to readable format
     }));
+    
     callback(posts);
   });
 }
