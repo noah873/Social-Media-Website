@@ -58,6 +58,7 @@ function handleAuthStatus() {
       // set user to offline if they close the tab (while still logged in)
       window.addEventListener('beforeunload', handleBeforeUnload);
 
+      // check if user's email in firestore is up to date with firestore authentication, updating if needed
       const firebaseEmail = user.email;
       const userRef = doc(db, 'users', user.uid);
       return getDoc(userRef)
