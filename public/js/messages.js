@@ -1,7 +1,8 @@
-import { db, collection, getDocs, query, where, doc, getDoc } from './firebase.js'; 
-import { auth } from './firebase.js';  
+import { db, collection, getDocs, doc, getDoc } from './firebase.js'; // Import Firebase-related functions
+
 async function loadDirectMessages() {
   const dmContainer = document.getElementById('dmContainer');
+  console.log(dmContainer);  // Log to check if it exists
 
   if (!dmContainer) {
     console.error('dmContainer not found in the DOM.');
@@ -9,21 +10,11 @@ async function loadDirectMessages() {
   }
 
   try {
-    // Get the currently logged-in user
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      console.error('No user is logged in.');
-      return;
-    }
+    // Fetch direct messages from Firestore
+    console.log('Loading direct messages...');
+    const messagesSnapshot = await getDocs(collection(db, 'messages'));
 
-    const loggedInUserId = currentUser.uid; // Get the logged-in user's UID
-
-    // Query Firestore for messages where receiver_id matches the logged-in user's ID
-    console.log('Loading direct messages for user:', loggedInUserId);
-    const messagesQuery = query(collection(db, 'messages'), where('receiver_id', '==', loggedInUserId));
-    const messagesSnapshot = await getDocs(messagesQuery);
-
-    // Clear the dmContainer to avoid duplicates
+    // Clear the container to avoid duplicates
     dmContainer.innerHTML = '';
 
     // Loop through messages
@@ -70,5 +61,4 @@ async function loadDirectMessages() {
   }
 }
 
-// Export the function so it can be used in app.js
 export { loadDirectMessages };
