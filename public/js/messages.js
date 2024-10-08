@@ -67,7 +67,7 @@ async function loadDirectMessages() {
 }
 
 // Call functions to load suggested users and direct messages
-loadSuggestedUsers();
+//loadSuggestedUsers();
 loadDirectMessages();
 
-export { loadSuggestedUsers, loadDirectMessages };
+export {  loadDirectMessages };
