@@ -1,6 +1,7 @@
 import { db, collection, getDocs } from './firebase.js'; // Import Firebase-related functions from firebase.js
 
 // Function to render user suggestions
+/*
 async function loadSuggestedUsers() {
   const userContainer = document.getElementById('userContainer');
 
@@ -31,6 +32,7 @@ async function loadSuggestedUsers() {
     console.error('Error fetching users:', error);
   }
 }
+*/
 
 // Function to render direct messages
 async function loadDirectMessages() {
