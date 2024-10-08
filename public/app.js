@@ -10,6 +10,7 @@ import { setupChangePasswordElements } from './js/changePassword.js';
 import { setupChangeEmailElements } from './js/changeEmail.js';
 import { setupCreatePostElements } from './js/createPost.js';
 import { renderPosts } from './js/post.js';
+import { loadSuggestedUsers, loadDirectMessages } from './js/messages.js';
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
@@ -60,6 +61,11 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
+  } else if (html == "messages.html") {
+    app.innerHTML = await loadHTML(html);
+    history.pushState({}, '', '/messages');
+    loadSuggestedUsers(); 
+    loadDirectMessages(); 
   }
 }
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="messages.css">
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <!-- Suggested Following Box -->
+  <div class="suggested-box container">
+    <div class="top">
+      <h3>Suggested Following</h3>
+      <button class="btn">See All</button> 
+    </div>
+    <div class="user_container" id="userContainer">
+      <!-- User profiles will be dynamically loaded here -->
+    </div> 
+  </div>
+
+  <!-- Direct Messages Box -->
+  <div class="messages-box container">
+    <div class="top">
+      <h3>Direct Messages</h3>
+      <button class="btn">See All</button> 
+    </div>
+    <div class="dm_container" id="dmContainer">
+      <!-- Direct messages will be dynamically loaded here -->
+    </div>
+  </div>
+
+  <!-- Add script to dynamically load users and messages -->
+  <script type="module" src="js/messages.js"></script>
+</body>
+</html>
