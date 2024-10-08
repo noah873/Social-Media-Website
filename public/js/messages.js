@@ -1,73 +1,58 @@
-import { db, collection, getDocs } from './firebase.js'; // Import Firebase-related functions from firebase.js
-
-// Function to render user suggestions
-/*
-async function loadSuggestedUsers() {
-  const userContainer = document.getElementById('userContainer');
-
-  try {
-    // Fetch user data from Firestore (assuming "users" collection exists)
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-
-    usersSnapshot.forEach((doc) => {
-      const userData = doc.data();
-
-      // Create user element
-      const userElement = document.createElement('div');
-      userElement.classList.add('user');
-
-      userElement.innerHTML = `
-        <div class="profile">
-          <div class="name">
-            <h3>${userData.full_name || 'Unknown'}</h3>
-            <span>${userData.role || 'User'}</span>
-          </div>
-        </div>
-        <button class="btn add">Add</button>
-      `;
-
-      userContainer.appendChild(userElement);
-    });
-  } catch (error) {
-    console.error('Error fetching users:', error);
-  }
-}
-*/
+import { db, collection, getDocs, doc, getDoc } from './firebase.js'; // Import Firebase functions
 
 // Function to render direct messages
 async function loadDirectMessages() {
   const dmContainer = document.getElementById('dmContainer');
 
-  try {
-    // Fetch direct messages from Firestore (assuming "direct_messages" collection exists)
-    const messagesSnapshot = await getDocs(collection(db, 'direct_messages'));
+  if (!dmContainer) {
+    console.error('dmContainer not found in the DOM.');
+    return;
+  }
 
-    messagesSnapshot.forEach((doc) => {
-      const messageData = doc.data();
+  try {
+    // Fetch direct messages from Firestore (assuming "messages" collection exists)
+    const messagesSnapshot = await getDocs(collection(db, 'messages'));
+
+    // Clear the dmContainer to avoid duplicates
+    dmContainer.innerHTML = '';
+
+    // Iterate over each message document
+    for (const docSnapshot of messagesSnapshot.docs) {
+      const messageData = docSnapshot.data();
+
+      // Fetch the sender's information using the sender_id from the users collection
+      const senderDocRef = doc(db, 'users', messageData.sender_id);
+      const senderDocSnapshot = await getDoc(senderDocRef);
+      const senderData = senderDocSnapshot.exists() ? senderDocSnapshot.data() : { full_name: 'Unknown Sender' };
 
       // Create message element
       const dmElement = document.createElement('div');
       dmElement.classList.add('dm');
 
+      // Format the timestamp into a human-readable format
+      const messageTimestamp = messageData.timestamp ? new Date(messageData.timestamp.seconds * 1000).toLocaleString() : 'Unknown time';
+
+      // Render message content with sender name and message timestamp
       dmElement.innerHTML = `
         <div class="profile">
           <div class="name">
-            <h3>${messageData.sender || 'Unknown Sender'}</h3>
-            <span>${messageData.message || 'No message content'}</span>
+            <h3>${senderData.full_name || 'Unknown Sender'}</h3>
+            <span>${messageData.content || 'No message content'}</span>
+            <p><small>${messageTimestamp}</small></p>
           </div>
         </div>
         <button class="btn reply">Reply</button>
       `;
 
+      // Append message element to the container
       dmContainer.appendChild(dmElement);
-    });
+    }
   } catch (error) {
     console.error('Error fetching direct messages:', error);
   }
 }
 
-// Call functions to load suggested users and direct messages
-//loadSuggestedUsers();
-loadDirectMessages();
+// Call the function to load direct messages
+document.addEventListener('DOMContentLoaded', loadDirectMessages);
 
-export {  loadDirectMessages };
+export { loadDirectMessages };

@@ -65,7 +65,10 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/messages');
     //loadSuggestedUsers(); 
-    loadDirectMessages(); 
+    console.log("Loading direct messages...");
+    loadDirectMessages()
+      .then(() => console.log("Direct messages loaded successfully"))
+      .catch((error) => console.error("Error loading direct messages:", error));
   }
 }
 
