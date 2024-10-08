@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Function to render user suggestions
-    async function loadSuggestedUsers() {
+    /* async function loadSuggestedUsers() {
       try {
         const usersSnapshot = await getDocs(collection(db, 'users'));
         usersSnapshot.forEach((doc) => {
@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching users:', error);
       }
     }
+      */
   
     // Function to render direct messages
     async function loadDirectMessages() {
