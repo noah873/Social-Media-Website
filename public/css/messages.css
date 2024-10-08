@@ -107,4 +107,7 @@
     color: #fff;
     background-color: rgb(2, 126, 235);
   }
-  
+
+html {
+  display: block;
+}
