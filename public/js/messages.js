@@ -63,7 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Load the users and direct messages
-    loadSuggestedUsers();
-    loadDirectMessages();
+    //loadSuggestedUsers();
+
   });
+
+  export { loadDirectMessages };
   
