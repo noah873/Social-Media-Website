@@ -2,10 +2,10 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/fireba
 import { 
   getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
   sendPasswordResetEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider, 
-  updatePassword, updateEmail, verifyBeforeUpdateEmail, sendEmailVerification 
+  updatePassword, updateEmail, verifyBeforeUpdateEmail, sendEmailVerification, 
 } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { 
-  getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, doc, 
+  getFirestore, collection, addDoc, query, where, orderBy, limit, onSnapshot, doc, 
   setDoc, deleteDoc, updateDoc, getDoc, getDocs, serverTimestamp 
 } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
@@ -64,5 +64,5 @@ export {
   app, auth, onAuthStateChanged, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, 
   sendPasswordResetEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider, updatePassword, 
   updateEmail, verifyBeforeUpdateEmail, sendEmailVerification, db, fetchPosts, doc, setDoc, deleteDoc, updateDoc, 
-  onSnapshot, collection, getDoc, getDocs, addPostToFirestore 
+  onSnapshot, collection, addDoc, getDoc, getDocs, serverTimestamp, query, where, orderBy, addPostToFirestore 
 };

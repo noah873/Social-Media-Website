@@ -1,32 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <link rel="stylesheet" href="../css/messages.css">
+  <title>Messages</title>
 </head>
 <body>
-  <!-- Suggested Following Box -->
-  <div class="suggested-box container">
-    <div class="top">
-      <h3>Suggested Following</h3>
-      <button class="btn">See All</button> 
+  <div id="messages">
+    <!-- Left Side Panel for Buttons -->
+    <div id="sidePanel">
+      <button id="backButton">Back to Home</button>
     </div>
-    <div class="user_container" id="userContainer">
-      <!-- User profiles will be dynamically loaded here -->
-    </div> 
-  </div>
 
-  <!-- Direct Messages Box -->
-  <div class="messages-box container">
-    <div class="top">
-      <h3>Direct Messages</h3>
-      <button class="btn">See All</button> 
-    </div>
-    <div class="dm_container" id="dmContainer">
-      <!-- Direct messages will be dynamically loaded here -->
+    <!-- Central Section for Global Users -->
+    <div id="messageWall">
+      <h2>Global Users</h2>
+      <div id="userList">
+        <!-- Users will be dynamically loaded here -->
+      </div>
     </div>
   </div>
 
-  <!-- Add script to dynamically load users and messages -->
   <script type="module" src="js/messages.js"></script>
 </body>
 </html>

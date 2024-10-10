@@ -10,7 +10,9 @@ import { setupChangePasswordElements } from './js/changePassword.js';
 import { setupChangeEmailElements } from './js/changeEmail.js';
 import { setupCreatePostElements } from './js/createPost.js';
 import { renderPosts } from './js/post.js';
-import { /*loadSuggestedUsers*/ loadDirectMessages } from './js/messages.js';
+import {loadDirectMessages } from './js/messages.js';
+import { setupSendMessagePage } from './js/messages_chat.js';
+
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
@@ -22,8 +24,15 @@ async function loadHTML(html) {
   return await response.text();
 }
 
-async function renderHTML(html) {
+async function renderHTML(html, state = {}) {
   const app = document.getElementById('app');
+  
+  // Load the HTML content into the app container
+  app.innerHTML = await loadHTML(html);
+  
+  // Store the state in the browser's history
+  history.pushState(state, '', `/${html}`);
+
   
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
@@ -61,14 +70,13 @@ async function renderHTML(html) {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
-  } else if (html == "messages.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/messages');
-    //loadSuggestedUsers(); 
-    console.log("Loading direct messages...");
-    loadDirectMessages()
-      .then(() => console.log("Direct messages loaded successfully"))
-      .catch((error) => console.error("Error loading direct messages:", error));
+  } else if (html === "messages.html") {
+    console.log("Loading global users...");
+    loadDirectMessages()  // Now loading global users for messaging
+      .then(() => console.log("Global users loaded successfully"))
+      .catch((error) => console.error("Error loading global users:", error));
+  } else if (html === "messages_chat.html") {
+    setupSendMessagePage();  // Setting up the chat page functionality
   }
 }
 

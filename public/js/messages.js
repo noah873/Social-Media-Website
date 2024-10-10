@@ -1,64 +1,115 @@
-import { db, collection, getDocs, doc, getDoc } from './firebase.js'; // Import Firebase-related functions
+import { db, collection, getDocs, query, where } from './firebase.js'; // Firebase functions
+import { renderHTML } from '../app.js'; // Import renderHTML for redirection
+import { auth, onAuthStateChanged } from './firebase.js'; // Import auth to get the current user
 
 async function loadDirectMessages() {
-  const dmContainer = document.getElementById('dmContainer');
-  console.log(dmContainer);  // Log to check if it exists
+  const backButton = document.getElementById('backButton');
+  const userList = document.getElementById('userList');
 
-  if (!dmContainer) {
-    console.error('dmContainer not found in the DOM.');
+  // Get the current logged-in user's ID
+  const currentUser = auth.currentUser;
+  const currentUserID = currentUser ? currentUser.uid : null;
+
+  if (!currentUserID) {
+    console.error("Current user ID is missing");
+    return;
+  }
+
+  // Back button functionality
+  if (backButton) {
+    backButton.addEventListener('click', () => {
+      renderHTML("home.html");  // Redirect to home page
+    });
+  }
+
+  if (!userList) {
+    console.error('userList not found in the DOM.');
     return;
   }
 
   try {
-    // Fetch direct messages from Firestore
-    console.log('Loading direct messages...');
-    const messagesSnapshot = await getDocs(collection(db, 'messages'));
+    console.log('Loading global users...');
 
-    // Clear the container to avoid duplicates
-    dmContainer.innerHTML = '';
+    // Fetch all global users from Firestore
+    const usersSnapshot = await getDocs(collection(db, 'users'));
+    userList.innerHTML = '';  // Clear the container to avoid duplicates
 
-    // Loop through messages
-    for (const docSnapshot of messagesSnapshot.docs) {
-      const messageData = docSnapshot.data();
+    // Iterate through each user and display them (including the current user for now)
+    usersSnapshot.docs.forEach((docSnapshot) => {
+      const userData = docSnapshot.data();
+      const userID = docSnapshot.id;
 
-      // Check if sender_id exists
-      if (!messageData.sender_id) {
-        console.error('Missing sender_id in message:', messageData);
-        continue;  // Skip if no sender_id is available
+      // Skip displaying the current logged-in user (optional)
+      if (userID === currentUserID) {
+        return;
       }
 
-      // Fetch the sender's details using sender_id
-      const senderDocRef = doc(db, 'users', messageData.sender_id);
-      const senderDocSnapshot = await getDoc(senderDocRef);
-      const senderData = senderDocSnapshot.exists() ? senderDocSnapshot.data() : { full_name: 'Unknown Sender' };
+      // Create user element
+      const userElement = document.createElement('div');
+      userElement.classList.add('user');
 
-      // Create message element
-      const dmElement = document.createElement('div');
-      dmElement.classList.add('dm');
-
-      // Format the timestamp if available
-      const messageTimestamp = messageData.timestamp ? new Date(messageData.timestamp.seconds * 1000).toLocaleString() : 'Unknown time';
-
-      // Render message content
-      dmElement.innerHTML = `
+      userElement.innerHTML = `
         <div class="profile">
           <div class="name">
-            <h3>${senderData.full_name}</h3>
-            <span>${messageData.content || 'No message content'}</span>
-            <p><small>${messageTimestamp}</small></p>
+            <h3>${userData.full_name}</h3>
+            <p><small>${userData.email}</small></p>
+            <span id="unread-${userID}"></span> <!-- Placeholder for unread message indicator -->
           </div>
         </div>
-        <button class="btn reply">Reply</button>
+        <button class="btn sendMessage">Send Private Message</button>
       `;
 
-      // Append message to container
-      dmContainer.appendChild(dmElement);
-    }
+      // Add event listener to "Send Private Message" button
+      const sendMessageButton = userElement.querySelector('.sendMessage');
+      sendMessageButton.addEventListener('click', () => {
+        renderHTML("messages_chat.html", { recipient: userData.full_name, recipientID: userID });
+      });
 
-    console.log('Direct messages loaded successfully');
+      userList.appendChild(userElement);
+
+      // Check for unread messages for this user
+      checkForUnreadMessages(userID, currentUserID);
+    });
+
+    console.log('Global users loaded successfully');
   } catch (error) {
-    console.error('Error fetching direct messages:', error);
+    console.error('Error fetching global users:', error);
   }
 }
 
+// Function to check for unread messages and add the blue dot
+async function checkForUnreadMessages(userID, currentUserID) {
+  try {
+    // Query to check unread messages from this user
+    const unreadMessagesQuery = query(
+      collection(db, 'messages'),
+      where('recipientID', '==', currentUserID),
+      where('senderID', '==', userID),
+      where('isRead', '==', false)  // Only check for unread messages
+    );
+
+    const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+
+    // If there are unread messages, display the blue dot
+    if (!unreadMessagesSnapshot.empty) {
+      const unreadDot = document.getElementById(`unread-${userID}`);
+      unreadDot.innerHTML = '<span class="unread-dot"></span>';  // Add the blue dot
+    }
+  } catch (error) {
+    console.error(`Error checking unread messages for user ${userID}:`, error);
+  }
+}
+
+// Event listener to load direct messages when the DOM is ready
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const currentUserID = user.uid;
+    loadDirectMessages(currentUserID);
+  } else {
+    console.error('No user is signed in');
+    // Optionally redirect to login page
+  }
+});
+
+// Export the loadDirectMessages function
 export { loadDirectMessages };
