@@ -1,27 +1,22 @@
 import { renderHTML } from '../app.js';
 
-function setupNavbarElements() {
-  const navHomeButton = document.getElementById('navHome');
-  const navMessagesButton = document.getElementById('navMessages');
-  const navPostButton = document.getElementById('navPost');
-  const navSettingsButton = document.getElementById('navSettings');
+function setupNavbarElements(activePage) {
+  const buttons = {
+    home: { button: document.getElementById('navHome'), page: "home.html" },
+    messages: { button: document.getElementById('navMessages'), page: "messages.html" },
+    post: { button: document.getElementById('navPost'), page: "post.html" },
+    settings: { button: document.getElementById('navSettings'), page: "settings.html" }
+  };
+
+  buttons[activePage].button.style.backgroundColor = '#0056b3';
+  delete buttons[activePage];
   
-  navSettingsButton.style.backgroundColor = '#0056b3';
-  
-  navHomeButton.addEventListener('click', () => {
-    renderHTML("home.html");
-  });
-  
-  navMessagesButton.addEventListener('click', () => {
-    renderHTML("messages.html");
-  });
-  
-  navPostButton.addEventListener('click', () => {
-    renderHTML("home.html");
-  });
-  
-  navSettingsButton.addEventListener('click', () => {
-    renderHTML("settings.html");
+  Object.keys(buttons).forEach(buttonID => {
+    const { button, page } = buttons[buttonID];
+
+    button.addEventListener('click', () => {
+      renderHTML(page);
+    });
   });
 }
 
