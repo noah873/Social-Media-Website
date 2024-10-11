@@ -1,0 +1,202 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.profile-image {
+  margin-right: 20px;
+}
+
+.profile-image img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-info h1 {
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.profile-info p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 1.1em;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.profile-stats .stat {
+  flex-grow: 1;
+}
+
+.profile-stats p {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.post-box {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-box .post-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.upvote-button, .downvote-button {
+  background-color: #e9ecef;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.upvote-button:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.downvote-button:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.vote-count {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.vote-buttons {
+  display: flex;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.comment-section {
+  margin-top: 20px;
+}
+
+.comment-input {
+  width: 80%;
+  padding: 10px;
+  margin-right: 5px;
+}
+
+.comment-button {
+  padding: 10px;
+}
+
+.comment-item {
+  margin-top: 10px;
+  padding-left: 10px;
+  color: #555;
+}
+/* For Edit Profile Page */
+.edit-profile-section {
+  margin-top: 20px;
+}
+
+.edit-profile-section input, .edit-profile-section textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1.1em;
+}
+
+.edit-profile-section button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.edit-profile-section button:hover {
+  background-color: #218838;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;  
+  margin-top: 10px;
+}
+
+
+
