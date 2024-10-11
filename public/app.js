@@ -28,9 +28,6 @@ async function loadHTML(html) {
 async function renderHTML(html, state = {}) {
   const app = document.getElementById('app');
   
-  // Load the HTML content into the app container
-  app.innerHTML = await loadHTML(html);
-    
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/login');  // redirect URL
@@ -70,12 +67,16 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
   } else if (html === "messages.html") {
+    app.innerHTML = await loadHTML(html);
     console.log("Loading global users...");
+    history.pushState({}, '', '/messages'); // redirect URL
     loadDirectMessages()  // Now loading global users for messaging
       .then(() => console.log("Global users loaded successfully"))
       .catch((error) => console.error("Error loading global users:", error));
   } else if (html === "messages_chat.html") {
+    app.innerHTML = await loadHTML(html);
     setupSendMessagePage();  // Setting up the chat page functionality
+    history.pushState({}, '', '/messages-chat'); // redirect URL
   }
 }
 
