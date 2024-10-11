@@ -10,8 +10,9 @@ import { setupChangePasswordElements } from './js/changePassword.js';
 import { setupChangeEmailElements } from './js/changeEmail.js';
 import { setupCreatePostElements } from './js/createPost.js';
 import { renderPosts } from './js/post.js';
-import {loadDirectMessages } from './js/messages.js';
+import { loadDirectMessages } from './js/messages.js';
 import { setupSendMessagePage } from './js/messages_chat.js';
+import { setupNavbarElements } from './js/navbar.js';
 
 
 // redirects viewer to login page if not logged in and home page if they are
@@ -29,11 +30,7 @@ async function renderHTML(html, state = {}) {
   
   // Load the HTML content into the app container
   app.innerHTML = await loadHTML(html);
-  
-  // Store the state in the browser's history
-  history.pushState(state, '', `/${html}`);
-
-  
+    
   if (html == "login.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/login');  // redirect URL
@@ -51,6 +48,7 @@ async function renderHTML(html, state = {}) {
     app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
+    setupNavbarElements();
   } else if (html === "createPost.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/create-post');
