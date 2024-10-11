@@ -89,12 +89,12 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/messages-chat'); // redirect URL
   }
    else if (html === "profile.html") {
-        let pageHTML = await loadHTML("navbar.html");
-        pageHTML += await loadHTML(html);
-        app.innerHTML = pageHTML;
-        history.pushState({}, '', '/profile'); 
-        setupProfileElements(); 
-        setupNavbarElements("profile");
+    let pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
+    history.pushState({}, '', '/profile'); 
+    setupProfileElements(); 
+    setupNavbarElements("profile");
   }
 }
 
