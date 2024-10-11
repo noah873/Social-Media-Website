@@ -6,7 +6,7 @@ function setupNavbarElements() {
   const navPostButton = document.getElementById('navPost');
   const navSettingsButton = document.getElementById('navSettings');
   
-  navSettingsButton.classList.add('active');
+  navSettingsButton.style.backgroundColor = '#0056b3';
   
   navHomeButton.addEventListener('click', () => {
     renderHTML("home.html");
