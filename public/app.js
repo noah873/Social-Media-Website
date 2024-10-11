@@ -47,7 +47,8 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
   } else if (html == "settings.html") {
-    app.innerHTML = await loadHTML(html);
+    app.innerHTML = await loadHTML("navbar.html");
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
   } else if (html === "createPost.html") {
