@@ -1,5 +1,6 @@
 #navbar {
   display: flex;
+  margin-bottom: 20px;
 }
 
 #navbar button {
@@ -10,6 +11,7 @@
   padding: 14px 16px;
   cursor: pointer;
   flex: 1;
+  font-size: 18px;
 }
 
 #navbar button:hover {
