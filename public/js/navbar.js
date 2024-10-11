@@ -6,6 +6,8 @@ function setupNavbarElements() {
   const navPostButton = document.getElementById('navPost');
   const navSettingsButton = document.getElementById('navSettings');
   
+  navHomeButton.classList.add('active');
+  
   navHomeButton.addEventListener('click', () => {
     renderHTML("home.html");
   });
