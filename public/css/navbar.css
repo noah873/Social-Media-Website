@@ -1,0 +1,17 @@
+#navbar {
+  display: flex;
+}
+
+#navbar button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  flex: 1;
+}
+
+#navbar button:hover {
+  background-color: #0056b3;
+}
