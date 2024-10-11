@@ -9,6 +9,7 @@ function setupNavbarElements(activePage) {
   };
 
   buttons[activePage].button.style.backgroundColor = '#0056b3';
+  buttons[activePage].button.style.cursor = 'default';
   delete buttons[activePage];
   
   Object.keys(buttons).forEach(buttonID => {
