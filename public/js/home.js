@@ -35,6 +35,14 @@ function setupHomeElements() {
     console.warn("messagesButton not found in the DOM.");
   }
 
+  if (profileButton) {
+        profileButton.addEventListener('click', () => {
+            renderHTML('profile.html'); // Load the profile page
+        });
+  } else {
+        console.warn("profileButton not found in the DOM.");
+  }
+
   // Initialize the post wall to display posts
   initializePostWall();
 }
