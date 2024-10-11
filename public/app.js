@@ -45,7 +45,7 @@ async function renderHTML(html, state = {}) {
     app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
-    setupNavbarElements();
+    setupNavbarElements("settings");
   } else if (html === "createPost.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/create-post');
