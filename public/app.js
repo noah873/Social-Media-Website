@@ -33,7 +33,7 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
   } else if (html == "home.html") {
-    pageHTML = await loadHTML("navbar.html");
+    let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     history.pushState({}, '', '/'); // redirect URL to / (no path)
@@ -44,14 +44,14 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
   } else if (html == "settings.html") {
-    pageHTML = await loadHTML("navbar.html");
+    let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
     setupNavbarElements("settings");
   } else if (html === "createPost.html") {
-    pageHTML = await loadHTML("navbar.html");
+    let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     history.pushState({}, '', '/create-post');
@@ -74,7 +74,7 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
   } else if (html === "messages.html") {
-    pageHTML = await loadHTML("navbar.html");
+    let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     console.log("Loading global users...");
