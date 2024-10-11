@@ -33,9 +33,11 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
   } else if (html == "home.html") {
-    app.innerHTML = await loadHTML(html);
+    app.innerHTML = await loadHTML("navbar.html");
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
+    setupNavbarElements("home");
   } else if (html == "createAccount.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/signup'); // redirect URL
