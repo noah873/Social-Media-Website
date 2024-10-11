@@ -2,8 +2,6 @@ import { auth, signOut, db, doc, onSnapshot, updateDoc, collection, getDocs } fr
 import { renderHTML } from '../app.js';
 
 function setupSettingsElements() {
-  const homeButton = document.getElementById('home');
-
   const messageDiv = document.getElementById('message');
   const fullNameInput = document.getElementById('fullName');
   const changeFullNameButton = document.getElementById('changeFullName');
@@ -19,10 +17,6 @@ function setupSettingsElements() {
 
   const user = auth.currentUser;
   const userRef = doc(db, 'users', user.uid);
-  
-  homeButton.addEventListener('click', () => {
-    renderHTML("home.html");
-  });
 
   onSnapshot(userRef,
     (doc) => {
