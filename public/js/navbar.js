@@ -4,7 +4,7 @@ function setupNavbarElements(activePage) {
   const buttons = {
     home: { button: document.getElementById('navHome'), page: "home.html" },
     messages: { button: document.getElementById('navMessages'), page: "messages.html" },
-    post: { button: document.getElementById('navCreatePost'), page: "createPost.html" },
+    createPost: { button: document.getElementById('navCreatePost'), page: "createPost.html" },
     settings: { button: document.getElementById('navSettings'), page: "settings.html" }
   };
 
