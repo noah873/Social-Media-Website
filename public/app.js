@@ -49,9 +49,11 @@ async function renderHTML(html, state = {}) {
     setupSettingsElements();
     setupNavbarElements("settings");
   } else if (html === "createPost.html") {
-    app.innerHTML = await loadHTML(html);
+    app.innerHTML = await loadHTML("navbar.html");
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
+    setupNavbarElements("createPost");
   } else if (html == "resetPassword.html") {
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/reset-password'); // redirect URL
@@ -69,9 +71,11 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
   } else if (html === "messages.html") {
-    app.innerHTML = await loadHTML(html);
+    app.innerHTML = await loadHTML("navbar.html");
+    app.innerHTML += await loadHTML(html);
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
+    setupNavbarElements("messages");
     loadDirectMessages()  // Now loading global users for messaging
       .then(() => console.log("Global users loaded successfully"))
       .catch((error) => console.error("Error loading global users:", error));
