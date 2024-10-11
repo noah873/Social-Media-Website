@@ -33,8 +33,9 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
   } else if (html == "home.html") {
-    app.innerHTML = await loadHTML("navbar.html");
-    app.innerHTML += await loadHTML(html);
+    pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
     setupNavbarElements("home");
@@ -43,14 +44,16 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
   } else if (html == "settings.html") {
-    app.innerHTML = await loadHTML("navbar.html");
-    app.innerHTML += await loadHTML(html);
+    pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
     setupNavbarElements("settings");
   } else if (html === "createPost.html") {
-    app.innerHTML = await loadHTML("navbar.html");
-    app.innerHTML += await loadHTML(html);
+    pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
     setupNavbarElements("createPost");
@@ -71,8 +74,9 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
   } else if (html === "messages.html") {
-    app.innerHTML = await loadHTML("navbar.html");
-    app.innerHTML += await loadHTML(html);
+    pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
     setupNavbarElements("messages");
