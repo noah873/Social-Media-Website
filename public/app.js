@@ -30,7 +30,7 @@ async function renderHTML(html) {
   const navbar = document.getElementById('navbar');
   
   if (html == "login.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
@@ -43,7 +43,7 @@ async function renderHTML(html) {
     setupNavbarElements("home");
     
   } else if (html == "createAccount.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
@@ -61,25 +61,25 @@ async function renderHTML(html) {
     setupNavbarElements("createPost");
     
   } else if (html == "resetPassword.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/reset-password'); // redirect URL
     setupResetPasswordElements();
     
   } else if (html == "deleteAccount.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/delete-account'); // redirect URL
     setupDeleteAccountElements();
     
   } else if (html == "changePassword.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/change-password'); // redirect URL
     setupChangePasswordElements();
     
   } else if (html == "changeEmail.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
@@ -94,7 +94,7 @@ async function renderHTML(html) {
       .catch((error) => console.error("Error loading global users:", error));
     
   } else if (html === "messages_chat.html") {
-    app.innerHTML = "";
+    navbar.innerHTML = "";
     app.innerHTML = await loadHTML(html);
     setupSendMessagePage();  // Setting up the chat page functionality
     history.pushState({}, '', '/messages-chat'); // redirect URL
