@@ -19,13 +19,6 @@ function setupNavbarElements(activePage) {
     button.addEventListener('click', () => {
       renderHTML(page);
     });
-
-    button.addEventListener('mouseover', () => { // prefetches page to prevent flash when switching pages
-      fetch(`https://nexus-trapezoid.web.app/html/${page}`)
-        .catch(error => {
-          console.error('Error Prefetching Page: ', error);
-        });
-    });
   });
 }
 
