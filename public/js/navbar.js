@@ -5,7 +5,7 @@ function setupNavbarElements(activePage) {
     home: { button: document.getElementById('navHome'), page: "home.html" },
     messages: { button: document.getElementById('navMessages'), page: "messages.html" },
     createPost: { button: document.getElementById('navCreatePost'), page: "createPost.html" },
-    settings: { button: document.getElementById('navSettings'), page: "settings.html" }
+    settings: { button: document.getElementById('navSettings'), page: "settings.html" },
     profile: { button: document.getElementById('navProfileButton'), page: 'profile.html' } 
   };
 
