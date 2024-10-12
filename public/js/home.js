@@ -49,5 +49,5 @@ function setupHomeElements() {
   initializePostWall();
 }
 
-document.addEventListener('DOMContentLoaded', setupHomeElements);
+//document.addEventListener('DOMContentLoaded', setupHomeElements);
 export { setupHomeElements };
