@@ -17,3 +17,8 @@
 #navbar button:hover {
   background-color: #0056b3;
 }
+
+.active {
+  background-color: #0056b3;
+  cursor: default;
+}
