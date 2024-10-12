@@ -16,6 +16,10 @@ function setupNavbarElements(activePage) {
   Object.keys(buttons).forEach(buttonID => {
     const { button, page } = buttons[buttonID];
 
+    // Reset non active buttons to default styling
+    button.style.backgroundColor = '#007bff';
+    button.style.cursor = 'pointer';
+
     button.addEventListener('click', () => {
       renderHTML(page);
     });
