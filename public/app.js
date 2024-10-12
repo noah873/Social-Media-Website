@@ -93,7 +93,7 @@ async function renderHTML(html, state = {}) {
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     history.pushState({}, '', '/profile'); 
-    setupProfileElements(); 
+    //setupProfileElements(); 
     setupNavbarElements("profile");
   }
 }
