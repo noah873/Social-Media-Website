@@ -25,9 +25,11 @@ function renderPosts(postData) {
   ];
   
   // Load and render sample posts
+  /*
   document.addEventListener('DOMContentLoaded', () => {
     renderPosts(samplePosts);
   });
+  */
   
   export { renderPosts };
   
