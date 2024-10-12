@@ -198,5 +198,6 @@ body {
   margin-top: 10px;
 }
 
-
-
+html {
+  display: block;
+}
