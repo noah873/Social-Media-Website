@@ -20,6 +20,11 @@ import { setupProfileElements } from './js/profile.js';
 // ensures firestore stores the user's correct email in the event of an email revert
 handleAuthStatus();
 
+function removeHTMLAfterNavbar(string) {
+  const endIndex = string.indexOf('</nav>');
+  return string.substring(0, endIndex + 6);
+}
+
 async function loadHTML(html) {
   const response = await fetch(`html/${html}`);
   return await response.text();
@@ -44,16 +49,14 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
   } else if (html == "settings.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    app.innerHTML = removeHTMLAfterNavbar(app.innerHTML);
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
     setupNavbarElements("settings");
   } else if (html === "createPost.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    app.innerHTML = removeHTMLAfterNavbar(app.innerHTML);
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
     setupNavbarElements("createPost");
@@ -74,9 +77,8 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/change-email'); // redirect URL
     setupChangeEmailElements();
   } else if (html === "messages.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    app.innerHTML = removeHTMLAfterNavbar(app.innerHTML);
+    app.innerHTML += await loadHTML(html);
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
     setupNavbarElements("messages");
@@ -89,9 +91,8 @@ async function renderHTML(html, state = {}) {
     history.pushState({}, '', '/messages-chat'); // redirect URL
   }
    else if (html === "profile.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    app.innerHTML = removeHTMLAfterNavbar(app.innerHTML);
+    app.innerHTML += await loadHTML(html);
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
