@@ -8,18 +8,15 @@ function setupNavbarElements(activePage) {
     profile: { button: document.getElementById('navProfile'), page: "profile.html" } ,
     settings: { button: document.getElementById('navSettings'), page: "settings.html" }
   };
-
-  buttons[activePage].button.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
-  buttons[activePage].button.style.cursor = 'default'; // remove mouseover selection visual
+  
+  buttons[activePage].button.classList.add('active');
+  //buttons[activePage].button.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
+  //buttons[activePage].button.style.cursor = 'default'; // remove mouseover selection visual
   delete buttons[activePage]; // to prevent the creation of an event listener to redirect to that page as the user is already on it
   
   Object.keys(buttons).forEach(buttonID => {
     const { button, page } = buttons[buttonID];
-
-    // Reset non active buttons to default styling
-    button.style.backgroundColor = '#007bff';
-    button.style.cursor = 'pointer';
-
+    
     button.addEventListener('click', () => {
       renderHTML(page);
     });
