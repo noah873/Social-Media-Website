@@ -3,6 +3,7 @@ import { renderHTML } from '../app.js';
 import { initializePostWall } from './postWall.js';
 
 function setupHomeElements() {
+  /*
   const settingsButton = document.getElementById('settings');
   const createPostButton = document.getElementById('createPostButton');
   const messagesButton = document.getElementById('messagesButton');
@@ -42,6 +43,7 @@ function setupHomeElements() {
   } else {
         console.warn("profileButton not found in the DOM.");
   }
+  */
 
   // Initialize the post wall to display posts
   initializePostWall();
