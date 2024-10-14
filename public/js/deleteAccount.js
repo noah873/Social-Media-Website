@@ -4,15 +4,15 @@ import { renderHTML } from '../app.js';
 function setupDeleteAccountElements() {
   const deleteAccountDiv = document.getElementById('deleteAccount');
   
-  const messageDiv = document.getElementById('message');
-  const message2Div = document.getElementById('message2');
+  const deleteAccountMessageDiv = document.getElementById('deleteAccountMessage');
+  const deleteAccountMessage2Div = document.getElementById('deleteAccountMessage2');
 
-  const passwordInput = document.getElementById('password');
-  const deleteAccountButton = document.getElementById('deleteAccountButton');
-  const settingsButton = document.getElementById('settings');
+  const deleteAccountPasswordInput = document.getElementById('deleteAccountPassword');
+  const deleteAccountDeleteAccountButton = document.getElementById('deleteAccountDeleteAccountButton');
+  const deleteAccountSettingsButton = document.getElementById('deleteAccountSettings');
 
-  deleteAccountButton.addEventListener('click', async () => {
-    const password = passwordInput.value;
+  deleteAccountDeleteAccountButton.addEventListener('click', async () => {
+    const password = deleteAccountPasswordInput.value;
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
 
@@ -27,31 +27,31 @@ function setupDeleteAccountElements() {
           deleteUser(currentUser)
             .then(() => {
               deleteAccountDiv.style.width = '25%';
-              messageDiv.textContent = 'Account and Data Deletion Successful';
-              message2Div.textContent = 'Refresh the page to return to login screen.';
-              passwordInput.classList.add('hidden');
-              deleteAccountButton.classList.add('hidden');
-              settingsButton.classList.add('hidden');
+              deleteAccountMessageDiv.textContent = 'Account and Data Deletion Successful';
+              deleteAccountMessage2Div.textContent = 'Refresh the page to return to login screen.';
+              deleteAccountPasswordInput.classList.add('hidden');
+              deleteAccountDeleteAccountButton.classList.add('hidden');
+              deleteAccountSettingsButton.classList.add('hidden');
             })
             .catch((error) => {
               console.error('Error Deleting Account', error);
-              messageDiv.textContent = 'Error Deleting Account';
-              message2Div.textContent = '';
+              deleteAccountMessageDiv.textContent = 'Error Deleting Account';
+              deleteAccountMessage2Div.textContent = '';
             });
         })
         .catch((error) => {
             console.error('Error during Reauthentication:', error);
-            messageDiv.textContent = 'Error during Reauthentication';
+            deleteAccountMessageDiv.textContent = 'Error during Reauthentication';
         });
   });
 
-  passwordInput.addEventListener('keydown', function(event) {
+  deleteAccountPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      deleteAccountButton.click();
+      deleteAccountDeleteAccountButton.click();
     }
   });
   
-  settingsButton.addEventListener('click', () => {
+  deleteAccountSettingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
   });
 }
