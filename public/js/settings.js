@@ -139,7 +139,7 @@ function setupSettingsElements() {
   });
 
   settingsDeleteAccountButton.addEventListener('click', () => {
-    deleteAccountMessageDiv.textContent = "";
+    deleteAccountMessageDiv.textContent = "Account and Data Deletion";
 
     deleteAccountPasswordInput.value = '';
     
