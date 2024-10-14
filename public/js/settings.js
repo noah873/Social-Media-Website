@@ -139,6 +139,10 @@ function setupSettingsElements() {
   });
 
   settingsDeleteAccountButton.addEventListener('click', () => {
+    deleteAccountMessageDiv.textContent = "";
+
+    deleteAccountPasswordInput.value = '';
+    
     deleteAccountPopup.classList.remove('hidden');
   });
 
