@@ -67,21 +67,6 @@ async function renderHTML(html) {
     history.pushState({}, '', '/reset-password'); // redirect URL
     setupResetPasswordElements();
     
-  } else if (html == "deleteAccount.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/delete-account'); // redirect URL
-    setupDeleteAccountElements();
-    
-  } else if (html == "changePassword.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/change-password'); // redirect URL
-    setupChangePasswordElements();
-    
-  } else if (html == "changeEmail.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/change-email'); // redirect URL
-    setupChangeEmailElements();
-    
   } else if (html === "messages.html") {
     let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
