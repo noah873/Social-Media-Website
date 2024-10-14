@@ -106,20 +106,32 @@ function setupSettingsElements() {
   });
 
   settingsChangeEmailButton.addEventListener('click', () => {
-    changeEmailPopup.classList.remove('hidden');
+    changeEmailMessageDiv.textContent = "Update your Email";
+    changeEmailMessage2Div.textContent = '';
+
+    changeEmailPasswordInput.value = '';
+    changeEmailNewEmailInput.value = '';
     
     changeEmailPasswordInput.classList.remove('hidden');
     changeEmailNewEmailInput.classList.remove('hidden');
     changeEmailChangeEmailButton.classList.remove('hidden');
+
+    changeEmailPopup.classList.remove('hidden');
   });
 
   settingsChangePasswordButton.addEventListener('click', () => {
-    changePasswordPopup.classList.remove('hidden');
+    changePasswordMessageDiv.textContent = "Update your Password";
+
+    changePasswordPasswordInput.value = '';
+    changePasswordNewPasswordInput.value = '';
+    changePasswordConfirmNewPasswordInput.value = '';
 
     changePasswordPasswordInput.classList.remove('hidden');
     changePasswordNewPasswordInput.classList.remove('hidden');
     changePasswordConfirmNewPasswordInput.classList.remove('hidden');
     changePasswordChangePasswordButton.classList.remove('hidden');
+
+    changePasswordPopup.classList.remove('hidden');
   });
   
   settingsSignOutButton.addEventListener('click', () => {
