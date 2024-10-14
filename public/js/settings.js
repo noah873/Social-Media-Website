@@ -107,10 +107,19 @@ function setupSettingsElements() {
 
   settingsChangeEmailButton.addEventListener('click', () => {
     changeEmailPopup.classList.remove('hidden');
+    
+    changeEmailPasswordInput.classList.remove('hidden');
+    changeEmailNewEmailInput.classList.remove('hidden');
+    changeEmailChangeEmailButton.classList.remove('hidden');
   });
 
   settingsChangePasswordButton.addEventListener('click', () => {
     changePasswordPopup.classList.remove('hidden');
+
+    changePasswordPasswordInput.classList.remove('hidden');
+    changePasswordNewPasswordInput.classList.remove('hidden');
+    changePasswordConfirmNewPasswordInput.classList.remove('hidden');
+    changePasswordChangePasswordButton.classList.remove('hidden');
   });
   
   settingsSignOutButton.addEventListener('click', () => {
