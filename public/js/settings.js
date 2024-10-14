@@ -2,18 +2,18 @@ import { auth, signOut, db, doc, onSnapshot, updateDoc, collection, getDocs } fr
 import { renderHTML } from '../app.js';
 
 function setupSettingsElements() {
-  const messageDiv = document.getElementById('message');
-  const fullNameInput = document.getElementById('fullName');
-  const changeFullNameButton = document.getElementById('changeFullName');
+  const settingsMessageDiv = document.getElementById('settingsMessage');
+  const settingsFullNameInput = document.getElementById('settingsFullName');
+  const settingsChangeFullNameButton = document.getElementById('settingsChangeFullName');
 
-  const message2Div = document.getElementById('message2');
-  const usernameInput = document.getElementById('username');
-  const changeUsernameButton = document.getElementById('changeUsername');
+  const settingsMessage2Div = document.getElementById('settingsMessage2');
+  const settingsUsernameInput = document.getElementById('settingsUsername');
+  const settingsChangeUsernameButton = document.getElementById('settingsChangeUsername');
   
-  const changeEmailButton = document.getElementById('changeEmail');
-  const changePasswordButton = document.getElementById('changePassword');
-  const signOutButton = document.getElementById('signOut');
-  const deleteAccountButton = document.getElementById('deleteAccount');
+  const settingsChangeEmailButton = document.getElementById('settingsChangeEmail');
+  const settingsChangePasswordButton = document.getElementById('settingsChangePassword');
+  const settingsSignOutButton = document.getElementById('settingsSignOut');
+  const settingsDeleteAccountButton = document.getElementById('settingsDeleteAccount');
 
   const user = auth.currentUser;
   const userRef = doc(db, 'users', user.uid);
@@ -21,30 +21,30 @@ function setupSettingsElements() {
   onSnapshot(userRef,
     (doc) => {
       const data = doc.data();
-      messageDiv.textContent = 'Full Name: ' + data.full_name;
+      settingsMessageDiv.textContent = 'Full Name: ' + data.full_name;
     },
     (error) => {
       console.error("Error Fetching Document:", error);
-      messageDiv.textContent = 'Error Displaying Full Name';
+      settingsMessageDiv.textContent = 'Error Displaying Full Name';
     }
   );
 
   onSnapshot(userRef,
     (doc) => {
       const data = doc.data();
-      message2Div.textContent = 'Username: ' + data.username;
+      settingsMessage2Div.textContent = 'Username: ' + data.username;
     },
     (error) => {
       console.error("Error Fetching Document:", error);
-      message2Div.textContent = 'Error Displaying Username';
+      settingsMessage2Div.textContent = 'Error Displaying Username';
     }
   );
 
-  changeFullNameButton.addEventListener('click', () => {
-    const fullName = fullNameInput.value;
+  settingsChangeFullNameButton.addEventListener('click', () => {
+    const fullName = settingsFullNameInput.value;
 
     if (fullName === '') {
-      messageDiv.textContent = 'Full Name: cannot be Empty';
+      settingsMessageDiv.textContent = 'Full Name: cannot be Empty';
       return;
     }
     
@@ -52,25 +52,25 @@ function setupSettingsElements() {
       full_name: fullName
     })
       .then(() => {
-        fullNameInput.value = '';
+        settingsFullNameInput.value = '';
       })
       .catch(error => {
         console.error(error);
-        messageDiv.textContent = 'Error Changing Full Name';
+        settingsMessageDiv.textContent = 'Error Changing Full Name';
       });
   });
 
-  fullNameInput.addEventListener('keydown', function(event) {
+  settingsFullNameInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeFullNameButton.click();
+      settingsChangeFullNameButton.click();
     }
   });
   
-  changeUsernameButton.addEventListener('click', () => {
-    const username = usernameInput.value;
+  settingsChangeUsernameButton.addEventListener('click', () => {
+    const username = settingsUsernameInput.value;
 
     if (username === '') {
-      message2Div.textContent = 'Username: cannot be Empty';
+      settingsMessage2Div.textContent = 'Username: cannot be Empty';
       return;
     }
 
@@ -79,7 +79,7 @@ function setupSettingsElements() {
         const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
   
         if (takenUsernames.includes(username)) {
-          message2Div.textContent = 'Username Already Taken';
+          settingsMessage2Div.textContent = 'Username Already Taken';
           return;
         }
   
@@ -87,38 +87,38 @@ function setupSettingsElements() {
           username: username
         })
           .then(() => {
-            usernameInput.value = '';
+            settingsUsernameInput.value = '';
           })
           .catch(error => {
             console.error(error);
-            message2Div.textContent = 'Error Changing Username';
+            settingsMessage2Div.textContent = 'Error Changing Username';
           });
       })
       .catch((error) => {
         console.error('Error Querying Database: ', error);
-        message2Div.textContent = 'Error Validating Username';
+        settingsMessage2Div.textContent = 'Error Validating Username';
       });
   });
 
-  usernameInput.addEventListener('keydown', function(event) {
+  settingsUsernameInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeUsernameButton.click();
+      settingsChangeUsernameButton.click();
     }
   });
 
-  changeEmailButton.addEventListener('click', () => {
+  settingsChangeEmailButton.addEventListener('click', () => {
     renderHTML("changeEmail.html");
   });
 
-  changePasswordButton.addEventListener('click', () => {
+  settingsChangePasswordButton.addEventListener('click', () => {
     renderHTML("changePassword.html");
   });
   
-  signOutButton.addEventListener('click', () => {
+  settingsSignOutButton.addEventListener('click', () => {
     signOut(auth)
   });
 
-  deleteAccountButton.addEventListener('click', () => {
+  settingsDeleteAccountButton.addEventListener('click', () => {
     renderHTML("deleteAccount.html");
   });
 }
