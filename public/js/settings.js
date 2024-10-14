@@ -1,5 +1,4 @@
 import { auth, signOut, reauthenticateWithCredential, EmailAuthProvider, updateEmail, updatePassword, deleteUser, db, doc, onSnapshot, updateDoc, collection, getDocs, deleteDoc } from './firebase.js';
-import { renderHTML } from '../app.js';
 
 function setupSettingsElements() {
   const settingsMessageDiv = document.getElementById('settingsMessage');
