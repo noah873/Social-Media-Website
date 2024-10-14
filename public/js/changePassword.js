@@ -2,21 +2,21 @@ import { auth, reauthenticateWithCredential, EmailAuthProvider, updatePassword }
 import { renderHTML } from '../app.js';
 
 function setupChangePasswordElements() {
-  const messageDiv = document.getElementById('message');
-  const passwordInput = document.getElementById('password');
-  const newPasswordInput = document.getElementById('newPassword');
-  const confirmNewPasswordInput = document.getElementById('confirmNewPassword');
-  const changePasswordButton = document.getElementById('changePasswordButton');
+  const changePasswordMessageDiv = document.getElementById('changePasswordMessage');
+  const changePasswordPasswordInput = document.getElementById('changePasswordPassword');
+  const changePasswordNewPasswordInput = document.getElementById('changePasswordNewPassword');
+  const changePasswordConfirmNewPasswordInput = document.getElementById('changePasswordConfirmNewPassword');
+  const changePasswordChangePasswordButton = document.getElementById('changePasswordChangePasswordButton');
   
-  const settingsButton = document.getElementById('settings');
+  const changePasswordSettingsButton = document.getElementById('changePasswordSettings');
   
-  changePasswordButton.addEventListener('click', () => {
-    const password = passwordInput.value;
-    const newPassword = newPasswordInput.value;
-    const confirmNewPassword = confirmNewPasswordInput.value;
+  changePasswordChangePasswordButton.addEventListener('click', () => {
+    const password = changePasswordPasswordInput.value;
+    const newPassword = changePasswordNewPasswordInput.value;
+    const confirmNewPassword = changePasswordConfirmNewPasswordInput.value;
     
     if (newPassword !== confirmNewPassword) {
-        messageDiv.textContent = 'New Passwords do not Match';
+        changePasswordMessageDiv.textContent = 'New Passwords do not Match';
         return;
     }
 
@@ -26,49 +26,49 @@ function setupChangePasswordElements() {
     reauthenticateWithCredential(user, credential)
         .then(() => {
           if (newPassword === '') {
-            messageDiv.textContent = 'Please Fill Out all Forms';
+            changePasswordMessageDiv.textContent = 'Please Fill Out all Forms';
             return;
           }
           
           updatePassword(user, newPassword)
             .then(() => {
-              messageDiv.textContent = 'Password Updated Successfully';
+              changePasswordMessageDiv.textContent = 'Password Updated Successfully';
               
-              passwordInput.classList.add('hidden');
-              newPasswordInput.classList.add('hidden');
-              confirmNewPasswordInput.classList.add('hidden');
-              changePasswordButton.classList.add('hidden');
+              changePasswordPasswordInput.classList.add('hidden');
+              changePasswordNewPasswordInput.classList.add('hidden');
+              changePasswordConfirmNewPasswordInput.classList.add('hidden');
+              changePasswordChangePasswordButton.classList.add('hidden');
             })
             .catch((error) => {
               console.error('Error Changing Password:', error);
-              messageDiv.textContent = 'Error Changing Password';
+              changePasswordMessageDiv.textContent = 'Error Changing Password';
             });
         })
         .catch((error) => {
             console.error('Error during Reauthentication:', error);
-            messageDiv.textContent = 'Error during Reauthentication';
+            changePasswordMessageDiv.textContent = 'Error during Reauthentication';
         });
   });
 
-  passwordInput.addEventListener('keydown', function(event) {
+  changePasswordPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordButton.click();
+      changePasswordChangePasswordButton.click();
     }
   });
 
-  newPasswordInput.addEventListener('keydown', function(event) {
+  changePasswordNewPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordButton.click();
+      changePasswordChangePasswordButton.click();
     }
   });
 
-  confirmNewPasswordInput.addEventListener('keydown', function(event) {
+  changePasswordConfirmNewPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordButton.click();
+      changePasswordChangePasswordButton.click();
     }
   });
 
-  settingsButton.addEventListener('click', () => {
+  changePasswordSettingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
   });
 }
