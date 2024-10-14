@@ -2,16 +2,16 @@ import { auth, reauthenticateWithCredential, EmailAuthProvider, updateEmail, db,
 import { renderHTML } from '../app.js';
 
 function setupChangeEmailElements() {
-  const messageDiv = document.getElementById('message');
-  const message2Div = document.getElementById('message2');
-  const passwordInput = document.getElementById('password');
-  const newEmailInput = document.getElementById('newEmail');
-  const changeEmailButton = document.getElementById('changeEmailButton');
-  const settingsButton = document.getElementById('settings');
+  const changeEmailMessageDiv = document.getElementById('changeEmailMessage');
+  const changeEmailMessage2Div = document.getElementById('changeEmailMessage2');
+  const changeEmailPasswordInput = document.getElementById('changeEmailPassword');
+  const changeEmailNewEmailInput = document.getElementById('changeEmailNewEmail');
+  const changeEmailChangeEmailButton = document.getElementById('changeEmailChangeEmailButton');
+  const changeEmailSettingsButton = document.getElementById('changeEmailSettings');
 
-  changeEmailButton.addEventListener('click', () => {
-    const password = passwordInput.value;
-    const newEmail = newEmailInput.value;
+  changeEmailChangeEmailButton.addEventListener('click', () => {
+    const password = changeEmailPasswordInput.value;
+    const newEmail = changeEmailNewEmailInput.value;
     
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
@@ -20,17 +20,17 @@ function setupChangeEmailElements() {
     reauthenticateWithCredential(user, credential)
         .then(() => {
           if (newEmail === '') {
-            messageDiv.textContent = 'Please Enter a New Email';
+            changeEmailMessageDiv.textContent = 'Please Enter a New Email';
             return;
           }
           
           updateEmail(user, newEmail)
             .then(() => {
-              messageDiv.textContent = 'Email Change Successful';
-              message2Div.textContent = 'An email will be sent to your old email address in case this was a mistake.';
-              passwordInput.classList.add('hidden');
-              newEmailInput.classList.add('hidden');
-              changeEmailButton.classList.add('hidden');
+              changeEmailMessageDiv.textContent = 'Email Change Successful';
+              changeEmailMessage2Div.textContent = 'An email will be sent to your old email address in case this was a mistake.';
+              changeEmailPasswordInput.classList.add('hidden');
+              changeEmailNewEmailInput.classList.add('hidden');
+              changeEmailChangeEmailButton.classList.add('hidden');
 
               return updateDoc(userRef, {
                 email: newEmail
@@ -41,28 +41,28 @@ function setupChangeEmailElements() {
             })
             .catch((error) => {
               console.error('Error Changing Email:', error);
-              messageDiv.textContent = 'Error Changing Email';
+              changeEmailMessageDiv.textContent = 'Error Changing Email';
             });
         })
         .catch((error) => {
             console.error('Error during Reauthentication:', error);
-            messageDiv.textContent = 'Error during Reauthentication';
+            changeEmailMessageDiv.textContent = 'Error during Reauthentication';
         });
   });
 
-  passwordInput.addEventListener('keydown', function(event) {
+  changeEmailPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeEmailButton.click();
+      changeEmailChangeEmailButton.click();
     }
   });
 
-  newEmailInput.addEventListener('keydown', function(event) {
+  changeEmailNewEmailInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeEmailButton.click();
+      changeEmailChangeEmailButton.click();
     }
   });
   
-  settingsButton.addEventListener('click', () => {
+  changeEmailSettingsButton.addEventListener('click', () => {
     renderHTML("settings.html");
   });
 }
