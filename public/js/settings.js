@@ -114,7 +114,7 @@ function setupSettingsElements() {
     
     changeEmailPasswordInput.classList.remove('hidden');
     changeEmailNewEmailInput.classList.remove('hidden');
-    changeEmailChangeEmailButton.classList.remove('hidden');
+    changeEmailButton.classList.remove('hidden');
 
     changeEmailPopup.classList.remove('hidden');
   });
@@ -129,7 +129,7 @@ function setupSettingsElements() {
     changePasswordPasswordInput.classList.remove('hidden');
     changePasswordNewPasswordInput.classList.remove('hidden');
     changePasswordConfirmNewPasswordInput.classList.remove('hidden');
-    changePasswordChangePasswordButton.classList.remove('hidden');
+    changePasswordButton.classList.remove('hidden');
 
     changePasswordPopup.classList.remove('hidden');
   });
@@ -176,10 +176,10 @@ function setupSettingsElements() {
   const changeEmailMessage2Div = document.getElementById('changeEmailMessage2');
   const changeEmailPasswordInput = document.getElementById('changeEmailPassword');
   const changeEmailNewEmailInput = document.getElementById('changeEmailNewEmail');
-  const changeEmailChangeEmailButton = document.getElementById('changeEmailChangeEmailButton');
+  const changeEmailButton = document.getElementById('changeEmailButton');
   const changeEmailSettingsButton = document.getElementById('changeEmailSettings');
 
-  changeEmailChangeEmailButton.addEventListener('click', () => {
+  changeEmailButton.addEventListener('click', () => {
     const password = changeEmailPasswordInput.value;
     const newEmail = changeEmailNewEmailInput.value;
     
@@ -200,7 +200,7 @@ function setupSettingsElements() {
               changeEmailMessage2Div.textContent = 'An email will be sent to your old email address in case this was a mistake.';
               changeEmailPasswordInput.classList.add('hidden');
               changeEmailNewEmailInput.classList.add('hidden');
-              changeEmailChangeEmailButton.classList.add('hidden');
+              changeEmailButton.classList.add('hidden');
 
               return updateDoc(userRef, {
                 email: newEmail
@@ -222,13 +222,13 @@ function setupSettingsElements() {
 
   changeEmailPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeEmailChangeEmailButton.click();
+      changeEmailButton.click();
     }
   });
 
   changeEmailNewEmailInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changeEmailChangeEmailButton.click();
+      changeEmailButton.click();
     }
   });
   
@@ -241,11 +241,11 @@ function setupSettingsElements() {
   const changePasswordPasswordInput = document.getElementById('changePasswordPassword');
   const changePasswordNewPasswordInput = document.getElementById('changePasswordNewPassword');
   const changePasswordConfirmNewPasswordInput = document.getElementById('changePasswordConfirmNewPassword');
-  const changePasswordChangePasswordButton = document.getElementById('changePasswordChangePasswordButton');
+  const changePasswordButton = document.getElementById('changePasswordButton');
   
   const changePasswordSettingsButton = document.getElementById('changePasswordSettings');
   
-  changePasswordChangePasswordButton.addEventListener('click', () => {
+  changePasswordButton.addEventListener('click', () => {
     const password = changePasswordPasswordInput.value;
     const newPassword = changePasswordNewPasswordInput.value;
     const confirmNewPassword = changePasswordConfirmNewPasswordInput.value;
@@ -272,7 +272,7 @@ function setupSettingsElements() {
               changePasswordPasswordInput.classList.add('hidden');
               changePasswordNewPasswordInput.classList.add('hidden');
               changePasswordConfirmNewPasswordInput.classList.add('hidden');
-              changePasswordChangePasswordButton.classList.add('hidden');
+              changePasswordButton.classList.add('hidden');
             })
             .catch((error) => {
               console.error('Error Changing Password:', error);
@@ -287,19 +287,19 @@ function setupSettingsElements() {
 
   changePasswordPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordChangePasswordButton.click();
+      changePasswordButton.click();
     }
   });
 
   changePasswordNewPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordChangePasswordButton.click();
+      changePasswordButton.click();
     }
   });
 
   changePasswordConfirmNewPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      changePasswordChangePasswordButton.click();
+      changePasswordButton.click();
     }
   });
 
@@ -314,10 +314,10 @@ function setupSettingsElements() {
   const deleteAccountMessage2Div = document.getElementById('deleteAccountMessage2');
 
   const deleteAccountPasswordInput = document.getElementById('deleteAccountPassword');
-  const deleteAccountDeleteAccountButton = document.getElementById('deleteAccountDeleteAccountButton');
+  const deleteAccountButton = document.getElementById('deleteAccountButton');
   const deleteAccountSettingsButton = document.getElementById('deleteAccountSettings');
 
-  deleteAccountDeleteAccountButton.addEventListener('click', async () => {
+  deleteAccountButton.addEventListener('click', async () => {
     const password = deleteAccountPasswordInput.value;
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
@@ -338,7 +338,7 @@ function setupSettingsElements() {
               deleteAccountMessageDiv.textContent = 'Account and Data Deletion Successful';
               deleteAccountMessage2Div.textContent = 'Refresh the page to return to login screen.';
               deleteAccountPasswordInput.classList.add('hidden');
-              deleteAccountDeleteAccountButton.classList.add('hidden');
+              deleteAccountButton.classList.add('hidden');
               deleteAccountSettingsButton.classList.add('hidden');
             })
             .catch((error) => {
@@ -355,7 +355,7 @@ function setupSettingsElements() {
 
   deleteAccountPasswordInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      deleteAccountDeleteAccountButton.click();
+      deleteAccountButton.click();
     }
   });
   
