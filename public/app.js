@@ -24,13 +24,13 @@ async function loadHTML(html) {
 }
 
 async function renderHTML(html) {
-  const navbarSpace = document.getElementById('navbarSpace');
-  navbarSpace.innerHTML = "<p>Navbar Loaded</p>";
-  
+  const navbarSpace = document.getElementById('navbarSpace');  
   const app = document.getElementById('app');
   
   async function ensureNavbarLoaded() {
-    navbarSpace.innerHTML = await loadHTML("navbar.html");
+    if (navbarSpace.innerHTML === '') {
+       navbarSpace.innerHTML = await loadHTML("navbar.html");
+    }
   }
 
   // Set Page
@@ -38,13 +38,13 @@ async function renderHTML(html) {
 
   // Navigation Bar Pages
   if (html === "home.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
     setupNavbarElements("home");
     
   } else if (html === "messages.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
     setupNavbarElements("messages");
@@ -53,46 +53,48 @@ async function renderHTML(html) {
       .catch((error) => console.error("Error loading global users:", error));
     
   } else if (html === "friends.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/friends'); // redirect URL to friends
     loadGlobalUsers();
     setupNavbarElements("friends");  // Update the active navbar
     
   } else if (html === "createPost.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
     setupNavbarElements("createPost");
     
   } else if (html === "profile.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
     
   } else if (html === "settings.html") {
-    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
     setupNavbarElements("settings");
   }
 
   // All Other Pages (not in navbar)
-  navbarSpace.innerHTML = '';
-  
   if (html === "login.html") {
+    navbarSpace.innerHTML = '';
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
     
   } else if (html === "createAccount.html") {
+    navbarSpace.innerHTML = '';
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
     
   }  else if (html === "resetPassword.html") {
+    navbarSpace.innerHTML = '';
     history.pushState({}, '', '/reset-password'); // redirect URL
     setupResetPasswordElements();
     
   } else if (html === "messages_chat.html") {
+    navbarSpace.innerHTML = '';
     setupSendMessagePage();  // Setting up the chat page functionality
     history.pushState({}, '', '/messages-chat'); // redirect URL
   } 
