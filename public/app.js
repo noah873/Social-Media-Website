@@ -26,7 +26,7 @@ async function loadHTML(html) {
 async function renderHTML(html) {
   const navbarSpace = document.getElementById('navbarSpace');
   const app = document.getElementById('app');
-
+  
   async function ensureNavbarLoaded() {
     navbarSpace.innerHTML = await loadHTML("navbar.html");
   }
@@ -36,13 +36,13 @@ async function renderHTML(html) {
 
   // Navigation Bar Pages
   if (html === "home.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
     setupNavbarElements("home");
     
   } else if (html === "messages.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
     setupNavbarElements("messages");
@@ -51,25 +51,25 @@ async function renderHTML(html) {
       .catch((error) => console.error("Error loading global users:", error));
     
   } else if (html === "friends.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     history.pushState({}, '', '/friends'); // redirect URL to friends
     loadGlobalUsers();
     setupNavbarElements("friends");  // Update the active navbar
     
   } else if (html === "createPost.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
     setupNavbarElements("createPost");
     
   } else if (html === "profile.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
     
   } else if (html === "settings.html") {
-    await ensureNavbarLoaded();
+    app.innerHTML = await loadHTML("navbar.html") + app.innerHTML;
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
     setupNavbarElements("settings");
