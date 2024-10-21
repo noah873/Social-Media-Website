@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-image">
+        <img id="profileImage" src="default-profile.jpg" alt="Profile Image">
+        <button id="removeImage" class="remove-button">Remove Image</button>
+      </div>
+      <div class="profile-info">
+        <h1 id="profileName">Bobby123</h1>
+        <p id="profileBio">Hello Everyone!</p>
+        <button class="edit-button" id="editProfile">Edit Profile</button>
+        <button class="post-button" id="createPost">Post</button> 
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat">
+        <p><strong id="postCount">1</strong> Post</p>
+      </div>
+      <div class="stat">
+        <p><strong id="followersCount">100</strong> Followers</p>
+      </div>
+      <div class="stat">
+        <p><strong id="followingCount">56</strong> Following</p>
+      </div>
+    </div>
+
+    <div class="post-box" id="postBox"></div> 
+
+  </div>
+
+  <div class="profile-container edit-profile-section" id="editProfileSection" style="display: none;">
+    <h1>Edit Profile</h1>
+    <label for="bioInput">Profile Image</label>
+    <input type="file" id="imageInput">
+    <label for="bioInput">Bio</label>
+    <textarea id="bioInput" placeholder="Enter your bio here..."></textarea>
+    <button id="saveProfile">Save Profile</button>
+  </div>
+
+  <div class="profile-container post-section" id="postSection" style="display: none;">
+    <h1>Create Post</h1>
+    <textarea id="postContent" placeholder="Write your post here..." rows="4"></textarea>
+    <button id="submitPost">Submit Post</button>
+  </div>
+
+  <!-- <script src="profile.js"></script> -->
+</body>
+</html>
