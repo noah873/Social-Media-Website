@@ -11,6 +11,7 @@ import { loadDirectMessages } from './js/messages.js';
 import { setupSendMessagePage } from './js/messages_chat.js';
 import { setupNavbarElements } from './js/navbar.js';
 import { setupProfileElements } from './js/profile.js';
+import { loadGlobalUsers } from './js/friends.js';
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
