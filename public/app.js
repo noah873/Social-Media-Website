@@ -11,8 +11,6 @@ import { loadDirectMessages } from './js/messages.js';
 import { setupSendMessagePage } from './js/messages_chat.js';
 import { setupNavbarElements } from './js/navbar.js';
 import { setupProfileElements } from './js/profile.js';
-import { loadFriends } from './js/friends.js'; // Import the loadFriends function
-
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
@@ -90,14 +88,7 @@ async function renderHTML(html) {
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
-  }else if (html === "friends.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
-    history.pushState({}, '', '/friends'); // redirect URL to friends
-    setupNavbarElements("friends");  // Update the active navbar
-    loadFriends()
-   }
+  }
 }
 
 export { renderHTML };
