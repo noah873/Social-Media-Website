@@ -76,7 +76,7 @@ async function renderHTML(html) {
   }
 
   // All Other Pages (not in navbar)
-  navbar.innerHTML = '';
+  navbarSpace.innerHTML = '';
   
   if (html === "login.html") {
     history.pushState({}, '', '/login');  // redirect URL
