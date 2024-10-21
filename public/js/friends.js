@@ -1,12 +1,5 @@
 import { renderHTML } from '../app.js'; // Import renderHTML for redirection
-import { auth, collection, db, getDocs, onAuthStateChanged } from './firebase.js'; // Firebase functions
-/*
-if (backButton) {
-    backButton.addEventListener('click', () => {
-      renderHTML("home.html");  // Redirect to home page
-    });
-}
-*/
+import { auth, collection, db, getDocs, addDoc, onAuthStateChanged } from './firebase.js'; // Firebase functions
 
 // Function to load global users
 async function loadGlobalUsers() {
@@ -48,14 +41,20 @@ async function loadGlobalUsers() {
             userElement.classList.add('user');
 
             userElement.innerHTML = `
-        <div class="profile">
-          <div class="name">
-            <h3>${userData.full_name}</h3>
-            <p><small>${userData.email}</small></p>
-          </div>
-        </div>
-        <button class="btn addFriend">Add Friend</button>
-      `;
+                <div class="profile">
+                    <div class="name">
+                        <h3>${userData.full_name}</h3>
+                        <p><small>${userData.email}</small></p>
+                    </div>
+                </div>
+                <button class="btn addFriend">Add Friend</button>
+            `;
+
+            // Add event listener to "Add Friend" button
+            const addFriendButton = userElement.querySelector('.addFriend');
+            addFriendButton.addEventListener('click', async () => {
+                await addFriend(currentUserID, userID);
+            });
 
             // Append the user element to the user list
             userList.appendChild(userElement);
@@ -64,6 +63,23 @@ async function loadGlobalUsers() {
         console.log('Global users loaded successfully');
     } catch (error) {
         console.error('Error fetching global users:', error);
+    }
+}
+
+// Function to add a friend to Firestore
+async function addFriend(currentUserID, selectedUserID) {
+    try {
+        // Create a new document in the 'friends' collection
+        await addDoc(collection(db, 'friends'), {
+            userID1: currentUserID,
+            userID2: selectedUserID
+        });
+
+        console.log(`Friend added: ${currentUserID} and ${selectedUserID}`);
+        alert('Friend added successfully!');
+    } catch (error) {
+        console.error('Error adding friend:', error);
+        alert('Failed to add friend.');
     }
 }
 
