@@ -69,3 +69,7 @@ h2 {
 .btn:active {
     background-color: #00448a;
 }
+
+html {
+  display: block;
+}
