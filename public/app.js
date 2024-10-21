@@ -81,14 +81,6 @@ async function renderHTML(html) {
     history.pushState({}, '', '/messages-chat'); // redirect URL
     
   }
-    else if (html === "friends.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
-    history.pushState({}, '', '/friends'); 
-    setupProfileElements(); 
-    setupNavbarElements("friends");
-  }
    else if (html === "profile.html") {
     let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
