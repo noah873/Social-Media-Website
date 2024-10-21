@@ -28,9 +28,7 @@ async function renderHTML(html) {
   const navbar = document.getElementById('navbar');
 
   async function ensureNavbarLoaded() {
-    if (navbar.innerHTML === '') {
-      navbar.innerHTML = await loadHTML("navbar.html");
-    }
+    navbar.innerHTML = await loadHTML("navbar.html");
   }
 
   // Set Page
