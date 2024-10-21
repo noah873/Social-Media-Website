@@ -29,12 +29,12 @@ async function renderHTML(html) {
   
   async function ensureNavbarLoaded() {
     if (navbarSpace.innerHTML === '') {
-       navbarSpace.innerHTML = await loadHTML("navbar.html");
+        navbarSpace.insertAdjacentHTML('afterbegin', await loadHTML("navbar.html"));
     }
   }
 
   // Set Page
-  app.innerHTML = await loadHTML(html);
+  app.insertAdjacentHTML('afterbegin', await loadHTML(html));
 
   // Navigation Bar Pages
   if (html === "home.html") {
