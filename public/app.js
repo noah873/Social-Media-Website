@@ -25,6 +25,8 @@ async function loadHTML(html) {
 
 async function renderHTML(html) {
   const navbarSpace = document.getElementById('navbarSpace');
+  navbarSpace.innerHTML = "<p>Navbar Loaded</p>";
+  
   const app = document.getElementById('app');
   
   async function ensureNavbarLoaded() {
