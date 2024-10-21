@@ -80,15 +80,22 @@ async function renderHTML(html) {
     setupSendMessagePage();  // Setting up the chat page functionality
     history.pushState({}, '', '/messages-chat'); // redirect URL
     
-  }
-   else if (html === "profile.html") {
+  } else if (html === "profile.html") {
     let pageHTML = await loadHTML("navbar.html");
     pageHTML += await loadHTML(html);
     app.innerHTML = pageHTML;
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
-  }
+    
+  } else if (html === "friends.html") {
+    let pageHTML = await loadHTML("navbar.html");
+    pageHTML += await loadHTML(html);
+    app.innerHTML = pageHTML;
+    history.pushState({}, '', '/friends'); // redirect URL to friends
+    loadGlobalUsers();
+    setupNavbarElements("friends");  // Update the active navbar
+   }
 }
 
 export { renderHTML };
