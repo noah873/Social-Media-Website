@@ -1,12 +1,14 @@
 import { renderHTML } from '../app.js'; // Import renderHTML for redirection
 import { auth, collection, db, getDocs, onAuthStateChanged } from './firebase.js'; // Firebase functions
-// Function to load global users
-
+/*
 if (backButton) {
     backButton.addEventListener('click', () => {
       renderHTML("home.html");  // Redirect to home page
     });
 }
+*/
+
+// Function to load global users
 async function loadGlobalUsers() {
     const userList = document.getElementById('userList');
 
