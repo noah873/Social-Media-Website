@@ -25,50 +25,26 @@ async function loadHTML(html) {
 
 async function renderHTML(html) {
   const app = document.getElementById('app');
-  
-  if (html == "login.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/login');  // redirect URL
-    setupLoginElements();
-    
-  } else if (html == "home.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+  const navbar = document.getElementById('navbar');
+
+  async function ensureNavbarLoaded() {
+    if (navbar.innerHTML === '') {
+      navbar.innerHTML = await loadHTML("navbar.html");
+    }
+  }
+
+  // Set Page
+  app.innerHTML = await loadHTML(html);
+
+  // Navigation Bar Pages
+  if (html === "home.html") {
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
     setupNavbarElements("home");
     
-  } else if (html == "createAccount.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/signup'); // redirect URL
-    setupCreateAccountElements();
-    
-  } else if (html == "settings.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
-    history.pushState({}, '', '/settings'); // redirect URL
-    setupSettingsElements();
-    setupNavbarElements("settings");
-    
-  } else if (html === "createPost.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
-    history.pushState({}, '', '/create-post');
-    setupCreatePostElements(); // Call the function from post.js
-    setupNavbarElements("createPost");
-    
-  } else if (html == "resetPassword.html") {
-    app.innerHTML = await loadHTML(html);
-    history.pushState({}, '', '/reset-password'); // redirect URL
-    setupResetPasswordElements();
-    
   } else if (html === "messages.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    await ensureNavbarLoaded();
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
     setupNavbarElements("messages");
@@ -76,27 +52,50 @@ async function renderHTML(html) {
       .then(() => console.log("Global users loaded successfully"))
       .catch((error) => console.error("Error loading global users:", error));
     
-  } else if (html === "messages_chat.html") {
-    app.innerHTML = await loadHTML(html);
-    setupSendMessagePage();  // Setting up the chat page functionality
-    history.pushState({}, '', '/messages-chat'); // redirect URL
+  } else if (html === "friends.html") {
+    await ensureNavbarLoaded();
+    history.pushState({}, '', '/friends'); // redirect URL to friends
+    loadGlobalUsers();
+    setupNavbarElements("friends");  // Update the active navbar
+    
+  } else if (html === "createPost.html") {
+    await ensureNavbarLoaded();
+    history.pushState({}, '', '/create-post');
+    setupCreatePostElements(); // Call the function from post.js
+    setupNavbarElements("createPost");
     
   } else if (html === "profile.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
+    await ensureNavbarLoaded();
     history.pushState({}, '', '/profile'); 
     setupProfileElements(); 
     setupNavbarElements("profile");
     
-  } else if (html === "friends.html") {
-    let pageHTML = await loadHTML("navbar.html");
-    pageHTML += await loadHTML(html);
-    app.innerHTML = pageHTML;
-    history.pushState({}, '', '/friends'); // redirect URL to friends
-    loadGlobalUsers();
-    setupNavbarElements("friends");  // Update the active navbar
-   }
+  } else if (html === "settings.html") {
+    await ensureNavbarLoaded();
+    history.pushState({}, '', '/settings'); // redirect URL
+    setupSettingsElements();
+    setupNavbarElements("settings");
+  }
+
+  // All Other Pages (not in navbar)
+  navbar.innerHTML = '';
+  
+  if (html === "login.html") {
+    history.pushState({}, '', '/login');  // redirect URL
+    setupLoginElements();
+    
+  } else if (html === "createAccount.html") {
+    history.pushState({}, '', '/signup'); // redirect URL
+    setupCreateAccountElements();
+    
+  }  else if (html === "resetPassword.html") {
+    history.pushState({}, '', '/reset-password'); // redirect URL
+    setupResetPasswordElements();
+    
+  } else if (html === "messages_chat.html") {
+    setupSendMessagePage();  // Setting up the chat page functionality
+    history.pushState({}, '', '/messages-chat'); // redirect URL
+  } 
 }
 
 export { renderHTML };
