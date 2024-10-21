@@ -20,6 +20,9 @@ function setupNavbarElements(activePage) {
     button.addEventListener('click', () => {
       renderHTML(page);
     });
+
+    button.style.backgroundColor = '#007bff'; // set the color of the active page button to look like its depressed (darker blue)
+    button.style.cursor = 'pointer';
   });
 }
 
