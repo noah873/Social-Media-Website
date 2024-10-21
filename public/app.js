@@ -23,13 +23,13 @@ async function loadHTML(html) {
   return await response.text();
 }
 
-async function ensureNavbarLoaded() {
-  const navbarSpace = document.getElementById('navbarSpace');
-  navbarSpace.innerHTML = await loadHTML("navbar.html");
-}
-
 async function renderHTML(html) {
+  const navbarSpace = document.getElementById('navbarSpace');
   const app = document.getElementById('app');
+
+  async function ensureNavbarLoaded() {
+    navbarSpace.innerHTML = await loadHTML("navbar.html");
+  }
 
   // Set Page
   app.innerHTML = await loadHTML(html);
