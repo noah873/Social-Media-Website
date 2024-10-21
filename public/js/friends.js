@@ -1,5 +1,5 @@
 import { renderHTML } from '../app.js'; // Import renderHTML for redirection
-import { auth, collection, db, getDocs, addDoc, onAuthStateChanged } from './firebase.js'; // Firebase functions
+import { auth, collection, db, getDocs, addDoc, onAuthStateChanged, query, where, getDocs as getDocsQuery } from './firebase.js'; // Firebase functions
 
 // Function to load global users
 async function loadGlobalUsers() {
@@ -27,14 +27,17 @@ async function loadGlobalUsers() {
         userList.innerHTML = '';  // Clear the container to avoid duplicates
 
         // Iterate through each user and display them
-        usersSnapshot.docs.forEach((docSnapshot) => {
+        for (const docSnapshot of usersSnapshot.docs) {
             const userData = docSnapshot.data();
             const userID = docSnapshot.id;
 
             // Skip displaying the current logged-in user
             if (userID === currentUserID) {
-                return;
+                continue;
             }
+
+            // Check if the current user is already friends with the displayed user
+            const isFriend = await checkIfFriends(currentUserID, userID);
 
             // Create user element
             const userElement = document.createElement('div');
@@ -47,23 +50,43 @@ async function loadGlobalUsers() {
                         <p><small>${userData.email}</small></p>
                     </div>
                 </div>
-                <button class="btn addFriend">Add Friend</button>
+                <button class="btn ${isFriend ? 'friends' : 'addFriend'}">
+                    ${isFriend ? 'Friends' : 'Add Friend'}
+                </button>
             `;
 
-            // Add event listener to "Add Friend" button
-            const addFriendButton = userElement.querySelector('.addFriend');
-            addFriendButton.addEventListener('click', async () => {
-                await addFriend(currentUserID, userID);
-            });
+            // Add event listener to "Add Friend" button if they're not friends yet
+            if (!isFriend) {
+                const addFriendButton = userElement.querySelector('.addFriend');
+                addFriendButton.addEventListener('click', async () => {
+                    await addFriend(currentUserID, userID);
+                    addFriendButton.textContent = 'Friends'; // Change button text to "Friends"
+                    addFriendButton.classList.remove('addFriend'); // Remove addFriend class
+                    addFriendButton.classList.add('friends'); // Add friends class
+                    addFriendButton.disabled = true; // Disable the button after adding
+                });
+            }
 
             // Append the user element to the user list
             userList.appendChild(userElement);
-        });
+        }
 
         console.log('Global users loaded successfully');
     } catch (error) {
         console.error('Error fetching global users:', error);
     }
+}
+
+// Function to check if two users are already friends
+async function checkIfFriends(currentUserID, selectedUserID) {
+    const friendsQuery = query(
+        collection(db, 'friends'),
+        where('userID1', 'in', [currentUserID, selectedUserID]),
+        where('userID2', 'in', [currentUserID, selectedUserID])
+    );
+    const friendsSnapshot = await getDocsQuery(friendsQuery);
+
+    return !friendsSnapshot.empty; // Returns true if they are already friends
 }
 
 // Function to add a friend to Firestore
