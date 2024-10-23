@@ -229,3 +229,7 @@ body {
 .close-popup:hover {
   color: red;
 }
+
+html {
+  display: block;
+}
