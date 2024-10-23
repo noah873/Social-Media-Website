@@ -49,7 +49,7 @@ function setupLoginElements() {
   });
 
   forgotPasswordButton.addEventListener('click', () => renderHTML("resetPassword.html"));
-  createAccountButton.addEventListener('click', () => renderHTML("createAccount.html"););
+  createAccountButton.addEventListener('click', () => renderHTML("createAccount.html"));
 }
 
 export { setupLoginElements };
