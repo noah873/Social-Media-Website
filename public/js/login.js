@@ -48,13 +48,8 @@ function setupLoginElements() {
     });
   });
 
-  forgotPasswordButton.addEventListener('click', () => {
-      renderHTML("resetPassword.html");
-  });
-
-  createAccountButton.addEventListener('click', () => {
-      renderHTML("createAccount.html");
-  });
+  forgotPasswordButton.addEventListener('click', () => renderHTML("resetPassword.html"));
+  createAccountButton.addEventListener('click', () => renderHTML("createAccount.html"););
 }
 
 export { setupLoginElements };
