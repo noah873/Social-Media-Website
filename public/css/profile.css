@@ -38,7 +38,7 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display: block;
+  display: none; 
   margin-top: 10px;
 }
 
@@ -74,18 +74,55 @@ body {
   font-size: 1.2em;
 }
 
-.edit-button {
-  background-color: #007bff;
-  color: white;
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button, .friends-button, .inbox-button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display: block;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
 }
 
 .edit-button:hover {
   background-color: #0056b3;
+}
+
+.friends-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.friends-button:hover {
+  background-color: #0056b3;
+}
+
+.inbox-button {
+  background-color: #ffc107;
+  color: white;
+}
+
+.inbox-button:hover {
+  background-color: #e0a800;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.search-icon {
+  width: 30px;
+  height: 30px;
 }
 
 .post-box {
@@ -103,6 +140,7 @@ body {
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .upvote-button, .downvote-button {
   background-color: #e9ecef;
   border: none;
@@ -159,45 +197,38 @@ body {
   padding-left: 10px;
   color: #555;
 }
-/* For Edit Profile Page */
-.edit-profile-section {
-  margin-top: 20px;
-}
 
-.edit-profile-section input, .edit-profile-section textarea {
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1.1em;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.edit-profile-section button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  margin-top: 10px;
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.medium-popup {
+  width: 500px; 
+}
+
+.close-popup {
+  float: right;
+  font-size: 1.5em;
   cursor: pointer;
+  color: #333;
 }
 
-.edit-profile-section button:hover {
-  background-color: #218838;
-}
-
-.remove-button {
-  background-color: #dc3545;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: none;  
-  margin-top: 10px;
-}
-
-html {
-  display: block;
+.close-popup:hover {
+  color: red;
 }
