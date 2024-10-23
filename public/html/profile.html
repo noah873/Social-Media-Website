@@ -16,7 +16,16 @@
       <div class="profile-info">
         <h1 id="profileName">Bobby123</h1>
         <p id="profileBio">Hello Everyone!</p>
-        <button class="edit-button" id="editProfile">Edit Profile</button>
+        
+        <div class="button-container">
+          <button class="edit-button" id="editProfile">Edit Profile</button>
+          <button class="friends-button" id="friendsButton">Friends</button>
+          <button class="inbox-button" id="inboxButton">Inbox</button>
+          <button class="search-button" id="searchButton">
+            <img src="search-icon.png" alt="Search Icon" class="search-icon">
+          </button>
+        </div>
+        
         <button class="post-button" id="createPost">Post</button> 
       </div>
     </div>
@@ -52,6 +61,41 @@
     <button id="submitPost">Submit Post</button>
   </div>
 
+  <div class="popup" id="friendsPopup" style="display: none;">
+    <div class="popup-content">
+      <span class="close-popup" id="closeFriendsPopup">&times;</span>
+      <h2>Friends List</h2>
+      <ul>
+        <li>Friend 1</li>
+        <li>Friend 2</li>
+        <li>Friend 3</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="popup" id="inboxPopup" style="display: none;">
+    <div class="popup-content medium-popup">
+      <span class="close-popup" id="closeInboxPopup">&times;</span>
+      <h2>Inbox</h2>
+      <ul>
+        <li>Message 1</li>
+        <li>Message 2</li>
+        <li>Message 3</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="popup" id="searchPopup" style="display: none;">
+    <div class="popup-content medium-popup">
+      <span class="close-popup" id="closeSearchPopup">&times;</span>
+      <h2>Search</h2>
+      <input type="text" id="searchInput" placeholder="Search...">
+      <button id="searchSubmit">Submit</button>
+      <div id="searchResults"></div>
+    </div>
+  </div>
+
   <script src="profile.js"></script>
 </body>
 </html>
+
