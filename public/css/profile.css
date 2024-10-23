@@ -79,7 +79,7 @@ body {
   gap: 10px;
 }
 
-.edit-button, .friends-button, .inbox-button {
+.edit-button, .friends-button, .inbox-button, .search-button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -114,15 +114,12 @@ body {
 }
 
 .search-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
 }
 
-.search-icon {
-  width: 30px;
-  height: 30px;
+.search-button:hover {
+  background-color: #f9f9f9;
 }
 
 .post-box {
