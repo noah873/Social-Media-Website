@@ -24,12 +24,12 @@ async function loadHTML(html) {
 }
 
 async function renderHTML(html) {
-  const navbarSpace = document.getElementById('navbarSpace');  
+  const navbarPlaceholder = document.getElementById('navbarPlaceholder');  
   const app = document.getElementById('app');
   
   async function ensureNavbarLoaded() {
-    if (navbarSpace.innerHTML === '') {
-        navbarSpace.innerHTML = await loadHTML("navbar.html");
+    if (navbarPlaceholder.innerHTML === '') {
+        navbarPlaceholder.innerHTML = await loadHTML("navbar.html");
     }
   }
 
@@ -79,22 +79,22 @@ async function renderHTML(html) {
 
   // All Other Pages (not in navbar)
   if (html === "login.html") {
-    navbarSpace.innerHTML = '';
+    navbarPlaceholder.innerHTML = '';
     history.pushState({}, '', '/login');  // redirect URL
     setupLoginElements();
     
   } else if (html === "createAccount.html") {
-    navbarSpace.innerHTML = '';
+    navbarPlaceholder.innerHTML = '';
     history.pushState({}, '', '/signup'); // redirect URL
     setupCreateAccountElements();
     
   }  else if (html === "resetPassword.html") {
-    navbarSpace.innerHTML = '';
+    navbarPlaceholder.innerHTML = '';
     history.pushState({}, '', '/reset-password'); // redirect URL
     setupResetPasswordElements();
     
   } else if (html === "messages_chat.html") {
-    navbarSpace.innerHTML = '';
+    navbarPlaceholder.innerHTML = '';
     setupSendMessagePage();  // Setting up the chat page functionality
     history.pushState({}, '', '/messages-chat'); // redirect URL
   } 
