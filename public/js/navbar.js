@@ -21,7 +21,8 @@ function setupNavbarElements(activePage) {
       renderHTML(page);
     });
 
-    button.style.backgroundColor = '#007bff'; // set the color of the active page button to look like its depressed (darker blue)
+    // Reset to CSS File Defaults
+    button.style.backgroundColor = '#007bff';
     button.style.cursor = 'pointer';
   });
 }
