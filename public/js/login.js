@@ -40,16 +40,12 @@ function setupLoginElements() {
         });
   });
 
-  emailInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      signInButton.click();
-    }
-  });
-  
-  passwordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      signInButton.click();
-    }
+  [emailInput, passwordInput].forEach(input => {
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        signInButton.click();
+      }
+    });
   });
 
   forgotPasswordButton.addEventListener('click', () => {
