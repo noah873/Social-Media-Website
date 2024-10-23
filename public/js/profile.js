@@ -3,7 +3,7 @@ document.getElementById('editProfile').addEventListener('click', function() {
   document.querySelector('.profile-stats').style.display = 'none';
   document.querySelector('.post-box').style.display = 'none';
   document.getElementById('editProfileSection').style.display = 'block';
-
+  
   document.getElementById('removeImage').style.display = 'block';
 });
 
@@ -25,6 +25,7 @@ document.getElementById('saveProfile').addEventListener('click', function() {
   document.querySelector('.profile-stats').style.display = 'flex';
   document.querySelector('.post-box').style.display = 'block';
   document.getElementById('editProfileSection').style.display = 'none';
+
   document.getElementById('removeImage').style.display = 'none';
 });
 
@@ -58,7 +59,6 @@ document.getElementById('submitPost').addEventListener('click', function() {
 
     posts.push(post);
     displayPosts();
-
 
     document.getElementById('postCount').textContent = posts.length;
     document.getElementById('postSection').style.display = 'none';
@@ -155,3 +155,69 @@ function displayPosts() {
     postBox.appendChild(postItem);
   });
 }
+
+document.getElementById('friendsButton').addEventListener('click', function() {
+  document.getElementById('friendsPopup').style.display = 'flex';
+});
+
+document.getElementById('closeFriendsPopup').addEventListener('click', function() {
+  document.getElementById('friendsPopup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+  const popup = document.getElementById('friendsPopup');
+  if (event.target === popup) {
+    popup.style.display = 'none';
+  }
+});
+
+document.getElementById('inboxButton').addEventListener('click', function() {
+  document.getElementById('inboxPopup').style.display = 'flex';
+});
+
+document.getElementById('closeInboxPopup').addEventListener('click', function() {
+  document.getElementById('inboxPopup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+  const popup = document.getElementById('inboxPopup');
+  if (event.target === popup) {
+    popup.style.display = 'none';
+  }
+});
+
+document.getElementById('searchButton').addEventListener('click', function() {
+  document.getElementById('searchPopup').style.display = 'flex';
+});
+
+document.getElementById('closeSearchPopup').addEventListener('click', function() {
+  document.getElementById('searchPopup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+  const popup = document.getElementById('searchPopup');
+  if (event.target === popup) {
+    popup.style.display = 'none';
+  }
+});
+
+document.getElementById('searchSubmit').addEventListener('click', function() {
+  const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+  const searchResultsDiv = document.getElementById('searchResults');
+  searchResultsDiv.innerHTML = '';
+
+  if (searchQuery) {
+    const result = posts.filter(post => post.content.toLowerCase().includes(searchQuery));
+    if (result.length > 0) {
+      result.forEach(post => {
+        const resultItem = document.createElement('p');
+        resultItem.textContent = `Found Post: ${post.content}`;
+        searchResultsDiv.appendChild(resultItem);
+      });
+    } else {
+      searchResultsDiv.textContent = 'No results found.';
+    }
+  } else {
+    searchResultsDiv.textContent = 'Please enter a search term.';
+  }
+});
