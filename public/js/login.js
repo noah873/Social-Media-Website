@@ -16,13 +16,8 @@ function setupLoginElements() {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    if (email === '') {
-      message2Div.textContent = 'Please enter your email.';
-      return;
-    }
-
-    if (password === '') {
-      message2Div.textContent = 'Please enter your password.';
+    if (!email || !password) {
+      message2Div.textContent = 'Please fill in all fields.';
       return;
     }
 
