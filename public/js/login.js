@@ -21,18 +21,18 @@ function setupLoginElements() {
       return;
     }
 
-  signInWithEmailAndPassword(auth, email, password)
-    .catch((error) => {
-      console.error('Error Signing In: ', error);
-      messageDiv.textContent = 'Error Signing In';
-
-      let errorMessage = error.message; // sample input: " Firebase: Password should be at least 6 characters (auth/weak-password)."
-      errorMessage = errorMessage.trim().split(" "); // removes excess spaces and splits into array
-      errorMessage[errorMessage.length - 1] = errorMessage[errorMessage.length - 1].replace("auth/", ""); // changes last element "(auth/weak-password)." to "(weak-password)."
-      errorMessage = errorMessage.slice(1, errorMessage.length); // slices off first element in array
-      errorMessage = errorMessage.join(" ") + " Please try again."; // rejoins array into string
-      message2Div.textContent = errorMessage;
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .catch((error) => {
+        console.error('Error Signing In: ', error);
+        messageDiv.textContent = 'Error Signing In';
+  
+        let errorMessage = error.message; // sample input: " Firebase: Password should be at least 6 characters (auth/weak-password)."
+        errorMessage = errorMessage.trim().split(" "); // removes excess spaces and splits into array
+        errorMessage[errorMessage.length - 1] = errorMessage[errorMessage.length - 1].replace("auth/", ""); // changes last element "(auth/weak-password)." to "(weak-password)."
+        errorMessage = errorMessage.slice(1, errorMessage.length); // slices off first element in array
+        errorMessage = errorMessage.join(" ") + " Please try again."; // rejoins array into string
+        message2Div.textContent = errorMessage;
+      });
   });
 
   [emailInput, passwordInput].forEach(input => {
