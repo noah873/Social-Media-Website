@@ -13,7 +13,7 @@ function setupResetPasswordElements() {
     const email = emailInput.value;
 
     if (!email) {
-      message2Div.textContent = 'Please fill in this field.';
+      message2Div.textContent = 'Please fill in this field and try again.';
       return;
     }
     
@@ -27,13 +27,18 @@ function setupResetPasswordElements() {
       .catch((error) => {
         console.error('Error sending password reset email: ', error);
         messageDiv.textContent = 'Error Sending Reset Email';
+
+        let errorMessage = error.message; // sample input: " Firebase: Password should be at least 6 characters (auth/weak-password)."
+        errorMessage = errorMessage.trim().split(" "); // removes excess spaces and splits into array
+        errorMessage[errorMessage.length - 1] = errorMessage[errorMessage.length - 1].replace("auth/", ""); // changes last element "(auth/weak-password)." to "(weak-password)."
+        errorMessage = errorMessage.slice(1, errorMessage.length); // slices off first element in array
+        errorMessage = errorMessage.join(" ") + " Please try again."; // rejoins array into string
+        message2Div.textContent = errorMessage;
       });
   });
 
-  emailInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      resetPasswordButton.click();
-    }
+  emailInput.addEventListener('keydown', event => {
+    if (event.key === 'Enter') resetPasswordButton.click();
   });
 
   loginButton.addEventListener('click', () => renderHTML("login.html"));
