@@ -21,7 +21,7 @@ function setupCreateAccountElements() {
     const password = passwordInput.value;
 
     if (!fullName || !username || !email || !password) {
-      message2Div.textContent = 'Please fill in all fields.';
+      message2Div.textContent = 'Please fill in all fields and try again.';
       return;
     }
   
