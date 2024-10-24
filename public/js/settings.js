@@ -177,7 +177,7 @@ function setupSettingsElements() {
   const changeEmailPasswordInput = document.getElementById('changeEmailPassword');
   const changeEmailNewEmailInput = document.getElementById('changeEmailNewEmail');
   const changeEmailButton = document.getElementById('changeEmailButton');
-  const changeEmailSettingsButton = document.getElementById('changeEmailSettings');
+  const closeChangeEmailPopupButton = document.getElementById('closeChangeEmailPopup');
 
   changeEmailButton.addEventListener('click', () => {
     const password = changeEmailPasswordInput.value;
@@ -232,9 +232,7 @@ function setupSettingsElements() {
     }
   });
   
-  changeEmailSettingsButton.addEventListener('click', () => {
-    changeEmailPopup.classList.add('hidden');
-  });
+  closeChangeEmailPopupButton.addEventListener('click', () => changeEmailPopup.classList.add('hidden'));
 
   // Change Password Popup
   const changePasswordMessageDiv = document.getElementById('changePasswordMessage');
@@ -243,7 +241,7 @@ function setupSettingsElements() {
   const changePasswordConfirmNewPasswordInput = document.getElementById('changePasswordConfirmNewPassword');
   const changePasswordButton = document.getElementById('changePasswordButton');
   
-  const changePasswordSettingsButton = document.getElementById('changePasswordSettings');
+  const closeChangePasswordPopupButton = document.getElementById('closeChangePasswordPopup');
   
   changePasswordButton.addEventListener('click', () => {
     const password = changePasswordPasswordInput.value;
@@ -303,9 +301,7 @@ function setupSettingsElements() {
     }
   });
 
-  changePasswordSettingsButton.addEventListener('click', () => {
-    changePasswordPopup.classList.add('hidden');
-  });
+  closeChangePasswordPopupButton.addEventListener('click', () => changePasswordPopup.classList.add('hidden'));
 
   // Delete Account Popup
   const deleteAccountDiv = document.getElementById('deleteAccount');
@@ -315,7 +311,7 @@ function setupSettingsElements() {
 
   const deleteAccountPasswordInput = document.getElementById('deleteAccountPassword');
   const deleteAccountButton = document.getElementById('deleteAccountButton');
-  const deleteAccountSettingsButton = document.getElementById('deleteAccountSettings');
+  const closeDeleteAccountPopupButton = document.getElementById('closeDeleteAccountPopup');
 
   deleteAccountButton.addEventListener('click', async () => {
     const password = deleteAccountPasswordInput.value;
@@ -359,9 +355,7 @@ function setupSettingsElements() {
     }
   });
   
-  deleteAccountSettingsButton.addEventListener('click', () => {
-    deleteAccountPopup.classList.add('hidden');
-  });
+  closeDeleteAccountPopupButton.addEventListener('click', () => deleteAccountPopup.classList.add('hidden'));
 }
 
 export { setupSettingsElements };
