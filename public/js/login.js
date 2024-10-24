@@ -17,7 +17,7 @@ function setupLoginElements() {
     const password = passwordInput.value;
 
     if (!email || !password) {
-      message2Div.textContent = 'Please fill in all fields.';
+      message2Div.textContent = 'Please fill in all fields and try again.';
       return;
     }
 
