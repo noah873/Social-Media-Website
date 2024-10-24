@@ -11,6 +11,11 @@ function setupResetPasswordElements() {
 
   resetPasswordButton.addEventListener('click', () => {
     const email = emailInput.value;
+
+    if (!email) {
+      message2Div.textContent = 'Please fill in this field.';
+      return;
+    }
     
     sendPasswordResetEmail(auth, email)
       .then(() => {
@@ -31,9 +36,7 @@ function setupResetPasswordElements() {
     }
   });
 
-  loginButton.addEventListener('click', () => {
-    renderHTML("login.html");
-  });
+  loginButton.addEventListener('click', () => renderHTML("login.html"));
 }
 
 export { setupResetPasswordElements };
