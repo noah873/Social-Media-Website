@@ -95,22 +95,6 @@ p {
     background-color: #0056b3;
 }
 
-#changeEmail #changeEmailSettings {
-    width: auto;
-    padding: 0;
-    margin: 10px 0;
-    color: #007bff;
-    background-color: transparent;
-    border: none;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-}
-
-#changeEmail #changeEmailSettings:hover {
-    color: #0056b3;
-}
-
 #changePassword {
     position: absolute;
     top: 25%;
@@ -154,22 +138,6 @@ p {
 
 #changePassword button:hover {
     background-color: #0056b3;
-}
-
-#changePassword #changePasswordSettings {
-    width: auto;
-    padding: 0;
-    margin: 10px 0;
-    color: #007bff;
-    background-color: transparent;
-    border: none;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-}
-
-#changePassword #changePasswordSettings:hover {
-    color: #0056b3;
 }
 
 #deleteAccount {
@@ -217,22 +185,6 @@ p {
     background-color: #0056b3;
 }
 
-#deleteAccount #deleteAccountSettings {
-    width: auto;
-    padding: 0;
-    margin: 10px 0;
-    color: #007bff;
-    background-color: transparent;
-    border: none;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-}
-
-#deleteAccount #deleteAccountSettings:hover {
-    color: #0056b3;
-}
-
 .popup {
   position: fixed;
   z-index: 1;
@@ -242,6 +194,19 @@ p {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+.closePopup {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: #007bff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.closePopup:hover {
+  color: #0056b3;
 }
 
 html {
