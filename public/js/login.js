@@ -36,7 +36,7 @@ function setupLoginElements() {
   });
 
   [emailInput, passwordInput].forEach(input => {
-    input.addEventListener('keydown', function(event) {
+    input.addEventListener('keydown', event => {
       if (event.key === 'Enter') {
         signInButton.click();
       }
