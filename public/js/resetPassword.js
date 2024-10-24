@@ -38,7 +38,9 @@ function setupResetPasswordElements() {
   });
 
   emailInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter') resetPasswordButton.click();
+    if (event.key === 'Enter') {
+      resetPasswordButton.click();
+    }
   });
 
   loginButton.addEventListener('click', () => renderHTML("login.html"));
