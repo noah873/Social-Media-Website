@@ -38,63 +38,56 @@ async function renderHTML(html) {
     return;
   }
   
-  async function ensureNavbarLoaded() {
-    if (navbarPlaceholder.innerHTML === '') {
-        navbarPlaceholder.innerHTML = await loadHTML("navbar.html");
-    }
+  async function loadNavbar(activePage) {
+    navbarPlaceholder.innerHTML = await loadHTML("navbar.html");
+    setupNavbarElements(activePage);
   }
 
-    // Set Page
-    try {
-      app.innerHTML = await loadHTML(html);
-    } catch (error) {
-      console.error(`Error loading HTML for ${html}:`, error);
-      return;
-    }
+  // Set Page
+  try {
+    app.innerHTML = await loadHTML(html);
+  } catch (error) {
+    console.error(`Error loading HTML for ${html}:`, error);
+    return;
+  }
 
   // Navigation Bar Pages
   if (html === "home.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("home");
     history.pushState({}, '', '/'); // redirect URL to / (no path)
     setupHomeElements();
-    setupNavbarElements("home");
     
   } else if (html === "messages.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("messages");
     console.log("Loading global users...");
     history.pushState({}, '', '/messages'); // redirect URL
-    setupNavbarElements("messages");
     loadDirectMessages()  // Now loading global users for messaging
       .then(() => console.log("Global users loaded successfully"))
       .catch((error) => console.error("Error loading global users:", error));
     
   } else if (html === "friends.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("friends");
     history.pushState({}, '', '/friends'); // redirect URL to friends
     loadGlobalUsers();
-    setupNavbarElements("friends");  // Update the active navbar
     
   } else if (html === "createPost.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("createPost");
     history.pushState({}, '', '/create-post');
     setupCreatePostElements(); // Call the function from post.js
-    setupNavbarElements("createPost");
     
   } else if (html === "profile.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("profile");
     history.pushState({ page: 'profile' }, '', '/profile');
     setupProfileElements();
-    setupNavbarElements("profile");
 
   } else if (html === "theirProfile.html") {
     history.pushState({ page: 'theirProfile' }, '', window.location.href);
     // Additional logic for theirProfile can be added here
     
   } else if (html === "settings.html") {
-    await ensureNavbarLoaded();
+    await loadNavbar("settings");
     history.pushState({}, '', '/settings'); // redirect URL
     setupSettingsElements();
-    setupNavbarElements("settings");
   }
 
   // All Other Pages (not in navbar)
