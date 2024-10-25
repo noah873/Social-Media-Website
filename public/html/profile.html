@@ -10,38 +10,30 @@
   <div class="profile-container">
     <div class="profile-header">
       <div class="profile-image">
-        <img id="profileImage" src="default-profile.jpg" alt="Profile Image">
+        <img id="profileImage" src="/default_elements/default-profile.png" alt="Profile Image">
         <button id="removeImage" class="remove-button">Remove Image</button>
       </div>
       <div class="profile-info">
-        <h1 id="profileName">Bobby123</h1>
-        <p id="profileBio">Hello Everyone!</p>
+        <h1 id="profileName"></h1>
+        <p id="profileBio"></p>
         
         <div class="button-container">
           <button class="edit-button" id="editProfile">Edit Profile</button>
           <button class="friends-button" id="friendsButton">Friends</button>
-          <button class="inbox-button" id="inboxButton">Inbox</button>
-          <button class="search-button" id="searchButton">Search</button>
         </div>
-        
-        <button class="post-button" id="createPost">Post</button> 
       </div>
     </div>
 
     <div class="profile-stats">
       <div class="stat">
-        <p><strong id="postCount">1</strong> Post</p>
+        <p><strong id="postCount">1</strong> Posts</p>
       </div>
       <div class="stat">
-        <p><strong id="followersCount">100</strong> Followers</p>
-      </div>
-      <div class="stat">
-        <p><strong id="followingCount">56</strong> Following</p>
+        <p><strong id="friendsCount">0</strong> Friends</p>
       </div>
     </div>
 
     <div class="post-box" id="postBox"></div> 
-
   </div>
 
   <div class="profile-container edit-profile-section" id="editProfileSection" style="display: none;">
@@ -51,48 +43,74 @@
     <label for="bioInput">Bio</label>
     <textarea id="bioInput" placeholder="Enter your bio here..."></textarea>
     <button id="saveProfile">Save Profile</button>
-  </div>
-
-  <div class="profile-container post-section" id="postSection" style="display: none;">
-    <h1>Create Post</h1>
-    <textarea id="postContent" placeholder="Write your post here..." rows="4"></textarea>
-    <button id="submitPost">Submit Post</button>
+    <button id="backToProfile">Back</button>
   </div>
 
   <div class="popup" id="friendsPopup" style="display: none;">
     <div class="popup-content">
       <span class="close-popup" id="closeFriendsPopup">&times;</span>
       <h2>Friends List</h2>
-      <ul>
-        <li>Friend 1</li>
-        <li>Friend 2</li>
-        <li>Friend 3</li>
+      <ul id="friendsList"> <!-- Added ID to target in JS -->
+        <!-- Friends are added dynamically by profile.js -->
       </ul>
     </div>
   </div>
 
-  <div class="popup" id="inboxPopup" style="display: none;">
-    <div class="popup-content medium-popup">
-      <span class="close-popup" id="closeInboxPopup">&times;</span>
-      <h2>Inbox</h2>
-      <ul>
-        <li>Message 1</li>
-        <li>Message 2</li>
-        <li>Message 3</li>
-      </ul>
+   <!-- Popup for viewing other user's profile -->
+<div class="popup" id="theirProfilePopup" style="display: none;">
+  <div class="popup-content medium-popup">
+    <span class="close-popup" id="closeTheirProfilePopup">&times;</span>
+    <div class="profile-header">
+      <div class="profile-image">
+        <img id="theirProfileImage" src="default-profile.jpg" alt="Profile Image">
+      </div>
+      <div class="profile-info">
+        <h1 id="theirProfileName"></h1>
+        <p id="theirProfileBio"></p>
+        <!-- Updated button for "Remove Friend" -->
+        <button class="remove-friend-button" id="removeFriendButton" style="display: none;">Remove Friend</button>
+      </div>
     </div>
+    <div class="profile-stats">
+      <div class="stat">
+        <p><strong id="theirFriendsCount">0</strong> Friends</p>
+      </div>
+    </div>
+    <div class="post-box" id="theirPostsContainer"></div>
+  </div>
+</div>
+
+<div class="profile-container edit-profile-section" id="editProfileSection" style="display: none;">
+  <h1>Edit Profile</h1>
+  
+  <!-- Display the current profile image -->
+  <div class="current-profile-image">
+    <h3>Current Profile Image:</h3>
+    <img id="currentProfileImage" src="/default_elements/default-profile.png" alt="Current Profile Image" class="preview-image">
   </div>
 
-  <div class="popup" id="searchPopup" style="display: none;">
-    <div class="popup-content medium-popup">
-      <span class="close-popup" id="closeSearchPopup">&times;</span>
-      <h2>Search</h2>
-      <input type="text" id="searchInput" placeholder="Search...">
-      <button id="searchSubmit">Submit</button>
-      <div id="searchResults"></div>
-    </div>
+  <!-- Display the current bio -->
+  <div class="current-profile-bio">
+    <h3>Current Bio:</h3>
+    <p id="currentBioText"></p>
   </div>
+  
+  <!-- Input for changing the profile image -->
+  <label for="imageInput">New Profile Image</label>
+  <input type="file" id="imageInput">
 
-  <script src="profile.js"></script>
+  <!-- Input for changing the bio -->
+  <label for="bioInput">New Bio</label>
+  <textarea id="bioInput" placeholder="Enter your new bio here..."></textarea>
+
+  <!-- Buttons for saving or canceling changes -->
+  <div class="edit-buttons">
+    <button id="saveProfile">Save Profile</button>
+    <button id="backToProfile">Back</button>
+  </div>
+</div>
+
+
+  <script src="profile.js" type="module"></script>
 </body>
 </html>

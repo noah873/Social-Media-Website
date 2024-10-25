@@ -79,6 +79,50 @@ body {
   gap: 10px;
 }
 
+.back-button {
+  margin: 10px 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
+
+/* Profile popup container */
+#theirProfilePopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  max-height: 80vh; /* Set max height to 80% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none; /* Initially hidden */
+  z-index: 1000;
+}
+
+/* Add padding for the content within the popup */
+#theirProfilePopup .profile-container {
+  padding: 10px;
+}
+
+/* Style the post container inside the popup to handle scrolling */
+#theirPostsContainer {
+  max-height: 50vh; /* Limit the height of the posts container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-top: 10px;
+}
+
 .edit-button, .friends-button, .inbox-button, .search-button {
   padding: 10px 20px;
   border: none;
@@ -228,6 +272,66 @@ body {
 
 .close-popup:hover {
   color: red;
+}
+
+/* Style the buttons in the edit profile section */
+#editProfileSection .edit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#saveProfile, #backToProfile {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+/* Save button styling */
+#saveProfile {
+  background-color: #28a745;
+  color: white;
+}
+
+#saveProfile:hover {
+  background-color: #218838;
+}
+
+/* Back button styling */
+#backToProfile {
+  background-color: #6c757d;
+  color: white;
+}
+
+#backToProfile:hover {
+  background-color: #5a6268;
+}
+
+/* Preview styling in the edit profile section */
+.current-profile-image, .current-profile-bio {
+  margin-bottom: 20px;
+}
+
+.current-profile-image h3, .current-profile-bio h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.preview-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.current-profile-bio p {
+  margin-top: 5px;
+  font-size: 1em;
+  color: #666;
 }
 
 html {

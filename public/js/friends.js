@@ -1,5 +1,6 @@
 import { renderHTML } from '../app.js'; // Import renderHTML for redirection
-import { auth, collection, db, getDocs, addDoc, onAuthStateChanged, query, where, getDocs as getDocsQuery } from './firebase.js'; // Firebase functions
+import { auth, db, collection, doc, getDocs, addDoc, onAuthStateChanged, query, where, getDoc, setDoc } from './firebase.js'; // Include setDoc here
+
 
 // Function to load global users
 async function loadGlobalUsers() {
@@ -24,7 +25,7 @@ async function loadGlobalUsers() {
 
         // Fetch all global users from Firestore
         const usersSnapshot = await getDocs(collection(db, 'users'));
-        userList.innerHTML = '';  // Clear the container to avoid duplicates
+        userList.innerHTML = ''; // Clear the container to avoid duplicates
 
         // Iterate through each user and display them
         for (const docSnapshot of usersSnapshot.docs) {
@@ -79,30 +80,48 @@ async function loadGlobalUsers() {
 
 // Function to check if two users are already friends
 async function checkIfFriends(currentUserID, selectedUserID) {
-    const friendsQuery = query(
-        collection(db, 'friends'),
-        where('userID1', 'in', [currentUserID, selectedUserID]),
-        where('userID2', 'in', [currentUserID, selectedUserID])
-    );
-    const friendsSnapshot = await getDocsQuery(friendsQuery);
+    try {
+        // Check the 'friends' subcollection of the current user
+        const friendRef = doc(db, 'users', currentUserID, 'friends', selectedUserID);
+        const friendDoc = await getDoc(friendRef);
 
-    return !friendsSnapshot.empty; // Returns true if they are already friends
+        return friendDoc.exists(); // Return true if friend exists in subcollection
+    } catch (error) {
+        console.error('Error checking friends:', error);
+        return false;
+    }
 }
 
-// Function to add a friend to Firestore
+// Function to add a friend to the user's 'friends' subcollection
 async function addFriend(currentUserID, selectedUserID) {
     try {
-        // Create a new document in the 'friends' collection
-        await addDoc(collection(db, 'friends'), {
-            userID1: currentUserID,
-            userID2: selectedUserID
-        });
+        // Add friend to the current user's 'friends' subcollection
+        const currentUserFriendRef = doc(db, 'users', currentUserID, 'friends', selectedUserID);
+        await setDoc(currentUserFriendRef, { addedAt: new Date() });
 
-        console.log(`Friend added: ${currentUserID} and ${selectedUserID}`);
+        // Add the current user to the selected user's 'friends' subcollection
+        const selectedUserFriendRef = doc(db, 'users', selectedUserID, 'friends', currentUserID);
+        await setDoc(selectedUserFriendRef, { addedAt: new Date() });
+
+        // Increment the numFriends field for both users
+        await incrementFriendCount(currentUserID);
+        await incrementFriendCount(selectedUserID);
+
+        console.log(`Friend added between ${currentUserID} and ${selectedUserID}`);
         alert('Friend added successfully!');
     } catch (error) {
         console.error('Error adding friend:', error);
         alert('Failed to add friend.');
+    }
+}
+
+// Function to increment the numFriends field
+async function incrementFriendCount(userID) {
+    try {
+        const userRef = doc(db, 'users', userID);
+        await setDoc(userRef, { numFriends: 1 }, { merge: true });
+    } catch (error) {
+        console.error('Error updating friend count:', error);
     }
 }
 

@@ -1,227 +1,418 @@
+import { auth, db, collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from './firebase.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
+
+// Initialize Firebase Storage
+const storage = getStorage();
+
+// Function to initialize the profile page
 function setupProfileElements() {
-  document.getElementById('editProfile').addEventListener('click', function() {
-    document.querySelector('.profile-header').style.display = 'none';
-    document.querySelector('.profile-stats').style.display = 'none';
-    document.querySelector('.post-box').style.display = 'none';
-    document.getElementById('editProfileSection').style.display = 'block';
-    
-    document.getElementById('removeImage').style.display = 'block';
-  });
-  
-  document.getElementById('saveProfile').addEventListener('click', function() {
-    const newBio = document.getElementById('bioInput').value;
-    const newProfileImage = document.getElementById('imageInput').files[0];
-  
-    if (newProfileImage) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('profileImage').src = e.target.result;
-      };
-      reader.readAsDataURL(newProfileImage);
-    }
-  
-    document.getElementById('profileBio').textContent = newBio;
-  
-    document.querySelector('.profile-header').style.display = 'flex';
-    document.querySelector('.profile-stats').style.display = 'flex';
-    document.querySelector('.post-box').style.display = 'block';
-    document.getElementById('editProfileSection').style.display = 'none';
-  
-    document.getElementById('removeImage').style.display = 'none';
-  });
-  
-  document.getElementById('removeImage').addEventListener('click', function() {
-    document.getElementById('profileImage').src = 'default-profile.jpg';  
-  });
-  
-  let posts = [];
-  
-  document.getElementById('createPost').addEventListener('click', function() {
-    document.getElementById('postSection').style.display = 'block';
-    document.querySelector('.profile-header').style.display = 'none';
-    document.querySelector('.profile-stats').style.display = 'none';
-    document.querySelector('.post-box').style.display = 'none';
-  });
-  
-  document.getElementById('submitPost').addEventListener('click', function() {
-    const postContent = document.getElementById('postContent').value;
-    const username = document.getElementById('profileName').textContent;  
-    const timestamp = new Date().toLocaleString();  
-  
-    if (postContent.trim()) {
-      const post = {
-        content: postContent,
-        username: username,
-        timestamp: timestamp,
-        upvotes: 0,
-        downvotes: 0,
-        comments: []
-      };
-  
-      posts.push(post);
-      displayPosts();
-  
-      document.getElementById('postCount').textContent = posts.length;
-      document.getElementById('postSection').style.display = 'none';
-      document.querySelector('.profile-header').style.display = 'flex';
-      document.querySelector('.profile-stats').style.display = 'flex';
-      document.querySelector('.post-box').style.display = 'block';
-      document.getElementById('postContent').value = '';
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      await loadUserProfile(user.uid);
+        await loadUserPosts(user.uid);
+    } else {
+      console.error('No user is signed in.');
+      return;
     }
   });
-  
-  function displayPosts() {
-    const postBox = document.getElementById('postBox');
-    postBox.innerHTML = '';  
-  
-    posts.forEach(function(post, index) {
-      const postItem = document.createElement('div');
-      postItem.classList.add('post-item');
-  
-      const postMeta = document.createElement('div');
-      postMeta.classList.add('post-meta');
-      postMeta.textContent = `${post.username} • ${post.timestamp}`;
-      postItem.appendChild(postMeta);
-  
-      const postText = document.createElement('p');
-      postText.textContent = post.content;
-      postItem.appendChild(postText);
-  
-      const voteButtons = document.createElement('div');
-      voteButtons.classList.add('vote-buttons');
-  
-      const upvoteButton = document.createElement('button');
-      upvoteButton.classList.add('upvote-button');
-      upvoteButton.textContent = 'Upvote';
-      upvoteButton.addEventListener('click', function() {
-        post.upvotes++;
-        displayPosts(); 
-      });
-  
-      const downvoteButton = document.createElement('button');
-      downvoteButton.classList.add('downvote-button');
-      downvoteButton.textContent = 'Downvote';
-      downvoteButton.addEventListener('click', function() {
-        post.downvotes++;
-        displayPosts(); 
-      });
-  
-      const voteCount = document.createElement('div');
-      voteCount.classList.add('vote-count');
-      voteCount.textContent = `Upvotes: ${post.upvotes} | Downvotes: ${post.downvotes}`;
-  
-      voteButtons.appendChild(upvoteButton);
-      voteButtons.appendChild(downvoteButton);
-      voteButtons.appendChild(voteCount);
-      postItem.appendChild(voteButtons);
-  
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Delete';
-      deleteButton.classList.add('delete-button');
-      deleteButton.addEventListener('click', function() {
-        posts.splice(index, 1);  
-        displayPosts();  
-      });
-      postItem.appendChild(deleteButton);
-  
-      const commentSection = document.createElement('div');
-      commentSection.classList.add('comment-section');
-      
-      const commentInput = document.createElement('input');
-      commentInput.placeholder = 'Write a comment...';
-      commentInput.classList.add('comment-input');
-  
-      const commentButton = document.createElement('button');
-      commentButton.textContent = 'Comment';
-      commentButton.classList.add('comment-button');
-      commentButton.addEventListener('click', function() {
-        const commentText = commentInput.value.trim();
-        if (commentText) {
-          post.comments.push({ text: commentText, timestamp: new Date().toLocaleString() });
-          displayPosts();  
-        }
-      });
-  
-      commentSection.appendChild(commentInput);
-      commentSection.appendChild(commentButton);
-  
-      post.comments.forEach(function(comment) {
-        const commentItem = document.createElement('div');
-        commentItem.classList.add('comment-item');
-        commentItem.textContent = `${comment.text} • ${comment.timestamp}`;
-        commentSection.appendChild(commentItem);
-      });
-  
-      postItem.appendChild(commentSection);
-      postBox.appendChild(postItem);
-    });
+
+  // Add event listeners for the profile elements
+  addEventListeners();
+}
+
+// Function to load user profile data
+async function loadUserProfile(userID) {
+  try {
+    const userRef = doc(db, 'users', userID);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      document.getElementById('profileName').textContent = userData.username || 'Unknown User';
+      document.getElementById('profileBio').textContent = userData.bio || '';
+
+      const profileImageElement = document.getElementById('profileImage');
+      if (userData.profileImage) {
+        profileImageElement.src = userData.profileImage;
+      }
+
+      await updateFriendsCount(userID);
+
+      // Display the current profile data in the edit section
+      displayCurrentProfileData(userData);
+    } else {
+      console.error('No user data found in Firestore.');
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
   }
-  
-  document.getElementById('friendsButton').addEventListener('click', function() {
-    document.getElementById('friendsPopup').style.display = 'flex';
+}
+
+
+// Function to load and display the user's own posts
+async function loadUserPosts(userID) {
+  try {
+    const postsRef = collection(db, 'posts');
+    const postsSnapshot = await getDocs(postsRef);
+    const postBox = document.getElementById('postBox');
+    postBox.innerHTML = ''; // Clear existing posts
+
+    let postCount = 0; // Counter for the number of posts
+
+    postsSnapshot.forEach((doc) => {
+      const post = doc.data();
+      if (post.userID === userID) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+          <h3>${post.content}</h3>
+          <small>${post.datetime.toDate().toLocaleString()}</small>
+        `;
+        postBox.appendChild(postElement);
+        postCount++;
+      }
+    });
+
+    // Update the post count in the profile stats
+    document.getElementById('postCount').textContent = postCount;
+  } catch (error) {
+    console.error('Error loading user posts:', error);
+  }
+}
+
+// Add event listeners to profile elements
+function addEventListeners() {
+  const editProfileButton = document.getElementById('editProfile');
+  const saveProfileButton = document.getElementById('saveProfile');
+  const backToProfileButton = document.getElementById('backToProfile'); // New back button
+  const removeImageButton = document.getElementById('removeImage');
+  const imageInput = document.getElementById('imageInput');
+  const friendsButton = document.getElementById('friendsButton');
+  const closeFriendsPopupButton = document.getElementById('closeFriendsPopup');
+
+  backToProfileButton.addEventListener('click', () => {
+    toggleEditProfile(false);
   });
-  
-  document.getElementById('closeFriendsPopup').addEventListener('click', function() {
+
+  friendsButton.addEventListener('click', () => {
+    document.getElementById('friendsPopup').style.display = 'flex';
+    fetchAndDisplayFriends();
+  });
+
+  closeFriendsPopupButton.addEventListener('click', () => {
     document.getElementById('friendsPopup').style.display = 'none';
   });
-  
-  window.addEventListener('click', function(event) {
+
+  window.addEventListener('click', (event) => {
     const popup = document.getElementById('friendsPopup');
     if (event.target === popup) {
       popup.style.display = 'none';
     }
   });
-  
-  document.getElementById('inboxButton').addEventListener('click', function() {
-    document.getElementById('inboxPopup').style.display = 'flex';
+
+  editProfileButton.addEventListener('click', () => {
+    toggleEditProfile(true);
   });
-  
-  document.getElementById('closeInboxPopup').addEventListener('click', function() {
-    document.getElementById('inboxPopup').style.display = 'none';
+
+  saveProfileButton.addEventListener('click', async () => {
+    await saveProfileChanges();
   });
-  
-  window.addEventListener('click', function(event) {
-    const popup = document.getElementById('inboxPopup');
-    if (event.target === popup) {
-      popup.style.display = 'none';
-    }
+
+  // Add event listener for the back button
+  backToProfileButton.addEventListener('click', () => {
+    toggleEditProfile(false);
   });
-  
-  document.getElementById('searchButton').addEventListener('click', function() {
-    document.getElementById('searchPopup').style.display = 'flex';
+
+  removeImageButton.addEventListener('click', async () => {
+    await removeProfileImage();
   });
-  
-  document.getElementById('closeSearchPopup').addEventListener('click', function() {
-    document.getElementById('searchPopup').style.display = 'none';
-  });
-  
-  window.addEventListener('click', function(event) {
-    const popup = document.getElementById('searchPopup');
-    if (event.target === popup) {
-      popup.style.display = 'none';
-    }
-  });
-  
-  document.getElementById('searchSubmit').addEventListener('click', function() {
-    const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
-    const searchResultsDiv = document.getElementById('searchResults');
-    searchResultsDiv.innerHTML = '';
-  
-    if (searchQuery) {
-      const result = posts.filter(post => post.content.toLowerCase().includes(searchQuery));
-      if (result.length > 0) {
-        result.forEach(post => {
-          const resultItem = document.createElement('p');
-          resultItem.textContent = `Found Post: ${post.content}`;
-          searchResultsDiv.appendChild(resultItem);
-        });
-      } else {
-        searchResultsDiv.textContent = 'No results found.';
-      }
-    } else {
-      searchResultsDiv.textContent = 'Please enter a search term.';
-    }
+
+  // Remove the event listener for immediate image upload
+imageInput.removeEventListener('change', handleProfileImageUpload);
+
+
+  document.getElementById('closeTheirProfilePopup').addEventListener('click', () => {
+    document.getElementById('theirProfilePopup').style.display = 'none';
   });
 }
+
+// Toggle edit profile visibility
+function toggleEditProfile(show) {
+  document.querySelector('.profile-header').style.display = show ? 'none' : 'flex';
+  document.querySelector('.profile-stats').style.display = show ? 'none' : 'flex';
+  document.querySelector('.post-box').style.display = show ? 'none' : 'block';
+  document.getElementById('editProfileSection').style.display = show ? 'block' : 'none';
+  document.getElementById('removeImage').style.display = show ? 'block' : 'none';
+}
+
+
+// Save profile changes
+// Save profile changes only when "Save" is clicked
+async function saveProfileChanges() {
+  const newBio = document.getElementById('bioInput').value;
+  const newProfileImage = document.getElementById('imageInput').files[0];
+
+  // Create an object to hold the profile updates
+  const updatedData = {};
+
+  // If a new image is selected, upload it
+  if (newProfileImage) {
+    try {
+      const imageUrl = await handleProfileImageUpload(newProfileImage);
+      updatedData.profileImage = imageUrl;
+    } catch (error) {
+      console.error('Error uploading profile image:', error);
+      return; // Exit if image upload fails
+    }
+  }
+
+  // If a new bio is entered, add it to the updates
+  if (newBio) {
+    updatedData.bio = newBio;
+  }
+
+  // Apply updates to Firestore and UI
+  if (Object.keys(updatedData).length > 0) {
+    await updateUserProfile(updatedData);
+
+    // Update the profile UI with the new changes
+    if (updatedData.profileImage) {
+      document.getElementById('profileImage').src = updatedData.profileImage;
+      document.getElementById('currentProfileImage').src = updatedData.profileImage;
+    }
+    if (updatedData.bio) {
+      document.getElementById('profileBio').textContent = updatedData.bio;
+      document.getElementById('currentBioText').textContent = updatedData.bio;
+    }
+
+    console.log('Profile updated successfully!');
+  }
+
+  // Close the edit profile section
+  toggleEditProfile(false);
+}
+
+// Remove profile image
+async function removeProfileImage() {
+  document.getElementById('profileImage').src = 'default-profile.png';
+  await updateUserProfile({ profileImage: '' });
+}
+
+// Function to fetch and display the current user's friends
+async function fetchAndDisplayFriends() {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    console.error('No user is signed in');
+    return;
+  }
+
+  try {
+    const friendsRef = collection(db, 'users', currentUser.uid, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    const friendsList = document.getElementById('friendsList');
+    friendsList.innerHTML = '';
+
+    if (friendsSnapshot.empty) {
+      const noFriendsItem = document.createElement('li');
+      noFriendsItem.textContent = 'No friends found.';
+      friendsList.appendChild(noFriendsItem);
+    } else {
+      for (const friendDoc of friendsSnapshot.docs) {
+        const friendID = friendDoc.id;
+        const friendUserRef = doc(db, 'users', friendID);
+        const friendUserDoc = await getDoc(friendUserRef);
+
+        if (friendUserDoc.exists()) {
+          const friendUserData = friendUserDoc.data();
+          const friendItem = document.createElement('li');
+          const friendLink = document.createElement('a');
+          friendLink.textContent = friendUserData.username || 'Unknown User';
+          friendLink.href = '#';
+
+          friendLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openTheirProfilePopup(friendID);
+          });
+
+          friendItem.appendChild(friendLink);
+          friendsList.appendChild(friendItem);
+        } else {
+          console.error(`No data found for friend ID: ${friendID}`);
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching friends:', error);
+  }
+}
+
+// Load the other user's profile into the popup
+async function openTheirProfilePopup(friendID) {
+  try {
+    const userRef = doc(db, 'users', friendID);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      document.getElementById('theirProfileName').textContent = userData.username || 'Unknown User';
+      document.getElementById('theirProfileBio').textContent = userData.bio || '';
+      document.getElementById('theirProfileImage').src = userData.profileImage || 'default-profile.png';
+
+      await loadTheirFriendsCount(friendID); 
+      await loadTheirPosts(friendID);
+
+      // Handle the "Remove Friend" button
+      await setupRemoveFriendButton(friendID);
+
+      document.getElementById('theirProfilePopup').style.display = 'flex';
+    } else {
+      console.error('User not found.');
+    }
+  } catch (error) {
+    console.error('Error loading user profile:', error);
+  }
+}
+
+// Set up the "Remove Friend" button within the popup
+async function setupRemoveFriendButton(userID) {
+  const currentUser = auth.currentUser;
+  if (!currentUser || currentUser.uid === userID) return;
+
+  const removeFriendButton = document.getElementById('removeFriendButton');
+  removeFriendButton.style.display = 'none'; // Hide by default
+
+  try {
+    const friendRef = doc(db, 'users', currentUser.uid, 'friends', userID);
+    const friendDoc = await getDoc(friendRef);
+
+    // If they are friends, show the "Remove Friend" button
+    if (friendDoc.exists()) {
+      removeFriendButton.style.display = 'inline-block';
+      removeFriendButton.textContent = 'Remove Friend';
+      removeFriendButton.classList.add('remove-friend');
+
+      // Event listener for removing a friend
+      removeFriendButton.addEventListener('click', async () => {
+        await removeFriend(currentUser.uid, userID);
+        removeFriendButton.textContent = 'Removed';
+        removeFriendButton.disabled = true;
+      });
+    } else {
+      console.log("Not friends with the user.");
+    }
+  } catch (error) {
+    console.error('Error setting up Remove Friend button:', error);
+  }
+}
+
+// Function to remove a friend from Firestore
+async function removeFriend(currentUserID, targetUserID) {
+  try {
+    // Remove from current user's friends subcollection
+    const currentUserFriendRef = doc(db, 'users', currentUserID, 'friends', targetUserID);
+    await deleteDoc(currentUserFriendRef);
+
+    // Remove from target user's friends subcollection
+    const targetUserFriendRef = doc(db, 'users', targetUserID, 'friends', currentUserID);
+    await deleteDoc(targetUserFriendRef);
+
+    console.log(`Friend removed between ${currentUserID} and ${targetUserID}`);
+  } catch (error) {
+    console.error('Error removing friend:', error);
+  }
+}
+
+// Function to load another user's posts
+async function loadTheirPosts(userID) {
+  try {
+    const postsRef = collection(db, 'posts');
+    const postsSnapshot = await getDocs(postsRef);
+    const theirPostsContainer = document.getElementById('theirPostsContainer');
+    theirPostsContainer.innerHTML = '';
+
+    postsSnapshot.forEach((doc) => {
+      const post = doc.data();
+      if (post.userID === userID) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+          <h3>${post.content}</h3>
+          <small>${post.datetime.toDate().toLocaleString()}</small>
+        `;
+        theirPostsContainer.appendChild(postElement);
+      }
+    });
+  } catch (error) {
+    console.error('Error loading user posts:', error);
+  }
+}
+
+// Function to load another user's friends count
+async function loadTheirFriendsCount(userID) {
+  try {
+    const friendsRef = collection(db, 'users', userID, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    document.getElementById('theirFriendsCount').textContent = friendsSnapshot.size;
+  } catch (error) {
+    console.error('Error loading friends count:', error);
+  }
+}
+
+// Function to update the friends count
+async function updateFriendsCount(userID) {
+  try {
+    const friendsRef = collection(db, 'users', userID, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
+  } catch (error) {
+    console.error('Error fetching friends count:', error);
+  }
+}
+
+// Function to handle profile image upload to Firebase Storage
+async function handleProfileImageUpload(file) {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    console.error('No user is signed in');
+    return;
+  }
+
+  try {
+    const storageRef = ref(storage, `profileImages/${currentUser.uid}`);
+    await uploadBytes(storageRef, file);
+    const imageUrl = await getDownloadURL(storageRef);
+    return imageUrl; // Return the uploaded image URL
+  } catch (error) {
+    console.error('Error uploading profile image:', error);
+    throw error; // Re-throw the error to handle it in the calling function
+  }
+}
+
+
+// Function to update user profile in Firestore
+async function updateUserProfile(updatedData) {
+  const currentUser = auth.currentUser;
+  if (!currentUser) return;
+
+  try {
+    const userRef = doc(db, 'users', currentUser.uid);
+    await updateDoc(userRef, updatedData);
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+  }
+}
+
+// Function to display the current profile image and bio in the edit section
+function displayCurrentProfileData(userData) {
+  const currentImageElement = document.getElementById('currentProfileImage');
+  const currentBioElement = document.getElementById('currentBioText');
+
+  // Set the current profile image and bio
+  currentImageElement.src = userData.profileImage || '/default_elements/default-profile.png';
+  currentBioElement.textContent = userData.bio || 'No bio available';
+}
+
+// Ensure the DOM is fully loaded before initializing
+document.addEventListener('DOMContentLoaded', setupProfileElements);
 
 export { setupProfileElements };

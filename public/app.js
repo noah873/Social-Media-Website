@@ -19,13 +19,24 @@ import { loadGlobalUsers } from './js/friends.js';
 handleAuthStatus();
 
 async function loadHTML(html) {
-  const response = await fetch(`html/${html}`);
+  // Ensure correct path
+  const response = await fetch(`/html/${html}`);
+  if (!response.ok) {
+    throw new Error(`Failed to load ${html}: ${response.statusText}`);
+  }
   return await response.text();
 }
+
 
 async function renderHTML(html) {
   const navbarPlaceholder = document.getElementById('navbarPlaceholder');  
   const app = document.getElementById('app');
+  
+  // Check if elements exist
+  if (!navbarPlaceholder || !app) {
+    console.error("Navbar or app element is missing from the DOM.");
+    return;
+  }
   
   async function ensureNavbarLoaded() {
     if (navbarPlaceholder.innerHTML === '') {
@@ -33,8 +44,13 @@ async function renderHTML(html) {
     }
   }
 
-  // Set Page
-  app.innerHTML = await loadHTML(html);
+    // Set Page
+    try {
+      app.innerHTML = await loadHTML(html);
+    } catch (error) {
+      console.error(`Error loading HTML for ${html}:`, error);
+      return;
+    }
 
   // Navigation Bar Pages
   if (html === "home.html") {
@@ -66,9 +82,13 @@ async function renderHTML(html) {
     
   } else if (html === "profile.html") {
     await ensureNavbarLoaded();
-    history.pushState({}, '', '/profile'); 
-    setupProfileElements(); 
+    history.pushState({ page: 'profile' }, '', '/profile');
+    setupProfileElements();
     setupNavbarElements("profile");
+
+  } else if (html === "theirProfile.html") {
+    history.pushState({ page: 'theirProfile' }, '', window.location.href);
+    // Additional logic for theirProfile can be added here
     
   } else if (html === "settings.html") {
     await ensureNavbarLoaded();
@@ -99,5 +119,12 @@ async function renderHTML(html) {
     history.pushState({}, '', '/messages-chat'); // redirect URL
   } 
 }
+
+// Handle the browser's back/forward button navigation
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.page) {
+    renderHTML(`${event.state.page}.html`);
+  }
+});
 
 export { renderHTML };
