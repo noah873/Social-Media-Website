@@ -10,10 +10,7 @@ function setupNavbarElements(activePage) {
     settings: { button: document.getElementById('navSettings'), page: "settings.html" }
   };
   
-  const activeButton = buttons[activePage].button;
-  const clonedButton = activeButton.cloneNode(true);
-  activeButton.parentNode.replaceChild(clonedButton, activeButton);
-  
+  const activeButton = buttons[activePage].button;  
   activeButton.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
   activeButton.style.cursor = 'default'; // remove mouseover selection visual
   delete buttons[activePage]; // to prevent the creation of an event listener to redirect to that page as the user is already on it
