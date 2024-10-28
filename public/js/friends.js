@@ -65,6 +65,8 @@ async function loadGlobalUsers() {
                     addFriendButton.classList.remove('addFriend'); // Remove addFriend class
                     addFriendButton.classList.add('friends'); // Add friends class
                     addFriendButton.disabled = true; // Disable the button after adding
+                    addFriendButton.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
+                    addFriendButton.style.cursor = 'default'; // remove mouseover selection visual
                 });
             }
 
