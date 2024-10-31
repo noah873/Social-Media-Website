@@ -14,10 +14,14 @@
 }
 
 #settings #settingsMessage,
-#settings #settingsMessage2,
-#settings #settingsMessage3 {
+#settings #settingsMessage2 {
     font-size: 24px;
     margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    margin: 0px;
 }
 
 #settings input[type="text"] {
@@ -44,11 +48,6 @@
     background-color: #0056b3;
 }
 
-p {
-    font-size: 14px;
-    text-align: center;
-}
-
 #changeEmail {
     position: absolute;
     top: 25%;
@@ -68,6 +67,11 @@ p {
 #changeEmail #changeEmailMessage {
     font-size: 24px;
     margin-bottom: 0px;
+}
+
+#changeEmail #changeEmailMessage2 {
+    font-size: 14px;
+    text-align: center;
 }
 
 #changeEmail input[type="password"],
@@ -116,6 +120,11 @@ p {
     margin-bottom: 20px;
 }
 
+#changePassword #changePasswordMessage2 {
+    font-size: 14px;
+    text-align: center;
+}
+
 #changePassword input[type="password"] {
     width: 100%;
     padding: 10px;
@@ -159,6 +168,11 @@ p {
 #deleteAccount #deleteAccountMessage {
     font-size: 24px;
     margin-bottom: 0px;
+}
+
+#deleteAccount #deleteAccountMessage2 {
+    font-size: 14px;
+    text-align: center;
 }
 
 #deleteAccount input[type="password"] {
