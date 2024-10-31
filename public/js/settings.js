@@ -121,6 +121,7 @@ function setupSettingsElements() {
 
   settingsChangePasswordButton.addEventListener('click', () => {
     changePasswordMessageDiv.textContent = "Update your Password";
+    changePasswordMessage2Div.textContent = '';
 
     changePasswordPasswordInput.value = '';
     changePasswordNewPasswordInput.value = '';
@@ -182,6 +183,11 @@ function setupSettingsElements() {
   changeEmailButton.addEventListener('click', () => {
     const password = changeEmailPasswordInput.value;
     const newEmail = changeEmailNewEmailInput.value;
+
+    if (!password || !newEmail) {
+      changeEmailMessage2Div.textContent = 'Please fill in all fields and try again.';
+      return;
+    }
     
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
@@ -236,6 +242,7 @@ function setupSettingsElements() {
 
   // Change Password Popup
   const changePasswordMessageDiv = document.getElementById('changePasswordMessage');
+  const changePasswordMessage2Div = document.getElementById('changePasswordMessage2');
   const changePasswordPasswordInput = document.getElementById('changePasswordPassword');
   const changePasswordNewPasswordInput = document.getElementById('changePasswordNewPassword');
   const changePasswordConfirmNewPasswordInput = document.getElementById('changePasswordConfirmNewPassword');
@@ -247,6 +254,11 @@ function setupSettingsElements() {
     const password = changePasswordPasswordInput.value;
     const newPassword = changePasswordNewPasswordInput.value;
     const confirmNewPassword = changePasswordConfirmNewPasswordInput.value;
+
+    if (!password || !newPassword) {
+      changePasswordMessage2Div.textContent = 'Please fill in all fields and try again.';
+      return;
+    }
     
     if (newPassword !== confirmNewPassword) {
         changePasswordMessageDiv.textContent = 'New Passwords do not Match';
@@ -315,6 +327,12 @@ function setupSettingsElements() {
 
   deleteAccountButton.addEventListener('click', async () => {
     const password = deleteAccountPasswordInput.value;
+
+    if (!password) {
+      deleteAccountMessage2Div.textContent = 'Please fill in this field and try again.';
+      return;
+    }
+    
     const user = auth.currentUser;
     const credential = EmailAuthProvider.credential(user.email, password);
 
