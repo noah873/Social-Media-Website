@@ -19,7 +19,8 @@
     margin-bottom: 10px;
 }
 
-#settings p {
+#settings #fullNameMessage,
+#settings #usernameMessage {
     font-size: 14px;
     margin: 0px;
 }
