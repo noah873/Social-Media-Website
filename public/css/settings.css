@@ -73,6 +73,7 @@
 
 #changeEmail #changeEmailMessage2 {
     font-size: 14px;
+    margin: 10px;
     text-align: center;
 }
 
@@ -125,6 +126,7 @@
 
 #changePassword #changePasswordMessage2 {
     font-size: 14px;
+    margin: 10px;
     text-align: center;
 }
 
@@ -176,6 +178,7 @@
 
 #deleteAccount #deleteAccountMessage2 {
     font-size: 14px;
+    margin: 10px;
     text-align: center;
 }
 
