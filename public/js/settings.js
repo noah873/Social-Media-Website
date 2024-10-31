@@ -230,16 +230,12 @@ function setupSettingsElements() {
         });
   });
 
-  changeEmailPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changeEmailButton.click();
-    }
-  });
-
-  changeEmailNewEmailInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changeEmailButton.click();
-    }
+  [changeEmailPasswordInput, changeEmailNewEmailInput].forEach(input => {
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        changeEmailButton.click();
+      }
+    });
   });
   
   closeChangeEmailPopupButton.addEventListener('click', () => changeEmailPopup.classList.add('hidden'));
@@ -265,8 +261,8 @@ function setupSettingsElements() {
     }
     
     if (newPassword !== confirmNewPassword) {
-        changePasswordMessageDiv.textContent = 'New Passwords do not Match';
-        return;
+      changePasswordMessage2Div.textContent = 'New Passwords do not Match. Please try again.';
+      return;
     }
 
     const user = auth.currentUser;
@@ -282,7 +278,8 @@ function setupSettingsElements() {
           updatePassword(user, newPassword)
             .then(() => {
               changePasswordMessageDiv.textContent = 'Password Updated Successfully';
-              
+
+              changePasswordMessage2Div.classList.add('hidden');
               changePasswordPasswordInput.classList.add('hidden');
               changePasswordNewPasswordInput.classList.add('hidden');
               changePasswordConfirmNewPasswordInput.classList.add('hidden');
@@ -299,22 +296,12 @@ function setupSettingsElements() {
         });
   });
 
-  changePasswordPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
-
-  changePasswordNewPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
-  });
-
-  changePasswordConfirmNewPasswordInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      changePasswordButton.click();
-    }
+  [changePasswordPasswordInput, changePasswordNewPasswordInput, changePasswordConfirmNewPasswordInput].forEach(input => {
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        changePasswordButton.click();
+      }
+    });
   });
 
   closeChangePasswordPopupButton.addEventListener('click', () => changePasswordPopup.classList.add('hidden'));
