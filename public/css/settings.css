@@ -67,6 +67,7 @@
 
 #changeEmail #changeEmailMessage {
     font-size: 24px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
@@ -118,7 +119,8 @@
 
 #changePassword #changePasswordMessage {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 }
 
 #changePassword #changePasswordMessage2 {
@@ -168,6 +170,7 @@
 
 #deleteAccount #deleteAccountMessage {
     font-size: 24px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
