@@ -2,10 +2,12 @@ import { auth, signOut, reauthenticateWithCredential, EmailAuthProvider, updateE
 
 function setupSettingsElements() {
   const settingsMessageDiv = document.getElementById('settingsMessage');
+  const fullNameMessageDiv = document.getElementById('fullNameMessage');
   const settingsFullNameInput = document.getElementById('settingsFullName');
   const settingsChangeFullNameButton = document.getElementById('settingsChangeFullName');
 
   const settingsMessage2Div = document.getElementById('settingsMessage2');
+  const usernameMessageDiv = document.getElementById('usernameMessage');
   const settingsUsernameInput = document.getElementById('settingsUsername');
   const settingsChangeUsernameButton = document.getElementById('settingsChangeUsername');
   
@@ -42,8 +44,8 @@ function setupSettingsElements() {
   settingsChangeFullNameButton.addEventListener('click', () => {
     const fullName = settingsFullNameInput.value;
 
-    if (fullName === '') {
-      settingsMessageDiv.textContent = 'Full Name: cannot be Empty';
+    if (!fullName) {
+      fullNameMessageDiv.textContent = 'Please fill in this field and try again.';
       return;
     }
     
@@ -68,8 +70,8 @@ function setupSettingsElements() {
   settingsChangeUsernameButton.addEventListener('click', () => {
     const username = settingsUsernameInput.value;
 
-    if (username === '') {
-      settingsMessage2Div.textContent = 'Username: cannot be Empty';
+    if (!username) {
+      usernameMessageDiv.textContent = 'Please fill in this field and try again.';
       return;
     }
 
