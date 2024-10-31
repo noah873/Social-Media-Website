@@ -53,11 +53,12 @@ function setupSettingsElements() {
       full_name: fullName
     })
       .then(() => {
+        fullNameMessageDiv.textContent = '';
         settingsFullNameInput.value = '';
       })
       .catch(error => {
         console.error(error);
-        settingsMessageDiv.textContent = 'Error Changing Full Name';
+        fullNameMessageDiv.textContent = 'Error Changing Full Name';
       });
   });
 
@@ -80,7 +81,7 @@ function setupSettingsElements() {
         const takenUsernames = currentUsers.docs.map(doc => doc.data().username);
   
         if (takenUsernames.includes(username)) {
-          settingsMessage2Div.textContent = 'Username Already Taken';
+          usernameMessageDiv.textContent = 'Username Already Taken. Please try again.';
           return;
         }
   
@@ -88,16 +89,17 @@ function setupSettingsElements() {
           username: username
         })
           .then(() => {
+            usernameMessageDiv.textContent = '';
             settingsUsernameInput.value = '';
           })
           .catch(error => {
             console.error(error);
-            settingsMessage2Div.textContent = 'Error Changing Username';
+            usernameMessageDiv.textContent = 'Error Changing Username';
           });
       })
       .catch((error) => {
         console.error('Error Querying Database: ', error);
-        settingsMessage2Div.textContent = 'Error Validating Username';
+        usernameMessageDiv.textContent = 'Error Validating Username';
       });
   });
 
