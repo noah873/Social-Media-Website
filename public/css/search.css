@@ -1,0 +1,85 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Search Input Field */
+#userSearchInput {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* Search Results Container */
+#searchResultsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* User Result Card */
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Profile Information within User Card */
+.profile {
+    display: flex;
+    flex-direction: column; /* Stack the name elements vertically */
+    justify-content: center; /* Vertically align content */
+    margin-right: 15px; /* Space between profile and button */
+}
+
+.profile .name h3 {
+    margin: 0;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.profile .name p {
+    margin: 0;
+    color: #666;
+}
+
+/* Profile Button */
+.btn.viewProfile {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn.viewProfile:hover {
+    background-color: #0056b3;
+}
+
+/* No Users Found Message */
+#searchResultsContainer p {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+}

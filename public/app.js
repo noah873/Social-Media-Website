@@ -69,7 +69,12 @@ async function renderHTML(html) {
     await loadNavbar("friends");
     history.pushState({}, '', '/friends'); // redirect URL to friends
     loadGlobalUsers();
-    
+
+  } else if (html === "search.html") {
+    await loadNavbar("search");
+    history.pushState({}, '', '/search'); // redirect URL to friends
+    handleSearchInput();    
+
   } else if (html === "createPost.html") {
     await loadNavbar("createPost");
     history.pushState({}, '', '/create-post');
