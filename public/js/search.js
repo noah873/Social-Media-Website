@@ -1,4 +1,5 @@
 import { db, collection, getDocs, query, where } from './firebase.js'; // Import necessary Firebase functions
+import { renderHTML } from '../app.js';
 
 // Function to handle the search input functionality
 function handleSearchInput() {
