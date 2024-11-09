@@ -42,6 +42,19 @@
   border-radius: 5px;
 }
 
+.upvote-button, .downvote-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+.upvote-button:hover, .downvote-button:hover {
+  background-color: #e0e0e0;
+}
 
 html {
   display: block;
