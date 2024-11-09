@@ -1,4 +1,4 @@
-import { fetchPosts, getUserData } from './firebase.js'; // Import getUserData for fetching user details
+import { fetchPosts, getUserData } from './firebase.js'; 
 
 let postTemplate = null;
 
@@ -67,9 +67,31 @@ async function initializePostWall() {
         timestampElement.textContent = postData.datetime;
       }
 
+      // Set up the upvote and downvote buttons
       const votesElement = postElement.querySelector('.post-votes');
       if (votesElement) {
-        votesElement.textContent = `Upvotes: ${postData.upvotes} | Downvotes: ${postData.downvotes}`;
+        votesElement.innerHTML = `
+          <button class="upvote-button">Upvote</button>
+          <small class="post-upvotes">${postData.upvotes || 0}</small>
+          <button class="downvote-button">Downvote</button>
+          <small class="post-downvotes">${postData.downvotes || 0}</small>
+        `;
+
+        // Add event listeners for upvote and downvote buttons
+        const upvoteButton = votesElement.querySelector('.upvote-button');
+        const downvoteButton = votesElement.querySelector('.downvote-button');
+        const upvoteDisplay = votesElement.querySelector('.post-upvotes');
+        const downvoteDisplay = votesElement.querySelector('.post-downvotes');
+
+        upvoteButton.addEventListener('click', () => {
+          postData.upvotes = (postData.upvotes || 0) + 1;
+          upvoteDisplay.textContent = postData.upvotes;
+        });
+
+        downvoteButton.addEventListener('click', () => {
+          postData.downvotes = (postData.downvotes || 0) + 1;
+          downvoteDisplay.textContent = postData.downvotes;
+        });
       }
 
       // Append the post element to the post container
