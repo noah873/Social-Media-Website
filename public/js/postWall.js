@@ -1,4 +1,4 @@
-import { fetchPosts, getUserData, updateVotes } from './firebase.js'; 
+import { fetchPosts, getUserData } from './firebase.js'; 
 
 let postTemplate = null;
 
