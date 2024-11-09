@@ -1,4 +1,4 @@
-import { fetchPosts, getUserData, updateVotes, addComment, fetchComments } from './firebase.js';
+import { fetchPosts, getUserData, updateVotes } from './firebase.js'; 
 
 let postTemplate = null;
 
@@ -26,6 +26,7 @@ async function initializePostWall() {
     return;
   }
 
+  // Load the post template
   await loadPostTemplate();
 
   if (!postTemplate) {
@@ -33,17 +34,22 @@ async function initializePostWall() {
     return;
   }
 
+  // Fetch posts and render them in the post wall
   fetchPosts(async posts => {
     postContainer.innerHTML = ''; 
 
+    // Loop through each post and render it
     for (const postData of posts) {
+      // Clone the post template
       const postElement = postTemplate.cloneNode(true);
 
+      // Fill in the post content
       const contentElement = postElement.querySelector('.post-content');
       if (contentElement) {
         contentElement.textContent = postData.content;
       }
 
+      // Fetch the username from the users collection
       const userData = await getUserData(postData.userID);
       const authorElement = postElement.querySelector('.post-author');
       if (authorElement) {
@@ -55,50 +61,36 @@ async function initializePostWall() {
         timestampElement.textContent = postData.datetime;
       }
 
+      // Set up the upvote and downvote buttons
       const votesElement = postElement.querySelector('.post-votes');
       if (votesElement) {
+        votesElement.innerHTML = `
+          <button class="upvote-button">Upvote</button>
+          <small class="post-upvotes">${postData.upvotes || 0}</small>
+          <button class="downvote-button">Downvote</button>
+          <small class="post-downvotes">${postData.downvotes || 0}</small>
+        `;
+
+        // Add event listeners for upvote and downvote buttons
         const upvoteButton = votesElement.querySelector('.upvote-button');
         const downvoteButton = votesElement.querySelector('.downvote-button');
         const upvoteDisplay = votesElement.querySelector('.post-upvotes');
         const downvoteDisplay = votesElement.querySelector('.post-downvotes');
 
+        // Handle upvote click
         upvoteButton.addEventListener('click', async () => {
           postData.upvotes += 1;
           upvoteDisplay.textContent = postData.upvotes;
           await updateVotes(postData.id, postData.upvotes, postData.downvotes);
         });
 
+        // Handle downvote click
         downvoteButton.addEventListener('click', async () => {
           postData.downvotes += 1;
           downvoteDisplay.textContent = postData.downvotes;
           await updateVotes(postData.id, postData.upvotes, postData.downvotes);
         });
       }
-
-      // Comments Section
-      const commentList = postElement.querySelector('.comments-list');
-      const commentInput = postElement.querySelector('.comment-input');
-      const commentSubmitButton = postElement.querySelector('.comment-submit-button');
-
-      // Add comment submission functionality
-      commentSubmitButton.addEventListener('click', async () => {
-        const commentText = commentInput.value.trim();
-        if (commentText) {
-          await addComment(postData.id, commentText);
-          const newCommentElement = document.createElement('p');
-          newCommentElement.textContent = commentText;
-          commentList.appendChild(newCommentElement);
-          commentInput.value = '';  // Clear input field after submission
-        }
-      });
-
-      // Fetch and display existing comments
-      const comments = await fetchComments(postData.id);
-      comments.forEach(comment => {
-        const commentElement = document.createElement('p');
-        commentElement.textContent = `${comment.timestamp} - ${comment.text}`;
-        commentList.appendChild(commentElement);
-      });
 
       postContainer.appendChild(postElement);
     }
