@@ -23,7 +23,6 @@ function renderPosts(postData) {
 
       postContainer.appendChild(postElement);
 
-      // Add event listeners for upvote and downvote buttons
       const upvoteButton = postElement.querySelector('.upvote-button');
       const downvoteButton = postElement.querySelector('.downvote-button');
       const upvoteDisplay = postElement.querySelector('.post-upvotes');
