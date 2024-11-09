@@ -1,4 +1,4 @@
-import { fetchPosts, getUserData } from './firebase.js'; 
+import { fetchPosts, getUserData, updateVotes } from './firebase.js'; 
 
 let postTemplate = null;
 
@@ -36,18 +36,12 @@ async function initializePostWall() {
 
   // Fetch posts and render them in the post wall
   fetchPosts(async posts => {
-    postContainer.innerHTML = ''; // Clear existing posts
+    postContainer.innerHTML = ''; 
 
     // Loop through each post and render it
     for (const postData of posts) {
       // Clone the post template
       const postElement = postTemplate.cloneNode(true);
-
-      // Ensure that postElement is an HTML element
-      if (!(postElement instanceof HTMLElement)) {
-        console.error('Failed to clone post element as HTMLElement');
-        return;
-      }
 
       // Fill in the post content
       const contentElement = postElement.querySelector('.post-content');
@@ -83,21 +77,25 @@ async function initializePostWall() {
         const upvoteDisplay = votesElement.querySelector('.post-upvotes');
         const downvoteDisplay = votesElement.querySelector('.post-downvotes');
 
-        upvoteButton.addEventListener('click', () => {
-          postData.upvotes = (postData.upvotes || 0) + 1;
+        // Handle upvote click
+        upvoteButton.addEventListener('click', async () => {
+          postData.upvotes += 1;
           upvoteDisplay.textContent = postData.upvotes;
+          await updateVotes(postData.id, postData.upvotes, postData.downvotes);
         });
 
-        downvoteButton.addEventListener('click', () => {
-          postData.downvotes = (postData.downvotes || 0) + 1;
+        // Handle downvote click
+        downvoteButton.addEventListener('click', async () => {
+          postData.downvotes += 1;
           downvoteDisplay.textContent = postData.downvotes;
+          await updateVotes(postData.id, postData.upvotes, postData.downvotes);
         });
       }
 
-      // Append the post element to the post container
       postContainer.appendChild(postElement);
     }
   });
 }
 
 export { initializePostWall };
+
