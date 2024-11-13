@@ -15,13 +15,17 @@ function setupLoginElements() {
   signInButton.addEventListener('click', () => {
     const email = emailInput.value;
     const password = passwordInput.value;
-
+  
     if (!email || !password) {
       message2Div.textContent = 'Please fill in all fields and try again.';
       return;
     }
-
+  
     signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        emailInput.value = ""; // Clear email input
+        passwordInput.value = ""; // Clear password input
+      })
       .catch((error) => {
         console.error('Error Signing In: ', error);
         messageDiv.textContent = 'Error Signing In';
@@ -33,7 +37,7 @@ function setupLoginElements() {
         errorMessage = errorMessage.join(" ") + " Please try again."; // rejoins array into string
         message2Div.textContent = errorMessage;
       });
-  });
+  });  
 
   [emailInput, passwordInput].forEach(input => {
     input.addEventListener('keydown', event => {
