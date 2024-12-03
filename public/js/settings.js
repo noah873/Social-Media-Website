@@ -328,49 +328,45 @@ function setupSettingsElements() {
     const credential = EmailAuthProvider.credential(user.email, password);
 
     reauthenticateWithCredential(user, credential)
-        .then(() => {
-          return deleteDoc(doc(db, 'users', user.uid))
-            .then(() => {
-              const posts = collection(db, 'posts');
-              const q = query(posts, where('userID', '==', user.uid));
-              return getDocs(q);
-            })
-            .then((querySnapshot) => {
-              const deletePromises = [];
-              querySnapshot.forEach((doc) => {
-                deletePromises.push(deleteDoc(doc.ref));
-              });
-              return Promise.all(deletePromises);
-            })
-            .catch((error) => {
-              console.error('Error Deleting Documents: ', error);
-              deleteAccountMessageDiv.textContent = 'Error Deleting Data';
-            });
-        })
-        .then(() => {
-          const currentUser = auth.currentUser;
-          // serves as a flag to prevent redirection to login page
-          sessionStorage.setItem('deletingAccount', 'true');
-          deleteUser(currentUser)
-            .then(() => {
-              deleteAccountPopup.style.backgroundColor = 'white';
-              deleteAccountPopup.removeEventListener('click', deleteAccountPopupClick);
-              deleteAccountDiv.style.width = '25%';
-              deleteAccountMessageDiv.textContent = 'Account and Data Deletion Successful';
-              deleteAccountMessage2Div.textContent = 'Refresh the page to return to login screen.';
-              deleteAccountPasswordInput.classList.add('hidden');
-              deleteAccountButton.classList.add('hidden');
-              deleteAccountSettingsButton.classList.add('hidden');
-            })
-            .catch((error) => {
-              console.error('Error Deleting Account', error);
-              deleteAccountMessageDiv.textContent = 'Error Deleting Account';
-              deleteAccountMessage2Div.textContent = '';
-            });
+      .then(() => {
+        const posts = collection(db, 'posts');
+        const q = query(posts, where('userID', '==', user.uid));
+        return getDocs(q);
+      })
+      .then((querySnapshot) => {
+        const deletePromises = [];
+        querySnapshot.forEach((doc) => {
+          deletePromises.push(deleteDoc(doc.ref));
+        });
+        return Promise.all(deletePromises);
+      })
+      .then(() => {
+        return deleteDoc(doc(db, 'users', user.uid))
+      })
+      .then(() => {
+        const currentUser = auth.currentUser;
+        // serves as a flag to prevent redirection to login page
+        sessionStorage.setItem('deletingAccount', 'true');
+        deleteUser(currentUser)
+          .then(() => {
+            deleteAccountPopup.style.backgroundColor = 'white';
+            deleteAccountPopup.removeEventListener('click', deleteAccountPopupClick);
+            deleteAccountDiv.style.width = '25%';
+            deleteAccountMessageDiv.textContent = 'Account and Data Deletion Successful';
+            deleteAccountMessage2Div.textContent = 'Refresh the page to return to login screen.';
+            deleteAccountPasswordInput.classList.add('hidden');
+            deleteAccountButton.classList.add('hidden');
+            deleteAccountSettingsButton.classList.add('hidden');
+          })
+          .catch((error) => {
+            console.error('Error Deleting Account', error);
+            deleteAccountMessageDiv.textContent = 'Error Deleting Account';
+            deleteAccountMessage2Div.textContent = '';
+          });
         })
         .catch((error) => {
-            console.error('Error During Reauthentication:', error);
-            deleteAccountMessageDiv.textContent = 'Error During Reauthentication';
+            console.error('Error Deleting Account:', error);
+            deleteAccountMessageDiv.textContent = 'Error Deleting Account';
         });
   });
 
