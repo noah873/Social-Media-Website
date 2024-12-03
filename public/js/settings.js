@@ -356,7 +356,6 @@ function setupSettingsElements() {
             deleteAccountMessage2Div.textContent = 'Refresh the page to return to login screen.';
             deleteAccountPasswordInput.classList.add('hidden');
             deleteAccountButton.classList.add('hidden');
-            deleteAccountSettingsButton.classList.add('hidden');
           })
           .catch((error) => {
             console.error('Error Deleting Account', error);
