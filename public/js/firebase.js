@@ -6,7 +6,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { 
   getFirestore, collection, addDoc, query, where, orderBy, limit, onSnapshot, doc, 
-  setDoc, deleteDoc, updateDoc, getDoc, getDocs, serverTimestamp, query, where
+  setDoc, deleteDoc, updateDoc, getDoc, getDocs, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 import { 
   getStorage, ref, uploadBytes, getDownloadURL 
@@ -121,5 +121,5 @@ export {
   sendPasswordResetEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider, updatePassword, 
   updateEmail, verifyBeforeUpdateEmail, sendEmailVerification, db, fetchPosts, doc, setDoc, deleteDoc, updateDoc, 
   onSnapshot, collection, addDoc, getDoc, getDocs, serverTimestamp, query, where, orderBy, addPostToFirestore,
-  storage, ref, uploadFile, getFileURL, getUserData, query, where
+  storage, ref, uploadFile, getFileURL, getUserData
 };
