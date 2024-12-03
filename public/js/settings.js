@@ -329,7 +329,23 @@ function setupSettingsElements() {
 
     reauthenticateWithCredential(user, credential)
         .then(() => {
-          return deleteDoc(doc(db, 'users', user.uid));
+          return deleteDoc(doc(db, 'users', user.uid))
+            .then(() => {
+              const posts = collection(db, 'posts');
+              const q = query(posts, where('userID', '==', user.uid));
+              return getDocs(q);
+            })
+            .then((querySnapshot) => {
+              const deletePromises = [];
+              querySnapshot.forEach((doc) => {
+                deletePromises.push(deleteDoc(doc.ref));
+              });
+              return Promise.all(deletePromises);
+            })
+            .catch((error) => {
+              console.error('Error Deleting Documents: ', error);
+              deleteAccountMessageDiv.textContent = 'Error Deleting Data';
+            });
         })
         .then(() => {
           const currentUser = auth.currentUser;
@@ -353,8 +369,8 @@ function setupSettingsElements() {
             });
         })
         .catch((error) => {
-            console.error('Error during Reauthentication:', error);
-            deleteAccountMessageDiv.textContent = 'Error during Reauthentication';
+            console.error('Error During Reauthentication:', error);
+            deleteAccountMessageDiv.textContent = 'Error During Reauthentication';
         });
   });
 
