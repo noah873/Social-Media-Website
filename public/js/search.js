@@ -1,20 +1,20 @@
-import { db, collection, getDocs, doc, getDoc } from './firebase.js';
+import { db, collection, getDocs } from './firebase.js';
 
-// Function to handle the search input functionality
+// Function to handle search input
 function handleSearchInput() {
   const userSearchInput = document.getElementById('userSearchInput');
   const searchResultsContainer = document.getElementById('searchResultsContainer');
 
   if (!userSearchInput || !searchResultsContainer) {
-    console.error('Search input or results container is missing from the DOM.');
+    console.error('Search input or results container is missing.');
     return;
   }
 
   userSearchInput.addEventListener('input', async (event) => {
     const searchTerm = event.target.value.trim().toLowerCase();
-    searchResultsContainer.innerHTML = ''; // Clear previous results
+    searchResultsContainer.innerHTML = '';
 
-    if (!searchTerm) return; // Do nothing if search term is empty
+    if (!searchTerm) return;
 
     try {
       const usersSnapshot = await getDocs(collection(db, 'users'));
@@ -34,11 +34,6 @@ function handleSearchInput() {
             <button class="btn viewProfile">View Profile</button>
           `;
 
-          const viewProfileButton = userElement.querySelector('.viewProfile');
-          viewProfileButton.addEventListener('click', async () => {
-            await loadAndDisplayTheirProfile(docSnapshot.id);
-          });
-
           searchResultsContainer.appendChild(userElement);
         }
       });
@@ -52,80 +47,9 @@ function handleSearchInput() {
   });
 }
 
-// Function to load and display another user's profile
-async function loadAndDisplayTheirProfile(userID) {
-  try {
-    const userRef = doc(db, 'users', userID);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-
-      // Populate profile elements dynamically
-      document.getElementById('profileName').textContent = userData.username || 'Unknown User';
-      document.getElementById('profileBio').textContent = userData.bio || '';
-      const profileImageElement = document.getElementById('profileImage');
-      profileImageElement.src = userData.profileImage || '/default_elements/default-profile.png';
-
-      await loadTheirPosts(userID);
-      await updateTheirFriendsCount(userID);
-
-      // Toggle visibility between search and profile views
-      document.getElementById('searchContainer').style.display = 'none';
-      document.querySelector('.profile-container').style.display = 'block';
-    } else {
-      console.error('User not found.');
-    }
-  } catch (error) {
-    console.error('Error loading user profile:', error);
-  }
-}
-
-// Function to load another user's posts
-async function loadTheirPosts(userID) {
-  try {
-    const postsRef = collection(db, 'posts');
-    const postsSnapshot = await getDocs(postsRef);
-    const postBox = document.getElementById('postBox');
-    postBox.innerHTML = ''; // Clear previous posts
-
-    postsSnapshot.forEach((doc) => {
-      const post = doc.data();
-      if (post.userID === userID) {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post');
-        postElement.innerHTML = `
-          <h3>${post.content}</h3>
-          <small>${post.datetime.toDate().toLocaleString()}</small>
-        `;
-        postBox.appendChild(postElement);
-      }
-    });
-
-    if (postBox.children.length === 0) {
-      postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
-    }
-  } catch (error) {
-    console.error('Error loading user posts:', error);
-  }
-}
-
-// Function to update another user's friends count
-async function updateTheirFriendsCount(userID) {
-  try {
-    const friendsRef = collection(db, 'users', userID, 'friends');
-    const friendsSnapshot = await getDocs(friendsRef);
-    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
-  } catch (error) {
-    console.error('Error updating friends count:', error);
-  }
-}
-
-// Back to Search functionality
-document.getElementById('backToSearch').addEventListener('click', () => {
-  document.getElementById('searchContainer').style.display = 'block';
-  document.querySelector('.profile-container').style.display = 'none';
+// Ensure the DOM is loaded before initializing
+document.addEventListener('DOMContentLoaded', () => {
+  handleSearchInput();
 });
 
-// Export the handleSearchInput function
 export { handleSearchInput };
