@@ -122,10 +122,12 @@ async function updateTheirFriendsCount(userID) {
 }
 
 // Back to Search functionality
+/*
 document.getElementById('backToSearch').addEventListener('click', () => {
   document.getElementById('searchContainer').style.display = 'block';
   document.querySelector('.profile-container').style.display = 'none';
 });
+*/
 
 // Export the handleSearchInput function
 export { handleSearchInput };
