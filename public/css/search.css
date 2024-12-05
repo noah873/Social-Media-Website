@@ -27,53 +27,45 @@ body {
     padding: 10px;
 }
 
-/* User Result Card */
-.user {
+/* User Search Result Container */
+.user-search-result {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff;
     border-radius: 5px;
-    padding: 15px;
+    padding: 10px 20px;
     margin-bottom: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.user:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Profile Information within User Card */
-.profile {
-    display: flex;
-    flex-direction: column; /* Stack the name elements vertically */
-    justify-content: center; /* Vertically align content */
-    margin-right: 15px; /* Space between profile and button */
-}
-
-.profile .name h3 {
-    margin: 0;
-    color: #007bff;
+/* Username in Blue */
+.user-search-result .username {
+    font-size: 18px;
     font-weight: bold;
+    color: #007bff;
+    margin-right: 10px; /* Space between username and full name */
 }
 
-.profile .name p {
-    margin: 0;
-    color: #666;
+/* Full Name in Normal Text */
+.user-search-result .full-name {
+    font-size: 16px;
+    color: #333;
+    margin-right: auto; /* Push the button to the far right */
 }
 
-/* Profile Button */
-.btn.viewProfile {
+/* View Profile Button */
+.user-search-result .btn.viewProfile {
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 8px 15px;
+    font-size: 14px;
     cursor: pointer;
 }
 
-.btn.viewProfile:hover {
+.user-search-result .btn.viewProfile:hover {
     background-color: #0056b3;
 }
 
@@ -82,8 +74,4 @@ body {
     text-align: center;
     font-size: 16px;
     color: #666;
-}
-
-html {
-  display: block;
 }

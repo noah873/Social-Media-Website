@@ -1,4 +1,4 @@
-import { db, collection, getDocs, query, where } from './firebase.js'; // Import necessary Firebase functions
+import { db, collection, getDocs } from './firebase.js';
 import { renderHTML } from '../app.js';
 
 // Function to handle the search input functionality
@@ -21,7 +21,7 @@ function handleSearchInput() {
       // Fetch all users from Firestore and filter by search term
       const usersSnapshot = await getDocs(collection(db, 'users'));
 
-      usersSnapshot.docs.forEach(docSnapshot => {
+      usersSnapshot.docs.forEach((docSnapshot) => {
         const userData = docSnapshot.data();
         const username = userData.username.toLowerCase();
         const fullName = userData.full_name.toLowerCase();
@@ -32,25 +32,44 @@ function handleSearchInput() {
           userElement.classList.add('user-search-result');
 
           userElement.innerHTML = `
-            <div class="profile">
-              <div class="name">
-                <h3>${userData.username}</h3>
-                <p><small>${userData.full_name}</small></p>
-              </div>
-            </div>
+            <span class="username">${userData.username}</span>
+            <span class="full-name">${userData.full_name}</span>
             <button class="btn viewProfile">View Profile</button>
           `;
 
           // Add event listener to "View Profile" button
           const viewProfileButton = userElement.querySelector('.viewProfile');
           viewProfileButton.addEventListener('click', () => {
-            renderHTML("theirProfile.html", { recipientID: docSnapshot.id });
+            // Use renderHTML to load theirProfile.html dynamically
+            renderHTML("theirProfile.html").then(() => {
+              // Save current page as the last page
+              sessionStorage.setItem("lastPage", window.location.href);
+
+              // Update the browser's URL
+              const userIDParam = new URLSearchParams();
+              userIDParam.append("userID", docSnapshot.id);
+              history.pushState({}, '', `/html/theirProfile.html?${userIDParam.toString()}`);
+
+              // Dynamically load theirProfile.js and call loadTheirProfile
+              import('./theirProfile.js')
+                .then((module) => {
+                  module.loadTheirProfile(docSnapshot.id);
+                })
+                .catch((error) => {
+                  console.error('Error loading theirProfile.js:', error);
+                });
+            });
           });
 
           // Append the user element to the search results container
           searchResultsContainer.appendChild(userElement);
         }
       });
+
+      // Handle no results found
+      if (searchResultsContainer.children.length === 0) {
+        searchResultsContainer.innerHTML = '<p>No users found.</p>';
+      }
     } catch (error) {
       console.error('Error searching users:', error);
     }
