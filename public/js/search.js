@@ -1,4 +1,4 @@
-import { db, collection, getDocs, doc, getDoc } from './firebase.js';
+import { db, collection, getDocs, doc, getDoc, query, where } from './firebase.js';
 
 // Function to handle the search input functionality
 function handleSearchInput() {
@@ -85,25 +85,33 @@ async function loadAndDisplayTheirProfile(userID) {
 async function loadTheirPosts(userID) {
   try {
     const postsRef = collection(db, 'posts');
-    const postsSnapshot = await getDocs(postsRef);
+    const q = query(postsRef, where('userID', '==', userID)); // Fetch only posts for the specific user
+    const postsSnapshot = await getDocs(q);
     const postBox = document.getElementById('postBox');
-    postBox.innerHTML = ''; // Clear previous posts
+    postBox.innerHTML = ''; // Clear existing posts
+
+    let postCount = 0; // Initialize post count
 
     postsSnapshot.forEach((doc) => {
       const post = doc.data();
-      if (post.userID === userID) {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post');
-        postElement.innerHTML = `
-          <h3>${post.content}</h3>
-          <small>${post.datetime.toDate().toLocaleString()}</small>
-        `;
-        postBox.appendChild(postElement);
-      }
+      const postElement = document.createElement('div');
+      postElement.classList.add('post');
+      postElement.innerHTML = `
+        <h3>${post.content}</h3>
+        <small>${post.datetime.toDate().toLocaleString()}</small>
+      `;
+      postBox.appendChild(postElement);
+      postCount++; // Increment post count for each post
     });
 
     if (postBox.children.length === 0) {
       postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
+    }
+
+    // Update the post count in the profile stats
+    const postCountElement = document.getElementById('postCount');
+    if (postCountElement) {
+      postCountElement.textContent = postCount;
     }
   } catch (error) {
     console.error('Error loading user posts:', error);
@@ -120,14 +128,6 @@ async function updateTheirFriendsCount(userID) {
     console.error('Error updating friends count:', error);
   }
 }
-
-// Back to Search functionality
-/*
-document.getElementById('backToSearch').addEventListener('click', () => {
-  document.getElementById('searchContainer').style.display = 'block';
-  document.querySelector('.profile-container').style.display = 'none';
-});
-*/
 
 // Export the handleSearchInput function
 export { handleSearchInput };
