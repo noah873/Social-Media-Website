@@ -1,5 +1,4 @@
-import { db, collection, getDocs } from './firebase.js';
-import { renderHTML } from '../app.js';
+import { db, collection, getDocs, doc, getDoc } from './firebase.js';
 
 // Function to handle the search input functionality
 function handleSearchInput() {
@@ -39,26 +38,9 @@ function handleSearchInput() {
 
           // Add event listener to "View Profile" button
           const viewProfileButton = userElement.querySelector('.viewProfile');
-          viewProfileButton.addEventListener('click', () => {
-            // Use renderHTML to load theirProfile.html dynamically
-            renderHTML("theirProfile.html").then(() => {
-              // Save current page as the last page
-              sessionStorage.setItem("lastPage", window.location.href);
-
-              // Update the browser's URL
-              const userIDParam = new URLSearchParams();
-              userIDParam.append("userID", docSnapshot.id);
-              history.pushState({}, '', `/html/theirProfile.html?${userIDParam.toString()}`);
-
-              // Dynamically load theirProfile.js and call loadTheirProfile
-              import('./theirProfile.js')
-                .then((module) => {
-                  module.loadTheirProfile(docSnapshot.id);
-                })
-                .catch((error) => {
-                  console.error('Error loading theirProfile.js:', error);
-                });
-            });
+          viewProfileButton.addEventListener('click', async () => {
+            // Load and display the selected user's profile
+            await loadAndDisplayTheirProfile(docSnapshot.id);
           });
 
           // Append the user element to the search results container
@@ -74,6 +56,73 @@ function handleSearchInput() {
       console.error('Error searching users:', error);
     }
   });
+}
+
+// Function to load and display another user's profile
+async function loadAndDisplayTheirProfile(userID) {
+  try {
+    // Fetch user data from Firestore
+    const userRef = doc(db, 'users', userID);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+
+      // Populate profile elements dynamically
+      document.getElementById('profileName').textContent = userData.username || 'Unknown User';
+      document.getElementById('profileBio').textContent = userData.bio || '';
+      const profileImageElement = document.getElementById('profileImage');
+      profileImageElement.src = userData.profileImage || '/default_elements/default-profile.png';
+
+      // Load user's posts and friends count
+      await loadTheirPosts(userID);
+      await updateTheirFriendsCount(userID);
+
+      // Hide the search input and results and show the profile view
+      document.getElementById('searchContainer').style.display = 'none';
+      document.querySelector('.profile-container').style.display = 'block';
+    } else {
+      console.error('User not found.');
+    }
+  } catch (error) {
+    console.error('Error loading user profile:', error);
+  }
+}
+
+// Function to load another user's posts
+async function loadTheirPosts(userID) {
+  try {
+    const postsRef = collection(db, 'posts');
+    const postsSnapshot = await getDocs(postsRef);
+    const postBox = document.getElementById('postBox');
+    postBox.innerHTML = ''; // Clear previous posts
+
+    postsSnapshot.forEach((doc) => {
+      const post = doc.data();
+      if (post.userID === userID) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+          <h3>${post.content}</h3>
+          <small>${post.datetime.toDate().toLocaleString()}</small>
+        `;
+        postBox.appendChild(postElement);
+      }
+    });
+  } catch (error) {
+    console.error('Error loading user posts:', error);
+  }
+}
+
+// Function to update another user's friends count
+async function updateTheirFriendsCount(userID) {
+  try {
+    const friendsRef = collection(db, 'users', userID, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
+  } catch (error) {
+    console.error('Error updating friends count:', error);
+  }
 }
 
 // Export the handleSearchInput function
