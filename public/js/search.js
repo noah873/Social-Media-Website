@@ -1,5 +1,6 @@
 import { db, collection, getDocs, doc, getDoc } from './firebase.js';
 
+// Function to handle the search input functionality
 function handleSearchInput() {
   const userSearchInput = document.getElementById('userSearchInput');
   const searchResultsContainer = document.getElementById('searchResultsContainer');
@@ -11,9 +12,9 @@ function handleSearchInput() {
 
   userSearchInput.addEventListener('input', async (event) => {
     const searchTerm = event.target.value.trim().toLowerCase();
-    searchResultsContainer.innerHTML = '';
+    searchResultsContainer.innerHTML = ''; // Clear previous results
 
-    if (!searchTerm) return;
+    if (!searchTerm) return; // Do nothing if search term is empty
 
     try {
       const usersSnapshot = await getDocs(collection(db, 'users'));
@@ -51,6 +52,7 @@ function handleSearchInput() {
   });
 }
 
+// Function to load and display another user's profile
 async function loadAndDisplayTheirProfile(userID) {
   try {
     const userRef = doc(db, 'users', userID);
@@ -59,58 +61,73 @@ async function loadAndDisplayTheirProfile(userID) {
     if (userDoc.exists()) {
       const userData = userDoc.data();
 
+      // Populate profile elements dynamically
       document.getElementById('profileName').textContent = userData.username || 'Unknown User';
       document.getElementById('profileBio').textContent = userData.bio || '';
-      document.getElementById('profileImage').src = userData.profileImage || '/default_elements/default-profile.png';
+      const profileImageElement = document.getElementById('profileImage');
+      profileImageElement.src = userData.profileImage || '/default_elements/default-profile.png';
 
       await loadTheirPosts(userID);
       await updateTheirFriendsCount(userID);
 
+      // Toggle visibility between search and profile views
       document.getElementById('searchContainer').style.display = 'none';
       document.querySelector('.profile-container').style.display = 'block';
-      document.getElementById('backToSearch').style.display = 'inline-block';
+    } else {
+      console.error('User not found.');
     }
   } catch (error) {
     console.error('Error loading user profile:', error);
   }
 }
 
+// Function to load another user's posts
 async function loadTheirPosts(userID) {
-  const postBox = document.getElementById('postBox');
-  postBox.innerHTML = '';
-  const postsRef = collection(db, 'posts');
-  const postsSnapshot = await getDocs(postsRef);
+  try {
+    const postsRef = collection(db, 'posts');
+    const postsSnapshot = await getDocs(postsRef);
+    const postBox = document.getElementById('postBox');
+    postBox.innerHTML = ''; // Clear previous posts
 
-  postsSnapshot.forEach((doc) => {
-    const post = doc.data();
-    if (post.userID === userID) {
-      const postElement = document.createElement('div');
-      postElement.classList.add('post');
-      postElement.innerHTML = `<h3>${post.content}</h3><small>${post.datetime.toDate().toLocaleString()}</small>`;
-      postBox.appendChild(postElement);
-    }
-  });
-
-  if (postBox.children.length === 0) {
-    postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
-  }
-}
-
-async function updateTheirFriendsCount(userID) {
-  const friendsRef = collection(db, 'users', userID, 'friends');
-  const friendsSnapshot = await getDocs(friendsRef);
-  document.getElementById('friendsCount').textContent = friendsSnapshot.size;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const backToSearchButton = document.getElementById('backToSearch');
-  if (backToSearchButton) {
-    backToSearchButton.addEventListener('click', () => {
-      document.getElementById('searchContainer').style.display = 'block';
-      document.querySelector('.profile-container').style.display = 'none';
-      backToSearchButton.style.display = 'none';
+    postsSnapshot.forEach((doc) => {
+      const post = doc.data();
+      if (post.userID === userID) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+          <h3>${post.content}</h3>
+          <small>${post.datetime.toDate().toLocaleString()}</small>
+        `;
+        postBox.appendChild(postElement);
+      }
     });
-  }
-});
 
+    if (postBox.children.length === 0) {
+      postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
+    }
+  } catch (error) {
+    console.error('Error loading user posts:', error);
+  }
+}
+
+// Function to update another user's friends count
+async function updateTheirFriendsCount(userID) {
+  try {
+    const friendsRef = collection(db, 'users', userID, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
+  } catch (error) {
+    console.error('Error updating friends count:', error);
+  }
+}
+
+// Back to Search functionality
+/*
+document.getElementById('backToSearch').addEventListener('click', () => {
+  document.getElementById('searchContainer').style.display = 'block';
+  document.querySelector('.profile-container').style.display = 'none';
+});
+*/
+
+// Export the handleSearchInput function
 export { handleSearchInput };
