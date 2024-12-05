@@ -198,5 +198,19 @@ async function updateTheirFriendsCount(userID) {
   }
 }
 
+// Add functionality to the Back to Search button
+document.addEventListener('DOMContentLoaded', () => {
+  const backToSearchButton = document.getElementById('backToSearch');
+  if (backToSearchButton) {
+    backToSearchButton.addEventListener('click', () => {
+      // Hide the profile view
+      document.querySelector('.profile-container').style.display = 'none';
+
+      // Show the search view
+      document.getElementById('searchContainer').style.display = 'block';
+    });
+  }
+});
+
 // Export the handleSearchInput function
 export { handleSearchInput };
