@@ -12,6 +12,14 @@ import {
   getStorage, ref, uploadBytes, getDownloadURL 
 } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
 
+/* Dependency Injection Design Pattern (Creational) - This file imports, creates,
+and exports Firebase functions and services, injecting dependencies into the rest of
+our app. It initializes a Firebase app using our configuration keys, then using that 
+to create instances of Firebase services like Firestore and Storage. This practice limits
+the amount of HTTP GET Requests for these dependencies and makes the architecture of the
+website more flexible and maintainable. Instead of each part of the website creating these
+dependencies themselves, this file controls and manages that process.
+*/
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCaCCK38R9btLtT5SLCwRB97vv9qbj8RFM",
