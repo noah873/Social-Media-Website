@@ -20,7 +20,13 @@ function setupLoginElements() {
       message2Div.textContent = 'Please fill in all fields and try again.';
       return;
     }
-  
+
+    /* Factory Method Design Pattern (Creational) - This Firebase signInWithEmailAndPassword function, along with other
+    fulfilling Firebase functions, follow the Factory Method Pattern by abstracting the process of signing into a Firebase Auth
+    account or creating an account then signing in. Firebase's design allows this function call to specify/alter the type of
+    objects/accounts to be created. The high level interface abstracts exact details of this process,
+    providing account and data security, which aids our codes extensibility and maintenance.
+    */
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         emailInput.value = ""; // Clear email input
