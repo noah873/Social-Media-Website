@@ -51,10 +51,14 @@ function handleAuthStatus() {
   
       // set user as online after they login, create and account, or visit a page while logged in
       updateUserStatus(user, "online");
-  
+
+      /* Command Design Pattern (Behavioral) - These two functions in the event listeners use the Command Pattern,
+      as they abstract and name the behavior of tracking if the user has the website visible and closed or not.
+      Because this code is defined in stand alone named functions, they can be removed after the user logs out, to prevent
+      unnecessary tracking.
+      */
       // update user status when they switch tabs or minimize window
       document.addEventListener('visibilitychange', handleVisibilityChange);
-  
       // set user to offline if they close the tab (while still logged in)
       window.addEventListener('beforeunload', handleBeforeUnload);
 
