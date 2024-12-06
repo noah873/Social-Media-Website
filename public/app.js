@@ -34,6 +34,7 @@ for each page, each having clear responsibilities.
    It also follows the Open for Extension/Closed for Modification Principle, as new HTML pages
 can be added to the to Single Page Application here without needing to modify existing functions.
 The conditional blocks in renderHTML would just need to be extended to support of the needs of any new pages.
+renderHTML is exported so other files can import it and utilize it modularly.
 */
 async function renderHTML(html) {
   const navbarPlaceholder = document.getElementById('navbarPlaceholder');  
