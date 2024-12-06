@@ -1,5 +1,10 @@
 import { renderHTML } from '../app.js';
 
+/* Builder Design Pattern (Creational) - The setupNavbarElements function follows the Builder Pattern
+as it separates the construction of the buttons' event listeners from its representations. These buttons are dynamically setup
+with event listeners if they are not the active page and each background color and cursor configuration is also set accordingly.
+Each navbar for each page can be built using this same process, exemplifying the Builder Pattern and bringing meaningful flexibility.
+*/
 function setupNavbarElements(activePage) {
   const buttons = {
     home: { button: document.getElementById('navHome'), page: "home.html" },
