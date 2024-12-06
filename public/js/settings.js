@@ -155,7 +155,11 @@ function setupSettingsElements() {
   const changeEmailPopup = document.getElementById('changeEmailPopup');
   const changePasswordPopup = document.getElementById('changePasswordPopup');
   const deleteAccountPopup = document.getElementById('deleteAccountPopup');
-
+  
+  /* Decorator Design Pattern (Structural) - To manage the popup functionality of this page, the CSS hidden class
+  serves as a UI decorator to manage the visibility of designated popups. This wrapper is dynamically added and
+  removed to abstract the functionality and enhance the user experience.  
+  */
   changeEmailPopup.addEventListener('click', function() {
     if (event.target === this) {
       changeEmailPopup.classList.add('hidden');
