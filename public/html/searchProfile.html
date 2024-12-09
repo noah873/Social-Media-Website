@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="../css/searchProfile.css">
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-image">
+        <img id="profileImage" src="/default_elements/default-profile.png" alt="Profile Image">
+      </div>
+      <div class="profile-info">
+        <h1 id="profileName"></h1>
+        <p id="profileBio"></p>
+        <button id="friendButton" class="friend-button"></button>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat">
+        <p><strong id="postCount">0</strong> Posts</p>
+      </div>
+      <div class="stat">
+        <p><strong id="friendsCount">0</strong> Friends</p>
+      </div>
+    </div>
+
+    <div class="post-box" id="postBox"></div>
+  </div>
+
+  <script type="module" src="js/searchProfile.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search and Profile</title>
+  <title>Search</title>
   <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
@@ -11,32 +11,6 @@
   <div id="searchContainer">
     <input type="text" id="userSearchInput" placeholder="Search for users..." />
     <div id="searchResultsContainer"></div>
-  </div>
-
-  <!-- Profile Container (Hidden by Default) -->
-  <div class="profile-container" style="display: none;">
-    <!-- button id="backToSearch" class="back-button">Back to Search</button -->
-    <div class="profile-header">
-      <div class="profile-image">
-        <img id="profileImage" src="/default_elements/default-profile.png" alt="Profile Image">
-      </div>
-      <div class="profile-info">
-        <h1 id="profileName"></h1>
-        <p id="profileBio"></p>
-        <button id="friendButton" class="friend-button"></button>
-      </div>
-    </div>
-
-    <div class="profile-stats">
-      <div class="stat">
-        <p><strong id="postCount">0</strong> Posts</p>
-      </div>
-      <div class="stat">
-        <p><strong id="friendsCount">0</strong> Friends</p>
-      </div>
-    </div>
-
-    <div class="post-box" id="postBox"></div>
   </div>
 
   <script type="module" src="js/search.js"></script>

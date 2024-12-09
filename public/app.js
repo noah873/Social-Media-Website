@@ -13,6 +13,7 @@ import { setupNavbarElements } from './js/navbar.js';
 import { setupProfileElements } from './js/profile.js';
 import { loadGlobalUsers } from './js/friends.js';
 import { handleSearchInput } from './js/search.js';
+import { loadUserProfile } from './js/searchProfile.js';
 
 // redirects viewer to login page if not logged in and home page if they are
 // handles online, idle, and offline statuses
@@ -123,7 +124,13 @@ async function renderHTML(html) {
     navbarPlaceholder.innerHTML = '';
     setupSendMessagePage();  // Setting up the chat page functionality
     history.pushState({}, '', '/messages-chat'); // redirect URL
-  } 
+    
+  } else if (html === "searchProfile.html") { 
+    await loadNavbar("profile");
+    history.pushState({ page: 'searchProfile' }, '', '/searchProfile');
+    loadUserProfile(); // Call the function to load and display the user's profile
+
+  }
 }
 
 // Handle the browser's back/forward button navigation
