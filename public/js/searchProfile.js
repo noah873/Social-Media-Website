@@ -1,6 +1,5 @@
 import { db, doc, getDoc, collection, getDocs, query, where, setDoc, deleteDoc } from './firebase.js';
 import { auth } from './firebase.js';
-import { renderHTML } from '../app.js'; // Import renderHTML for navigation
 
 // Function to load and display the user's profile
 async function loadUserProfile() {
@@ -35,47 +34,49 @@ async function loadUserProfile() {
   }
 }
 
-// Add functionality for the Back to Search button
-function setupBackButton() {
-    const backToSearchButton = document.getElementById('backToSearch');
-    if (!backToSearchButton) return;
-  
-    backToSearchButton.addEventListener('click', () => {
-      // Redirect back to the search page
-      sessionStorage.removeItem('viewedUserID'); // Clean up session data
-      renderHTML('search.html'); // Use renderHTML for SPA navigation
-    });
-  }
-
 // Function to load the user's posts
 async function loadUserPosts(userID) {
-  const postsRef = collection(db, 'posts');
-  const q = query(postsRef, where('userID', '==', userID));
-  const postsSnapshot = await getDocs(q);
-  const postBox = document.getElementById('postBox');
-  postBox.innerHTML = ''; // Clear existing posts
+  try {
+    const postsRef = collection(db, 'posts');
+    const q = query(postsRef, where('userID', '==', userID));
+    const postsSnapshot = await getDocs(q);
+    const postBox = document.getElementById('postBox');
+    postBox.innerHTML = ''; // Clear existing posts
 
-  postsSnapshot.forEach((doc) => {
-    const post = doc.data();
-    const postElement = document.createElement('div');
-    postElement.classList.add('post');
-    postElement.innerHTML = `
-      <h3>${post.content}</h3>
-      <small>${post.datetime.toDate().toLocaleString()}</small>
-    `;
-    postBox.appendChild(postElement);
-  });
+    let postCount = 0; // Initialize the post count
 
-  if (postBox.children.length === 0) {
-    postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
+    postsSnapshot.forEach((doc) => {
+      const post = doc.data();
+      const postElement = document.createElement('div');
+      postElement.classList.add('post');
+      postElement.innerHTML = `
+        <h3>${post.content}</h3>
+        <small>${post.datetime.toDate().toLocaleString()}</small>
+      `;
+      postBox.appendChild(postElement);
+      postCount++; // Increment the post count for each valid post
+    });
+
+    if (postCount === 0) {
+      postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
+    }
+
+    // Update the post count in the DOM
+    document.getElementById('postCount').textContent = postCount;
+  } catch (error) {
+    console.error('Error loading user posts:', error);
   }
 }
 
 // Function to update the user's friends count
 async function updateUserFriendsCount(userID) {
-  const friendsRef = collection(db, 'users', userID, 'friends');
-  const friendsSnapshot = await getDocs(friendsRef);
-  document.getElementById('friendsCount').textContent = friendsSnapshot.size;
+  try {
+    const friendsRef = collection(db, 'users', userID, 'friends');
+    const friendsSnapshot = await getDocs(friendsRef);
+    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
+  } catch (error) {
+    console.error('Error updating friends count:', error);
+  }
 }
 
 // Function to set up the Add/Remove Friend button
@@ -131,7 +132,6 @@ async function removeFriend(currentUserID, targetUserID) {
 // Initialize the profile page
 document.addEventListener('DOMContentLoaded', () => {
   loadUserProfile();
-  setupBackButton(); // Initialize the back button
 });
 
 // Export loadUserProfile for use in app.js
