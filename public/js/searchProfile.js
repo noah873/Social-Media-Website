@@ -37,14 +37,15 @@ async function loadUserProfile() {
 
 // Add functionality for the Back to Search button
 function setupBackButton() {
-  const backToSearchButton = document.getElementById('backToSearch');
-  if (!backToSearchButton) return;
-
-  backToSearchButton.addEventListener('click', () => {
-    // Redirect back to the search page
-    renderHTML('search.html'); // Use renderHTML for SPA navigation
-  });
-}
+    const backToSearchButton = document.getElementById('backToSearch');
+    if (!backToSearchButton) return;
+  
+    backToSearchButton.addEventListener('click', () => {
+      // Redirect back to the search page
+      sessionStorage.removeItem('viewedUserID'); // Clean up session data
+      renderHTML('search.html'); // Use renderHTML for SPA navigation
+    });
+  }
 
 // Function to load the user's posts
 async function loadUserPosts(userID) {
