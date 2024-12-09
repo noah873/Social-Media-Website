@@ -29,25 +29,25 @@ body {
 .user-search-result {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background-color: #fff;
   padding: 15px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Ensure text aligns within the center */
 }
 
 .user-search-result .username {
   font-size: 18px;
   font-weight: bold;
   color: #007bff;
+  flex: 1; /* Take up equal space */
+  text-align: left; /* Align username to the left */
 }
 
 .user-search-result .full-name {
   font-size: 16px;
   color: #555;
-  flex-grow: 1; /* Allow the full name to take up available space */
-  text-align: center; /* Center the text within its container */
+  flex: 1; /* Take up equal space */
+  text-align: center; /* Center-align full name */
 }
 
 .user-search-result .viewProfile {
@@ -57,6 +57,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  flex: 0; /* Button does not grow */
 }
 
 .user-search-result .viewProfile:hover {
