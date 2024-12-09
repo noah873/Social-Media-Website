@@ -38,18 +38,25 @@ async function initializePostWall() {
   fetchPosts(async posts => {
     postContainer.innerHTML = ''; 
 
-    // Loop through each post and render it
     for (const postData of posts) {
-      // Clone the post template
       const postElement = postTemplate.cloneNode(true);
 
-      // Fill in the post content
+      // Populate content
       const contentElement = postElement.querySelector('.post-content');
       if (contentElement) {
         contentElement.textContent = postData.content;
       }
 
-      // Fetch the username from the users collection
+      // Populate image
+      const imageElement = postElement.querySelector('.post-image');
+      if (imageElement && postData.imageURL) {
+        imageElement.src = postData.imageURL; // Set image URL
+        imageElement.alt = `Image for post by ${postData.userID}`; // Set alt text
+      } else if (imageElement) {
+        imageElement.style.display = 'none'; // Hide image if none is present
+      }
+
+      // Populate other fields like author and timestamp
       const userData = await getUserData(postData.userID);
       const authorElement = postElement.querySelector('.post-author');
       if (authorElement) {
@@ -59,37 +66,6 @@ async function initializePostWall() {
       const timestampElement = postElement.querySelector('.post-timestamp');
       if (timestampElement) {
         timestampElement.textContent = postData.datetime;
-      }
-
-      // Set up the upvote and downvote buttons
-      const votesElement = postElement.querySelector('.post-votes');
-      if (votesElement) {
-        votesElement.innerHTML = `
-          <button class="upvote-button">Upvote</button>
-          <small class="post-upvotes">${postData.upvotes || 0}</small>
-          <button class="downvote-button">Downvote</button>
-          <small class="post-downvotes">${postData.downvotes || 0}</small>
-        `;
-
-        // Add event listeners for upvote and downvote buttons
-        const upvoteButton = votesElement.querySelector('.upvote-button');
-        const downvoteButton = votesElement.querySelector('.downvote-button');
-        const upvoteDisplay = votesElement.querySelector('.post-upvotes');
-        const downvoteDisplay = votesElement.querySelector('.post-downvotes');
-
-        // Handle upvote click
-        upvoteButton.addEventListener('click', async () => {
-          postData.upvotes += 1;
-          upvoteDisplay.textContent = postData.upvotes;
-          await updateVotes(postData.id, postData.upvotes, postData.downvotes);
-        });
-
-        // Handle downvote click
-        downvoteButton.addEventListener('click', async () => {
-          postData.downvotes += 1;
-          downvoteDisplay.textContent = postData.downvotes;
-          await updateVotes(postData.id, postData.upvotes, postData.downvotes);
-        });
       }
 
       postContainer.appendChild(postElement);

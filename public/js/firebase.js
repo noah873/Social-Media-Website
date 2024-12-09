@@ -69,19 +69,28 @@ async function getFileURL(path) {
   }
 }
 
-// Function to add a post to Firestore
-async function addPostToFirestore(postContent) {
+// Function to add a post (with optional image) to Firestore
+async function addPostToFirestore(postContent, imageFile = null) {
   try {
     const user = auth.currentUser;
     if (!user) throw new Error("User not authenticated");
+
+    let imageURL = null;
+
+    // Upload the image to Firebase Storage if provided
+    if (imageFile) {
+      const filePath = `postImages/${user.uid}/${Date.now()}_${imageFile.name}`;
+      imageURL = await uploadFile(imageFile, filePath);
+    }
 
     // Create a new document in the 'posts' collection
     const postRef = await addDoc(collection(db, "posts"), {
       userID: user.uid,
       content: postContent,
-      datetime: serverTimestamp(), // automatically set server timestamp
+      imageURL: imageURL, // Add image URL if available
+      datetime: serverTimestamp(),
       upvotes: 0,
-      downvotes: 0
+      downvotes: 0,
     });
 
     console.log("Post created with ID: ", postRef.id);
@@ -89,6 +98,7 @@ async function addPostToFirestore(postContent) {
     console.error("Error adding post: ", error);
   }
 }
+
 
 // Function to fetch posts from Firestore in descending order by datetime
 async function fetchPosts(callback) {

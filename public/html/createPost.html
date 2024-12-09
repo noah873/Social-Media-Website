@@ -6,11 +6,24 @@
 </head>
 <body>
     <div id="createPost">
-        <!-- <button id="backButton">Back</button> -->
         <h1>Create a New Post</h1>
+        <!-- Textarea for post content -->
         <textarea id="postContent" placeholder="Write your post here..."></textarea>
-        <button id="submitPostButton">Submit Post</button>
+
+        <!-- File input for uploading an image -->
+        <input type="file" id="postImage" accept="image/*" />
+
+        <!-- Image preview container -->
+        <div id="imagePreviewContainer">
+            <img id="imagePreview" src="" alt="Image Preview" />
+        </div>
+
+        <!-- Buttons for submitting or going back -->
+        <div class="button-container">
+            <button id="submitPostButton">Submit Post</button>
+            <button id="backButton">Back</button>
+        </div>
     </div>
-    <script type="module" src="../js/post.js"></script>
+    <script type="module" src="../js/createPost.js"></script>
 </body>
 </html>

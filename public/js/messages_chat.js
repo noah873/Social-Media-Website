@@ -1,112 +1,112 @@
-import { db, collection, addDoc, getDocs, query, where, orderBy, serverTimestamp, doc, getDoc } from './firebase.js'; // Firebase functions
-import { renderHTML } from '../app.js'; // To redirect between pages
-import { auth, onAuthStateChanged } from './firebase.js'; // Import auth to get the current user
+import { db, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, getDoc, updateDoc } from './firebase.js';
+import { renderHTML } from '../app.js';
+import { auth, onAuthStateChanged } from './firebase.js';
 
-// Function to set up the chat page
-function setupSendMessagePage() {
+async function setupSendMessagePage() {
   const recipientNameSpan = document.getElementById('recipientName');
   const chatLog = document.getElementById('chatLog');
   const messageContent = document.getElementById('messageContent');
   const sendMessageButton = document.getElementById('sendMessageButton');
   const backToMessages = document.getElementById('backToMessages');
 
-  const recipientName = history.state?.recipient || 'Unknown';
-  const recipientID = history.state?.recipientID || null;
+  const params = new URLSearchParams(window.location.search);
+  const recipientID = params.get('recipientID');
+  const recipientName = params.get('recipientName') || 'Unknown';
 
-  // Wait for authentication state change to ensure we have the current user ID
+  // Cache for fetched usernames to minimize Firestore queries
+  const usernameCache = {};
+
+  async function getUsername(userID) {
+    if (usernameCache[userID]) {
+      return usernameCache[userID];
+    }
+    try {
+      const userRef = doc(db, 'users', userID);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        const username = userDoc.data().username;
+        usernameCache[userID] = username; // Cache the result
+        return username;
+      }
+    } catch (error) {
+      console.error(`Error fetching username for userID: ${userID}`, error);
+    }
+    return 'Unknown'; // Fallback if username not found
+  }
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const currentUserID = user.uid;
 
-      // Fetch current user's username from Firestore
-      const currentUserDocRef = doc(db, 'users', currentUserID);
-      const currentUserDoc = await getDoc(currentUserDocRef);
-      const currentUserName = currentUserDoc.exists() ? currentUserDoc.data().username : 'Unknown User';  // Use the Firestore username
-
-      recipientNameSpan.textContent = recipientName;
-
-      if (!recipientID || !currentUserID) {
-        console.error("Recipient ID or current user ID is missing");
+      if (!recipientID) {
+        alert('Recipient information is missing.');
+        renderHTML('messages.html');
         return;
       }
 
-      // Back button functionality
-      if (backToMessages) {
-        backToMessages.addEventListener('click', () => {
-          renderHTML("messages.html");
-        });
-      }
+      recipientNameSpan.textContent = recipientName;
 
-      // Load existing chat messages between the current user and the recipient
-      async function loadChatLog() {
-        try {
-          const chatQuery = query(
-            collection(db, 'messages'),
-            where('recipientID', 'in', [currentUserID, recipientID]),  // Chat between both users
-            where('senderID', 'in', [currentUserID, recipientID]),     // Either is sender
-            orderBy('timestamp', 'asc')  // Order by timestamp
-          );
-          const chatSnapshot = await getDocs(chatQuery);
-          chatLog.innerHTML = ''; // Clear existing chat log
+      backToMessages.addEventListener('click', () => {
+        renderHTML('messages.html');
+      });
 
-          chatSnapshot.docs.forEach(docSnapshot => {
-            const messageData = docSnapshot.data();
+      const chatQuery = query(
+        collection(db, 'messages'),
+        where('recipientID', 'in', [currentUserID, recipientID]),
+        where('senderID', 'in', [currentUserID, recipientID]),
+        orderBy('timestamp', 'asc')
+      );
 
-            // Display the sender's name (use senderName from Firestore)
-            const senderName = messageData.senderName || 'Unknown Sender';
-
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-
-            messageElement.innerHTML = `
-              <div class="messageContent">
-                <strong>${senderName}</strong>  <!-- Display sender's name -->
-                <p>${messageData.content}</p>   <!-- Display message content -->
-                <small>${new Date(messageData.timestamp.seconds * 1000).toLocaleString()}</small>  <!-- Display timestamp -->
-              </div>
-            `;
-
-            chatLog.appendChild(messageElement);
-          });
-
-          console.log('Chat log loaded successfully');
-        } catch (error) {
-          console.error('Error loading chat log:', error);
+      onSnapshot(chatQuery, async (snapshot) => {
+        chatLog.innerHTML = '';
+        for (const docSnapshot of snapshot.docs) {
+          const messageData = docSnapshot.data();
+          const senderName = await getUsername(messageData.senderID); // Get the username dynamically
+          renderMessage({ ...messageData, senderName });
+          markMessageAsRead(docSnapshot.id, messageData, currentUserID);
         }
-      }
+      });
 
-      // Send message functionality
-      if (sendMessageButton) {
-        sendMessageButton.addEventListener('click', async () => {
-          const messageText = messageContent.value.trim();
-          if (messageText) {
-            try {
-              const senderName = currentUserName;  // Use the current user's Firestore username
-
-              await addDoc(collection(db, 'messages'), {
-                recipientID,
-                senderID: currentUserID,  // Add the sender's ID (current user)
-                senderName: senderName,   // Store the sender's name from Firestore
-                content: messageText,
-                timestamp: serverTimestamp(),  // Use Firestore server timestamp
-                isRead: false           // Mark the message as unread by default
-              });
-              messageContent.value = '';  // Clear the message field
-              loadChatLog();  // Reload the chat log to show the new message
-            } catch (error) {
-              console.error('Error sending message:', error);
-            }
-          } else {
-            alert('Please type a message before sending.');
-          }
-        });
-      }
-
-      loadChatLog();  // Load the chat messages initially
+      sendMessageButton.addEventListener('click', async () => {
+        const messageText = messageContent.value.trim();
+        if (messageText) {
+          await addDoc(collection(db, 'messages'), {
+            recipientID,
+            senderID: currentUserID,
+            content: messageText,
+            timestamp: serverTimestamp(),
+            isRead: false,
+          });
+          messageContent.value = '';
+        } else {
+          alert('Please type a message before sending.');
+        }
+      });
     } else {
       console.error('No user is signed in');
     }
   });
+}
+
+function renderMessage({ senderName, content, timestamp }) {
+  const chatLog = document.getElementById('chatLog');
+  const messageElement = document.createElement('div');
+  messageElement.classList.add('message');
+  messageElement.innerHTML = `
+    <div class="messageContent">
+      <strong>${senderName}</strong>
+      <p>${content}</p>
+      <small>${new Date(timestamp.seconds * 1000).toLocaleString()}</small>
+    </div>
+  `;
+  chatLog.appendChild(messageElement);
+}
+
+function markMessageAsRead(docID, messageData, currentUserID) {
+  if (messageData.recipientID === currentUserID && !messageData.isRead) {
+    const messageRef = doc(db, 'messages', docID);
+    updateDoc(messageRef, { isRead: true });
+  }
 }
 
 export { setupSendMessagePage };
