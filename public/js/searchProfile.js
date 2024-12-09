@@ -1,5 +1,6 @@
 import { db, doc, getDoc, collection, getDocs, query, where, setDoc, deleteDoc } from './firebase.js';
 import { auth } from './firebase.js';
+import { renderHTML } from '../app.js'; // Import renderHTML for navigation
 
 // Function to load and display the user's profile
 async function loadUserProfile() {
@@ -34,43 +35,46 @@ async function loadUserProfile() {
   }
 }
 
+// Add functionality for the Back to Search button
+function setupBackButton() {
+  const backToSearchButton = document.getElementById('backToSearch');
+  if (!backToSearchButton) return;
+
+  backToSearchButton.addEventListener('click', () => {
+    // Redirect back to the search page
+    renderHTML('search.html'); // Use renderHTML for SPA navigation
+  });
+}
+
 // Function to load the user's posts
 async function loadUserPosts(userID) {
-  try {
-    const postsRef = collection(db, 'posts');
-    const q = query(postsRef, where('userID', '==', userID));
-    const postsSnapshot = await getDocs(q);
-    const postBox = document.getElementById('postBox');
-    postBox.innerHTML = ''; // Clear existing posts
+  const postsRef = collection(db, 'posts');
+  const q = query(postsRef, where('userID', '==', userID));
+  const postsSnapshot = await getDocs(q);
+  const postBox = document.getElementById('postBox');
+  postBox.innerHTML = ''; // Clear existing posts
 
-    postsSnapshot.forEach((doc) => {
-      const post = doc.data();
-      const postElement = document.createElement('div');
-      postElement.classList.add('post');
-      postElement.innerHTML = `
-        <h3>${post.content}</h3>
-        <small>${post.datetime.toDate().toLocaleString()}</small>
-      `;
-      postBox.appendChild(postElement);
-    });
+  postsSnapshot.forEach((doc) => {
+    const post = doc.data();
+    const postElement = document.createElement('div');
+    postElement.classList.add('post');
+    postElement.innerHTML = `
+      <h3>${post.content}</h3>
+      <small>${post.datetime.toDate().toLocaleString()}</small>
+    `;
+    postBox.appendChild(postElement);
+  });
 
-    if (postBox.children.length === 0) {
-      postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
-    }
-  } catch (error) {
-    console.error('Error loading user posts:', error);
+  if (postBox.children.length === 0) {
+    postBox.innerHTML = '<p class="empty-state">No posts to display.</p>';
   }
 }
 
 // Function to update the user's friends count
 async function updateUserFriendsCount(userID) {
-  try {
-    const friendsRef = collection(db, 'users', userID, 'friends');
-    const friendsSnapshot = await getDocs(friendsRef);
-    document.getElementById('friendsCount').textContent = friendsSnapshot.size;
-  } catch (error) {
-    console.error('Error updating friends count:', error);
-  }
+  const friendsRef = collection(db, 'users', userID, 'friends');
+  const friendsSnapshot = await getDocs(friendsRef);
+  document.getElementById('friendsCount').textContent = friendsSnapshot.size;
 }
 
 // Function to set up the Add/Remove Friend button
@@ -87,59 +91,47 @@ async function setupFriendButton(userID) {
     return;
   }
 
-  try {
-    const friendRef = doc(db, 'users', currentUser.uid, 'friends', userID);
-    const friendDoc = await getDoc(friendRef);
+  const friendRef = doc(db, 'users', currentUser.uid, 'friends', userID);
+  const friendDoc = await getDoc(friendRef);
 
-    if (friendDoc.exists()) {
-      // User is already a friend - set up "Remove Friend" functionality
-      friendButton.textContent = 'Remove Friend';
-      friendButton.onclick = async () => {
-        await removeFriend(currentUser.uid, userID);
-        setupFriendButton(userID); // Update button state after removing friend
-      };
-    } else {
-      // User is not a friend - set up "Add Friend" functionality
-      friendButton.textContent = 'Add Friend';
-      friendButton.onclick = async () => {
-        await addFriend(currentUser.uid, userID);
-        setupFriendButton(userID); // Update button state after adding friend
-      };
-    }
-  } catch (error) {
-    console.error('Error setting up friend button:', error);
+  if (friendDoc.exists()) {
+    friendButton.textContent = 'Remove Friend';
+    friendButton.onclick = async () => {
+      await removeFriend(currentUser.uid, userID);
+      setupFriendButton(userID);
+    };
+  } else {
+    friendButton.textContent = 'Add Friend';
+    friendButton.onclick = async () => {
+      await addFriend(currentUser.uid, userID);
+      setupFriendButton(userID);
+    };
   }
 }
 
 // Function to add a friend
 async function addFriend(currentUserID, targetUserID) {
-  try {
-    const friendRef = doc(db, 'users', currentUserID, 'friends', targetUserID);
-    await setDoc(friendRef, { addedAt: new Date() });
+  const friendRef = doc(db, 'users', currentUserID, 'friends', targetUserID);
+  const reverseFriendRef = doc(db, 'users', targetUserID, 'friends', currentUserID);
 
-    const reverseFriendRef = doc(db, 'users', targetUserID, 'friends', currentUserID);
-    await setDoc(reverseFriendRef, { addedAt: new Date() });
-
-    console.log(`Friend added between ${currentUserID} and ${targetUserID}`);
-  } catch (error) {
-    console.error('Error adding friend:', error);
-  }
+  await setDoc(friendRef, { addedAt: new Date() });
+  await setDoc(reverseFriendRef, { addedAt: new Date() });
 }
 
 // Function to remove a friend
 async function removeFriend(currentUserID, targetUserID) {
-  try {
-    const friendRef = doc(db, 'users', currentUserID, 'friends', targetUserID);
-    await deleteDoc(friendRef);
+  const friendRef = doc(db, 'users', currentUserID, 'friends', targetUserID);
+  const reverseFriendRef = doc(db, 'users', targetUserID, 'friends', currentUserID);
 
-    const reverseFriendRef = doc(db, 'users', targetUserID, 'friends', currentUserID);
-    await deleteDoc(reverseFriendRef);
-
-    console.log(`Friend removed between ${currentUserID} and ${targetUserID}`);
-  } catch (error) {
-    console.error('Error removing friend:', error);
-  }
+  await deleteDoc(friendRef);
+  await deleteDoc(reverseFriendRef);
 }
+
+// Initialize the profile page
+document.addEventListener('DOMContentLoaded', () => {
+  loadUserProfile();
+  setupBackButton(); // Initialize the back button
+});
 
 // Export loadUserProfile for use in app.js
 export { loadUserProfile };

@@ -5,6 +5,20 @@ body {
     padding: 0;
   }
   
+  .back-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  
   .profile-container {
     background-color: white;
     padding: 20px;
