@@ -28,8 +28,8 @@ body {
 
 .user-search-result {
   display: flex;
-  align-items: center; /* Align items vertically */
-  justify-content: space-between; /* Align items horizontally */
+  align-items: center; /* Vertically align items */
+  justify-content: space-between; /* Maintain spacing between sections */
   background-color: #fff;
   padding: 15px;
   border-radius: 5px;
@@ -41,14 +41,15 @@ body {
   font-weight: bold;
   color: #007bff;
   flex: 1; /* Allow flexible spacing */
-  text-align: center; /* Center-align the username */
+  text-align: left; /* Keep the username left-aligned */
 }
 
 .user-search-result .full-name {
   font-size: 16px;
   color: #555;
   flex: 1; /* Allow flexible spacing */
-  text-align: center; /* Center-align the full name */
+  display: flex;
+  justify-content: center; /* Center-align the full name */
 }
 
 .user-search-result .viewProfile {
