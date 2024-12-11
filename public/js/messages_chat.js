@@ -31,7 +31,7 @@ async function setupSendMessagePage() {
     } catch (error) {
       console.error(`Error fetching username for userID: ${userID}`, error);
     }
-    return 'Unknown'; // Fallback if username not found
+    //return 'Unknown'; // Fallback if username not found
   }
 
   onAuthStateChanged(auth, async (user) => {
