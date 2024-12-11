@@ -1,79 +1,59 @@
 /* General Layout */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f9fc;
+  margin: 0;
+  padding: 0;
+}
+
 #messages {
   display: flex;
-  height: 100vh;
-  background-color: #f4f4f4;
-}
-
-/* Left Side Panel (Similar to home view) */
-#sidePanel {
-  width: 250px;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-#sidePanel button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-#sidePanel button:hover {
-  background-color: #0056b3;
-}
-
-/* Message Wall - Central Section */
-#messageWall {
-  flex-grow: 1;
+  min-height: 100vh;
   padding: 20px;
-  overflow-y: auto;
+  background-color: #f7f9fc;
+}
+
+#messageWall {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #messageWall h2 {
   font-size: 24px;
+  font-weight: bold;
+  text-align: center;
   margin-bottom: 20px;
+  color: #333;
 }
 
-/* Scrollable Message Container */
-#dmContainer {
-  max-height: 70vh; /* Limiting the height so it becomes scrollable */
+/* Scrollable User List */
+#userList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   overflow-y: auto;
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-/* Styling individual message entries */
+/* Individual User Entry */
 .dm {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #fff;
-  border-radius: 5px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
-/* Styling for the blue dot indicating unread messages */
-.unread-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background-color: blue;
-  border-radius: 50%;
-  margin-left: 10px; /* Space between the name and dot */
-}
-
 
 .dm:hover {
-  background-color: #f9f9f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .dm .profile {
@@ -83,32 +63,75 @@
 
 .dm .name h3 {
   margin: 0;
-  font-size: 1.2em;
-  color: #333;
-}
-
-.dm .name span {
-  font-size: 0.9em;
-  color: #666;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
 }
 
 .dm .name small {
-  color: #999;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Unread Message Dot */
+.unread-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #007bff;
+  border-radius: 50%;
+  margin-left: 10px;
 }
 
 /* Reply Button */
 .dm .btn.reply {
-  margin-top: 10px;
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .dm .btn.reply:hover {
   background-color: #0056b3;
+}
+
+.dm .btn.reply:active {
+  background-color: #00448a;
+}
+
+/* Scrollbar Styling */
+#userList::-webkit-scrollbar {
+  width: 8px;
+}
+
+#userList::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+#userList::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  #messageWall {
+    padding: 15px;
+  }
+
+  .dm {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dm .btn.reply {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
 }
 
 html {
