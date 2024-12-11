@@ -59,24 +59,32 @@ async function loadGlobalUsers() {
             // Add event listener to "Add Friend" button if they're not friends yet
             if (!isFriend) {
                 const addFriendButton = userElement.querySelector('.addFriend');
-                addFriendButton.addEventListener('click', async () => {
-                    await addFriend(currentUserID, userID);
-                    addFriendButton.textContent = ' Remove Friend'; // Change button text to "Friends"
-                    addFriendButton.classList.remove('addFriend'); // Remove addFriend class
-                    addFriendButton.classList.add('removeFriend'); // Add friends class
-                    addFriendButton.disabled = false; // Disable the button after adding
-                    addFriendButton.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
-                    addFriendButton.style.cursor = 'default'; // remove mouseover selection visual
-                });
+                if (addFriendButton) {
+                    addFriendButton.addEventListener('click', async () => {
+                        await addFriend(currentUserID, userID);
+                        addFriendButton.textContent = 'Remove Friend'; // Change button text to "Remove Friend"
+                        addFriendButton.classList.remove('addFriend'); // Remove addFriend class
+                        addFriendButton.classList.add('removeFriends'); // Add removeFriends class
+                        addFriendButton.style.backgroundColor = '#0056b3'; // Update button color
+                        addFriendButton.style.cursor = 'pointer'; // Ensure button remains clickable
+                    });
+                } else {
+                    console.error('Add Friend button is missing for user:', userID);
+                }
             } else {
-                const removeFriendButton = userElement.querySelector('.removeFriend');
-                removeFriendButton.addEventListener('click', async () => {
-                    await removeFriend(currentUserID, userID);
-                    removeFriendButton.textContent = 'Add Friend'; // Change button text back to "Add Friend"
-                    removeFriendButton.classList.remove('removeFriend'); // Remove friends class
-                    removeFriendButton.classList.add('addFriend'); // Add addFriend class
-                    removeFriendButton.style.cursor = 'pointer'; // Ensure the button remains clickable
-                });
+                const removeFriendButton = userElement.querySelector('.removeFriends');
+                if (removeFriendButton) {
+                    removeFriendButton.addEventListener('click', async () => {
+                        await removeFriend(currentUserID, userID);
+                        removeFriendButton.textContent = 'Add Friend'; // Change button text back to "Add Friend"
+                        removeFriendButton.classList.remove('removeFriends'); // Remove removeFriends class
+                        removeFriendButton.classList.add('addFriend'); // Add addFriend class
+                        removeFriendButton.style.backgroundColor = '#007bff'; // Reset button color
+                        removeFriendButton.style.cursor = 'pointer'; // Ensure button remains clickable
+                    });
+                } else {
+                    console.error('Remove Friend button is missing for user:', userID);
+                }
             }
 
             // Append the user element to the user list
