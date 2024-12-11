@@ -1,4 +1,4 @@
-/* General Layout */
+/* General Styling */
 body {
   font-family: Arial, sans-serif;
   background-color: #f7f9fc;
@@ -9,6 +9,7 @@ body {
 #messages {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   padding: 20px;
   background-color: #f7f9fc;
@@ -16,7 +17,7 @@ body {
 
 #messageWall {
   max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
@@ -31,19 +32,18 @@ body {
   color: #333;
 }
 
-/* Scrollable User List */
+/* User List Styling */
 #userList {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  overflow-y: auto;
 }
 
 /* Individual User Entry */
 .dm {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   padding: 15px;
   border-radius: 8px;
@@ -57,26 +57,27 @@ body {
 }
 
 .dm .profile {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
 }
 
-.dm .name h3 {
-  margin: 0;
+.dm .profile .name {
   font-size: 18px;
   font-weight: bold;
   color: #007bff;
+  margin: 0;
 }
 
-.dm .name small {
-  margin-top: 5px;
+.dm .profile .email {
   font-size: 14px;
   color: #666;
+  margin-top: 5px;
 }
 
 /* Unread Message Dot */
 .unread-dot {
-  display: inline-block;
   width: 10px;
   height: 10px;
   background-color: #007bff;
@@ -84,7 +85,7 @@ body {
   margin-left: 10px;
 }
 
-/* Reply Button */
+/* Send Private Message Button */
 .dm .btn.reply {
   padding: 10px 20px;
   background-color: #007bff;
@@ -92,6 +93,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 14px;
   transition: background-color 0.2s;
 }
 
@@ -101,20 +103,6 @@ body {
 
 .dm .btn.reply:active {
   background-color: #00448a;
-}
-
-/* Scrollbar Styling */
-#userList::-webkit-scrollbar {
-  width: 8px;
-}
-
-#userList::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 4px;
-}
-
-#userList::-webkit-scrollbar-thumb:hover {
-  background-color: #aaa;
 }
 
 /* Mobile Responsiveness */
@@ -132,8 +120,4 @@ body {
     align-self: flex-end;
     margin-top: 10px;
   }
-}
-
-html {
-  display: block;
 }
