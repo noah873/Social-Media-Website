@@ -45,14 +45,16 @@ async function loadDirectMessages() {
         const userElement = document.createElement('div');
         userElement.classList.add('user');
         userElement.innerHTML = `
-          <div class="profile">
-            <div class="name">
-              <h3>${userData.full_name}</h3>
-              <p><small>${userData.email}</small></p>
-              <span id="unread-${userID}"></span>
+          <div class="dm">
+            <div class="profile">
+              <h3 class="name">${userData.full_name}</h3>
+              <p class="email">${userData.email}</p>
+            </div>
+            <div class="actions">
+              <span id="unread-${userID}" class="unread-indicator"></span>
+              <button class="btn sendMessage">Send Private Message</button>
             </div>
           </div>
-          <button class="btn sendMessage">Send Private Message</button>
         `;
 
         // Add event listener for sending a message

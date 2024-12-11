@@ -1,26 +1,17 @@
-/* General Styling */
+/* General Layout */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f7f9fc;
+  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
 }
 
-#messages {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  background-color: #f7f9fc;
-}
-
 #messageWall {
   max-width: 800px;
-  width: 100%;
+  margin: 30px auto;
   background-color: #fff;
-  border-radius: 8px;
   padding: 20px;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -32,14 +23,16 @@ body {
   color: #333;
 }
 
-/* User List Styling */
+/* Scrollable User List */
 #userList {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
-/* Individual User Entry */
+/* Individual User Item */
 .dm {
   display: flex;
   align-items: center;
@@ -56,11 +49,11 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Profile Section */
 .dm .profile {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  flex-grow: 1;
 }
 
 .dm .profile .name {
@@ -73,51 +66,47 @@ body {
 .dm .profile .email {
   font-size: 14px;
   color: #666;
-  margin-top: 5px;
+  margin: 5px 0 0;
 }
 
-/* Unread Message Dot */
-.unread-dot {
+/* Actions Section */
+.dm .actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Unread Indicator */
+.unread-indicator {
+  display: inline-block;
   width: 10px;
   height: 10px;
   background-color: #007bff;
   border-radius: 50%;
-  margin-left: 10px;
 }
 
 /* Send Private Message Button */
-.dm .btn.reply {
+.dm .btn {
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
 }
 
-.dm .btn.reply:hover {
+.dm .btn:hover {
   background-color: #0056b3;
 }
 
-.dm .btn.reply:active {
-  background-color: #00448a;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-  #messageWall {
-    padding: 15px;
-  }
-
+/* Adjustments for Small Screens */
+@media (max-width: 768px) {
   .dm {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .dm .btn.reply {
-    align-self: flex-end;
+  .dm .actions {
     margin-top: 10px;
   }
 }
