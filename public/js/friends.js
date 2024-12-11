@@ -1,5 +1,5 @@
 import { renderHTML } from '../app.js'; // Import renderHTML for redirection
-import { auth, db, collection, doc, getDocs, addDoc, onAuthStateChanged, query, where, getDoc, setDoc } from './firebase.js'; // Include setDoc here
+import { auth, db, collection, doc, getDocs, addDoc, onAuthStateChanged, query, where, getDoc, setDoc, deleteDoc } from './firebase.js'; // Include setDoc here
 
 
 // Function to load global users
