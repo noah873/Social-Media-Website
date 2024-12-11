@@ -56,23 +56,19 @@ async function loadGlobalUsers() {
                 </button>
             `;
 
-            // Add event listener for the button
-            const friendButton = userElement.querySelector('.btn');
-            friendButton.addEventListener('click', async () => {
-                if (isFriend) {
-                    // Remove friend
-                    await removeFriend(currentUserID, userID);
-                    friendButton.textContent = 'Add Friend';
-                    friendButton.classList.remove('friends');
-                    friendButton.classList.add('addFriend');
-                } else {
-                    // Add friend
+            // Add event listener to "Add Friend" button if they're not friends yet
+            if (!isFriend) {
+                const addFriendButton = userElement.querySelector('.addFriend');
+                addFriendButton.addEventListener('click', async () => {
                     await addFriend(currentUserID, userID);
-                    friendButton.textContent = 'Remove Friend';
-                    friendButton.classList.remove('addFriend');
-                    friendButton.classList.add('friends');
-                }
-            });
+                    addFriendButton.textContent = 'Friends'; // Change button text to "Friends"
+                    addFriendButton.classList.remove('addFriend'); // Remove addFriend class
+                    addFriendButton.classList.add('friends'); // Add friends class
+                    addFriendButton.disabled = true; // Disable the button after adding
+                    addFriendButton.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
+                    addFriendButton.style.cursor = 'default'; // remove mouseover selection visual
+                });
+            }
 
             // Append the user element to the user list
             userList.appendChild(userElement);
@@ -118,25 +114,6 @@ async function addFriend(currentUserID, selectedUserID) {
     } catch (error) {
         console.error('Error adding friend:', error);
         alert('Failed to add friend.');
-    }
-}
-
-// Function to remove a friend
-async function removeFriend(currentUserID, selectedUserID) {
-    try {
-        // Remove friend from the current user's 'friends' subcollection
-        const currentUserFriendRef = doc(db, 'users', currentUserID, 'friends', selectedUserID);
-        await deleteDoc(currentUserFriendRef);
-
-        // Remove the current user from the selected user's 'friends' subcollection
-        const selectedUserFriendRef = doc(db, 'users', selectedUserID, 'friends', currentUserID);
-        await deleteDoc(selectedUserFriendRef);
-
-        console.log(`Friend removed between ${currentUserID} and ${selectedUserID}`);
-        alert('Friend removed successfully!');
-    } catch (error) {
-        console.error('Error removing friend:', error);
-        alert('Failed to remove friend.');
     }
 }
 
