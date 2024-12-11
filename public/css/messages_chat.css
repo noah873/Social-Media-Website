@@ -42,7 +42,7 @@ button:hover {
 .messageContent {
   padding: 10px;
   border-radius: 8px;
-  background-color: #f1f1f1; /* Light background for the message */
+  background-color: #f7f9fc; 
   max-width: 60%;
   word-wrap: break-word;
 }
