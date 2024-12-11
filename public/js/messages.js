@@ -87,7 +87,13 @@ function checkForUnreadMessages(userID, currentUserID) {
 
   onSnapshot(unreadQuery, (snapshot) => {
     const unreadDot = document.getElementById(`unread-${userID}`);
-    unreadDot.innerHTML = snapshot.size > 0 ? '<span class="unread-dot"></span>' : '';
+    
+    // Only show the unread indicator if there are unread messages
+    if (snapshot.size > 0) {
+      unreadDot.innerHTML = snapshot.size > 0 ? '<span class="unread-dot"></span>' : '';
+    } else {
+      unreadDot.innerHTML = ''; // Clear the unread indicator
+    }
   });
 }
 
