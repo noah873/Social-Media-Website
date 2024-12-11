@@ -1,3 +1,7 @@
+body {
+  background-color: #f7f9fc;
+}
+
 #chatPage {
   padding: 20px;
 }
@@ -8,6 +12,7 @@
   margin-bottom: 20px;
   height: 300px;
   overflow-y: auto;
+  background-color: white;
 }
 
 #messageContent {
