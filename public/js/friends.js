@@ -72,8 +72,11 @@ async function loadGlobalUsers() {
                     console.error('Add Friend button is missing for user:', userID);
                 }
             } else {
-                const removeFriendButton = userElement.querySelector('.removeFriends');
+                const removeFriendButton = userElement.querySelector('.btn'); // Select the button directly
                 if (removeFriendButton) {
+                    removeFriendButton.textContent = 'Remove Friend'; // Ensure the button text is correct
+                    removeFriendButton.classList.remove('addFriend'); // Remove any incorrect class
+                    removeFriendButton.classList.add('removeFriends'); // Add the correct class
                     removeFriendButton.addEventListener('click', async () => {
                         await removeFriend(currentUserID, userID);
                         removeFriendButton.textContent = 'Add Friend'; // Change button text back to "Add Friend"
