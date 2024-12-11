@@ -11,10 +11,15 @@ async function setupSendMessagePage() {
 
   const params = new URLSearchParams(window.location.search);
   const recipientID = params.get('recipientID');
-  const recipientName = params.get('recipientName') || 'Unknown';
 
-  // Cache for fetched usernames to minimize Firestore queries
-  const usernameCache = {};
+  if (!recipientID) {
+    alert('Recipient information is missing.');
+    renderHTML('messages.html');
+    return;
+  }
+
+  let currentUserID = null;
+  const usernameCache = {}; // Cache for usernames
 
   async function getUsername(userID) {
     if (usernameCache[userID]) {
@@ -24,52 +29,66 @@ async function setupSendMessagePage() {
       const userRef = doc(db, 'users', userID);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
-        const username = userDoc.data().username;
-        usernameCache[userID] = username; // Cache the result
+        const username = userDoc.data().username || 'Unknown';
+        usernameCache[userID] = username;
         return username;
       }
     } catch (error) {
       console.error(`Error fetching username for userID: ${userID}`, error);
     }
-    return 'Unknown'; // Fallback if username not found
+    return 'Unknown';
   }
 
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const currentUserID = user.uid;
+    if (!user) {
+      console.error('No user is signed in');
+      renderHTML('login.html');
+      return;
+    }
 
-      if (!recipientID) {
-        alert('Recipient information is missing.');
-        renderHTML('messages.html');
-        return;
-      }
+    currentUserID = user.uid;
 
-      recipientNameSpan.textContent = recipientName;
-
-      backToMessages.addEventListener('click', () => {
-        renderHTML('messages.html');
-      });
-
-      const chatQuery = query(
-        collection(db, 'messages'),
-        where('recipientID', 'in', [currentUserID, recipientID]),
-        where('senderID', 'in', [currentUserID, recipientID]),
-        orderBy('timestamp', 'asc')
-      );
-
-      onSnapshot(chatQuery, async (snapshot) => {
-        chatLog.innerHTML = '';
-        for (const docSnapshot of snapshot.docs) {
-          const messageData = docSnapshot.data();
-          const senderName = await getUsername(messageData.senderID); // Get the username dynamically
-          renderMessage({ ...messageData, senderName });
-          markMessageAsRead(docSnapshot.id, messageData, currentUserID);
+    let recipientName = params.get('recipientName');
+    if (!recipientName) {
+      try {
+        const recipientUser = await getDoc(doc(db, 'users', recipientID));
+        if (recipientUser.exists()) {
+          recipientName = recipientUser.data().username || 'Unknown';
+        } else {
+          recipientName = 'Unknown';
         }
-      });
+      } catch (error) {
+        console.error(`Error fetching recipient name: ${error}`);
+        recipientName = 'Unknown';
+      }
+    }
+    recipientNameSpan.textContent = recipientName;
 
-      sendMessageButton.addEventListener('click', async () => {
-        const messageText = messageContent.value.trim();
-        if (messageText) {
+    backToMessages.addEventListener('click', () => {
+      renderHTML('messages.html');
+    });
+
+    const chatQuery = query(
+      collection(db, 'messages'),
+      where('recipientID', 'in', [currentUserID, recipientID]),
+      where('senderID', 'in', [currentUserID, recipientID]),
+      orderBy('timestamp', 'asc')
+    );
+
+    onSnapshot(chatQuery, async (snapshot) => {
+      chatLog.innerHTML = '';
+      for (const docSnapshot of snapshot.docs) {
+        const messageData = docSnapshot.data();
+        const senderName = await getUsername(messageData.senderID);
+        renderMessage({ ...messageData, senderName });
+        markMessageAsRead(docSnapshot.id, messageData, currentUserID);
+      }
+    });
+
+    sendMessageButton.addEventListener('click', async () => {
+      const messageText = messageContent.value.trim();
+      if (messageText) {
+        try {
           await addDoc(collection(db, 'messages'), {
             recipientID,
             senderID: currentUserID,
@@ -78,28 +97,31 @@ async function setupSendMessagePage() {
             isRead: false,
           });
           messageContent.value = '';
-        } else {
-          alert('Please type a message before sending.');
+        } catch (error) {
+          console.error('Error sending message:', error);
         }
-      });
-    } else {
-      console.error('No user is signed in');
-    }
+      } else {
+        alert('Please type a message before sending.');
+      }
+    });
   });
 }
 
 function renderMessage({ senderName, content, timestamp }) {
   const chatLog = document.getElementById('chatLog');
   const messageElement = document.createElement('div');
+
   messageElement.classList.add('message');
   messageElement.innerHTML = `
     <div class="messageContent">
-      <strong>${senderName}</strong>
+      <strong>${senderName}</strong> <!-- Display sender name -->
       <p>${content}</p>
       <small>${new Date(timestamp.seconds * 1000).toLocaleString()}</small>
     </div>
   `;
+
   chatLog.appendChild(messageElement);
+  chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to the latest message
 }
 
 function markMessageAsRead(docID, messageData, currentUserID) {

@@ -150,17 +150,39 @@ async function updatePostVotes(postID, userID, voteType) {
 // Function to fetch posts from Firestore in descending order by datetime
 async function fetchPosts(callback) {
   const postsQuery = query(collection(db, "posts"), orderBy("datetime", "desc"));
-  
-  onSnapshot(postsQuery, (snapshot) => {
-    const posts = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      datetime: doc.data().datetime.toDate().toLocaleString(), // Convert Firestore timestamp to readable format
-    }));
-    
+
+  onSnapshot(postsQuery, async (snapshot) => {
+    const posts = await Promise.all(
+      snapshot.docs.map(async (docSnap) => {
+        const postData = docSnap.data();
+
+        try {
+          const userRef = doc(db, 'users', postData.userID); // Ensure this is properly scoped
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            postData.profileImage = userData.profileImage || '/default_elements/default-profile.png';
+          } else {
+            postData.profileImage = '/default_elements/default-profile.png'; // Fallback if user not found
+          }
+        } catch (error) {
+          console.error(`Failed to fetch user data for user ${postData.userID}:`, error);
+          postData.profileImage = '/default_elements/default-profile.png'; // Fallback in case of errors
+        }
+
+        return {
+          id: docSnap.id,
+          ...postData,
+          datetime: postData.datetime.toDate().toLocaleString(), // Convert Firestore timestamp to readable format
+        };
+      })
+    );
+
     callback(posts);
   });
 }
+
 
 // Function to get user data from Firestore
 async function getUserData(userID) {

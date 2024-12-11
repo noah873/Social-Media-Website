@@ -20,10 +20,17 @@ function renderPosts(postData, container, template) {
     }
 
     const authorElement = postElement.querySelector('.post-author');
-    if (authorElement) authorElement.textContent = `Posted by: ${post.username}`;
+    if (authorElement) authorElement.textContent = `${post.username}`;
 
     const timestampElement = postElement.querySelector('.post-timestamp');
     if (timestampElement) timestampElement.textContent = post.datetime;
+
+    // Populate profile image
+    const profileImageElement = postElement.querySelector('.author-profile-image');
+    if (profileImageElement) {
+      profileImageElement.src = post.profileImage;
+      profileImageElement.alt = `Profile image of ${post.username}`;
+    }
 
     // Upvotes/Downvotes
     const upvoteButton = postElement.querySelector('.upvote-button');
@@ -56,5 +63,6 @@ function renderPosts(postData, container, template) {
     container.appendChild(postElement);
   });
 }
+
 
 export { renderPosts };

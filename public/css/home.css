@@ -42,13 +42,29 @@
   border-radius: 5px;
 }
 
+.post-author {
+  font-size: 1.1em; /* Slightly larger font */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Optional: Set a dark color for better readability */
+}
+
+.author-profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
 .upvote-button, .downvote-button {
   padding: 5px 10px;
   font-size: 14px;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f0f0f0;
+  background-color: #007bff;
+  color: white;
   transition: background-color 0.3s;
 }
 
@@ -63,6 +79,7 @@
 }
 
 .post-image {
+  margin-top: 20px;
   max-width: 200px; /* Set a maximum width for the image */
   max-height: 200px; /* Set a maximum height for the image */
   object-fit: contain; /* Ensure the image maintains its aspect ratio */

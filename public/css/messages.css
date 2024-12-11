@@ -77,7 +77,7 @@ body {
 }
 
 /* Unread Indicator */
-.unread-indicator {
+/*  .unread-indicator {
   display: inline-block;
   width: 10px;
   height: 10px;
