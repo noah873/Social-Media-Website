@@ -61,18 +61,27 @@ async function loadGlobalUsers() {
                 const addFriendButton = userElement.querySelector('.addFriend');
                 addFriendButton.addEventListener('click', async () => {
                     await addFriend(currentUserID, userID);
-                    addFriendButton.textContent = 'Friends'; // Change button text to "Friends"
+                    addFriendButton.textContent = ' Remove Friend'; // Change button text to "Friends"
                     addFriendButton.classList.remove('addFriend'); // Remove addFriend class
-                    addFriendButton.classList.add('friends'); // Add friends class
-                    addFriendButton.disabled = true; // Disable the button after adding
+                    addFriendButton.classList.add('removeFriend'); // Add friends class
+                    addFriendButton.disabled = false; // Disable the button after adding
                     addFriendButton.style.backgroundColor = '#0056b3'; // set the color of the active page button to look like its depressed (darker blue)
                     addFriendButton.style.cursor = 'default'; // remove mouseover selection visual
+                });
+            } else {
+                const removeFriendButton = userElement.querySelector('.removeFriend');
+                removeFriendButton.addEventListener('click', async () => {
+                    await removeFriend(currentUserID, userID);
+                    removeFriendButton.textContent = 'Add Friend'; // Change button text back to "Add Friend"
+                    removeFriendButton.classList.remove('removeFriend'); // Remove friends class
+                    removeFriendButton.classList.add('addFriend'); // Add addFriend class
+                    removeFriendButton.style.cursor = 'pointer'; // Ensure the button remains clickable
                 });
             }
 
             // Append the user element to the user list
             userList.appendChild(userElement);
-        }
+        } 
 
         console.log('Global users loaded successfully');
     } catch (error) {
@@ -114,6 +123,25 @@ async function addFriend(currentUserID, selectedUserID) {
     } catch (error) {
         console.error('Error adding friend:', error);
         alert('Failed to add friend.');
+    }
+}
+
+// Function to remove a friend
+async function removeFriend(currentUserID, selectedUserID) {
+    try {
+        // Remove friend from the current user's 'friends' subcollection
+        const currentUserFriendRef = doc(db, 'users', currentUserID, 'friends', selectedUserID);
+        await deleteDoc(currentUserFriendRef);
+
+        // Remove the current user from the selected user's 'friends' subcollection
+        const selectedUserFriendRef = doc(db, 'users', selectedUserID, 'friends', currentUserID);
+        await deleteDoc(selectedUserFriendRef);
+
+        console.log(`Friend removed between ${currentUserID} and ${selectedUserID}`);
+        alert('Friend removed successfully!');
+    } catch (error) {
+        console.error('Error removing friend:', error);
+        alert('Failed to remove friend.');
     }
 }
 
