@@ -99,6 +99,53 @@ async function addPostToFirestore(postContent, imageFile = null) {
   }
 }
 
+// Function to update votes and manage voter tracking
+async function updatePostVotes(postID, userID, voteType) {
+  const postRef = doc(db, 'posts', postID);
+  try {
+    const postSnapshot = await getDoc(postRef);
+    if (!postSnapshot.exists()) {
+      console.error(`Post with ID ${postID} not found.`);
+      return;
+    }
+
+    const postData = postSnapshot.data();
+    const voters = postData.voters || {}; // Ensure voters field exists
+    const currentVote = voters[userID] || null; // User's current vote
+
+    // Update logic based on voteType and currentVote
+    if (voteType === 'upvote') {
+      if (currentVote === 'upvote') {
+        delete voters[userID]; // Remove upvote
+        postData.upvotes -= 1;
+      } else {
+        voters[userID] = 'upvote';
+        if (currentVote === 'downvote') postData.downvotes -= 1;
+        postData.upvotes += 1;
+      }
+    } else if (voteType === 'downvote') {
+      if (currentVote === 'downvote') {
+        delete voters[userID]; // Remove downvote
+        postData.downvotes -= 1;
+      } else {
+        voters[userID] = 'downvote';
+        if (currentVote === 'upvote') postData.upvotes -= 1;
+        postData.downvotes += 1;
+      }
+    }
+
+    // Write updates to Firestore
+    await updateDoc(postRef, {
+      upvotes: postData.upvotes,
+      downvotes: postData.downvotes,
+      voters,
+    });
+
+    console.log(`Updated post ${postID}:`, { upvotes: postData.upvotes, downvotes: postData.downvotes });
+  } catch (error) {
+    console.error('Error updating votes:', error);
+  }
+}
 
 // Function to fetch posts from Firestore in descending order by datetime
 async function fetchPosts(callback) {
@@ -139,5 +186,5 @@ export {
   sendPasswordResetEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider, updatePassword, 
   updateEmail, verifyBeforeUpdateEmail, sendEmailVerification, db, fetchPosts, doc, setDoc, deleteDoc, updateDoc, 
   onSnapshot, collection, addDoc, getDoc, getDocs, serverTimestamp, query, where, orderBy, addPostToFirestore,
-  storage, ref, uploadFile, getFileURL, getUserData
+  storage, ref, uploadFile, getFileURL, getUserData, updatePostVotes
 };

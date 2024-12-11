@@ -1,57 +1,60 @@
-// post.js
-function renderPosts(postData) {
-  const postContainer = document.getElementById('postContainer'); 
+import { updatePostVotes } from './firebase.js';
+import { auth } from './firebase.js';
 
-  if (postContainer) {
-    postData.forEach(post => {
-      const postElement = document.createElement('div');
-      postElement.className = 'post';
+function renderPosts(postData, container, template) {
+  container.innerHTML = ''; // Clear existing posts
 
-      postElement.innerHTML = `
-        <h3>${post.title}</h3>
-        <p>${post.content}</p>
-        <small>Posted by: ${post.author}</small>
-        <div class="post-footer">
-          <div class="post-votes">
-            <button class="upvote-button">Upvote</button>
-            <small class="post-upvotes">${post.upvotes || 0}</small>
-            <button class="downvote-button">Downvote</button>
-            <small class="post-downvotes">${post.downvotes || 0}</small>
-          </div>
-        </div>
-      `;
+  postData.forEach((post) => {
+    const postElement = template.cloneNode(true);
 
-      postContainer.appendChild(postElement);
+    // Populate fields
+    const contentElement = postElement.querySelector('.post-content');
+    if (contentElement) contentElement.textContent = post.content;
 
-      const upvoteButton = postElement.querySelector('.upvote-button');
-      const downvoteButton = postElement.querySelector('.downvote-button');
-      const upvoteDisplay = postElement.querySelector('.post-upvotes');
-      const downvoteDisplay = postElement.querySelector('.post-downvotes');
+    const imageElement = postElement.querySelector('.post-image');
+    if (imageElement && post.imageURL) {
+      imageElement.src = post.imageURL;
+      imageElement.alt = `Image for post by ${post.userID}`;
+    } else if (imageElement) {
+      imageElement.style.display = 'none';
+    }
 
-      upvoteButton.addEventListener('click', () => {
-        post.upvotes = (post.upvotes || 0) + 1;
-        upvoteDisplay.textContent = post.upvotes;
-      });
+    const authorElement = postElement.querySelector('.post-author');
+    if (authorElement) authorElement.textContent = `Posted by: ${post.username}`;
 
-      downvoteButton.addEventListener('click', () => {
-        post.downvotes = (post.downvotes || 0) + 1;
-        downvoteDisplay.textContent = post.downvotes;
-      });
-    });
-  } else {
-    console.warn("Post container not found in the DOM.");
-  }
+    const timestampElement = postElement.querySelector('.post-timestamp');
+    if (timestampElement) timestampElement.textContent = post.datetime;
+
+    // Upvotes/Downvotes
+    const upvoteButton = postElement.querySelector('.upvote-button');
+    const downvoteButton = postElement.querySelector('.downvote-button');
+    const upvoteDisplay = postElement.querySelector('.post-upvotes');
+    const downvoteDisplay = postElement.querySelector('.post-downvotes');
+
+    upvoteDisplay.textContent = post.upvotes || 0;
+    downvoteDisplay.textContent = post.downvotes || 0;
+
+    // Voting logic
+    const handleVote = async (voteType) => {
+      const userID = auth.currentUser?.uid;
+      if (!userID) {
+        console.warn('User not logged in.');
+        return;
+      }
+
+      await updatePostVotes(post.id, userID, voteType);
+
+      // Update UI immediately
+      const updatedPost = (await getDoc(doc(db, 'posts', post.id))).data();
+      upvoteDisplay.textContent = updatedPost.upvotes || 0;
+      downvoteDisplay.textContent = updatedPost.downvotes || 0;
+    };
+
+    upvoteButton.addEventListener('click', () => handleVote('upvote'));
+    downvoteButton.addEventListener('click', () => handleVote('downvote'));
+
+    container.appendChild(postElement);
+  });
 }
 
-// Placeholder data for rendering
-const samplePosts = [
-  { title: 'Post 1', content: 'This is the content of post 1.', author: 'User A', upvotes: 0, downvotes: 0 },
-  { title: 'Post 2', content: 'This is the content of post 2.', author: 'User B', upvotes: 0, downvotes: 0 }
-];
-
-// Load and render sample posts
-/*document.addEventListener('DOMContentLoaded', () => {
-  renderPosts(samplePosts);
-});
-*/
 export { renderPosts };

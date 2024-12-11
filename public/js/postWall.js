@@ -1,4 +1,5 @@
-import { fetchPosts, getUserData } from './firebase.js'; 
+import { fetchPosts, getUserData } from './firebase.js';
+import { renderPosts } from './post.js';
 
 let postTemplate = null;
 
@@ -27,49 +28,18 @@ async function initializePostWall() {
   }
 
   // Load the post template
-  await loadPostTemplate();
-
   if (!postTemplate) {
-    console.warn('Post template is not available.');
-    return;
+    await loadPostTemplate();
   }
 
-  // Fetch posts and render them in the post wall
-  fetchPosts(async posts => {
-    postContainer.innerHTML = ''; 
+  // Fetch posts and pass them to renderPosts
+  fetchPosts(async (posts) => {
+    posts = await Promise.all(posts.map(async (post) => {
+      const userData = await getUserData(post.userID);
+      return { ...post, username: userData.username || 'Unknown User' };
+    }));
 
-    for (const postData of posts) {
-      const postElement = postTemplate.cloneNode(true);
-
-      // Populate content
-      const contentElement = postElement.querySelector('.post-content');
-      if (contentElement) {
-        contentElement.textContent = postData.content;
-      }
-
-      // Populate image
-      const imageElement = postElement.querySelector('.post-image');
-      if (imageElement && postData.imageURL) {
-        imageElement.src = postData.imageURL; // Set image URL
-        imageElement.alt = `Image for post by ${postData.userID}`; // Set alt text
-      } else if (imageElement) {
-        imageElement.style.display = 'none'; // Hide image if none is present
-      }
-
-      // Populate other fields like author and timestamp
-      const userData = await getUserData(postData.userID);
-      const authorElement = postElement.querySelector('.post-author');
-      if (authorElement) {
-        authorElement.textContent = `Posted by: ${userData.username || 'Unknown User'}`;
-      }
-
-      const timestampElement = postElement.querySelector('.post-timestamp');
-      if (timestampElement) {
-        timestampElement.textContent = postData.datetime;
-      }
-
-      postContainer.appendChild(postElement);
-    }
+    renderPosts(posts, postContainer, postTemplate);
   });
 }
 
